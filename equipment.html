@@ -3,30 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BorrowHub - Equipment Dashboard</title>
+  <title>Equipment - Barangay BorrowHub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/equipment.css" />
 </head>
 <body>
 
-  <!-- ========================================================================
-       Top Navigation Bar
-       ======================================================================== -->
   <header class="navbar-wrapper">
     <nav class="navbar" aria-label="Main Navigation">
       <!-- Left: Official Barangay Seal + Brand Name -->
-      <a href="#dashboard" class="brand" data-toast="BorrowHub Home — Barangay Equipment System">
-        <img src="img/brgy_logo.png" alt="Official Barangay Seal" class="brand-seal" />
+      <a href="dashboard.html" class="brand">
+        <img src="img/brgy_logo.png" alt="Barangay Seal" class="brand-seal" />
         <span class="brand-name">BorrowHub</span>
       </a>
 
       <!-- Center: Navigation Links -->
       <div class="nav-links" id="navLinks">
         <div class="nav-item">
-          <button class="nav-btn active" data-nav="Dashboard">
-            <!-- LayoutGrid Icon -->
+          <a href="dashboard.html" class="nav-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="7" height="7" rx="1.2"/>
               <rect x="14" y="3" width="7" height="7" rx="1.2"/>
@@ -34,23 +30,21 @@
               <rect x="3" y="14" width="7" height="7" rx="1.2"/>
             </svg>
             <span>Dashboard</span>
-          </button>
+          </a>
         </div>
 
         <div class="nav-item">
-          <button class="nav-btn" data-nav="Equipment">
-            <!-- Tag / Equipment Box Icon -->
+          <a href="equipment.html" class="nav-btn active">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/>
               <circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>
             </svg>
             <span>Equipment</span>
-          </button>
+          </a>
         </div>
 
         <div class="nav-item">
-          <button class="nav-btn" data-nav="Borrower">
-            <!-- Users Icon -->
+          <a href="borrower.html" class="nav-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
               <circle cx="9" cy="7" r="4"/>
@@ -58,12 +52,11 @@
               <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
             </svg>
             <span>Borrower</span>
-          </button>
+          </a>
         </div>
 
         <div class="nav-item">
-          <button class="nav-btn" data-nav="Borrowing">
-            <!-- Clipboard / Outbox Icon -->
+          <a href="borrowing.html" class="nav-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
               <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
@@ -71,36 +64,33 @@
               <path d="m9 14 3-3 3 3"/>
             </svg>
             <span>Borrowing</span>
-          </button>
+          </a>
         </div>
 
         <div class="nav-item">
-          <button class="nav-btn" data-nav="Return">
-            <!-- Clipboard Check Icon -->
+          <a href="return.html" class="nav-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
               <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
               <path d="m9 14 2 2 4-4"/>
             </svg>
             <span>Return</span>
-          </button>
+          </a>
         </div>
 
         <div class="nav-item">
-          <button class="nav-btn" data-nav="History">
-            <!-- History Clock Icon -->
+          <a href="history.html" class="nav-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
               <path d="M3 3v5h5"/>
               <path d="M12 7v5l4 2"/>
             </svg>
             <span>History</span>
-          </button>
+          </a>
         </div>
 
         <div class="nav-item" id="adminDropdownWrapper">
           <button class="nav-btn" id="adminDropdownBtn" aria-expanded="false" aria-haspopup="true">
-            <!-- Shield Check Icon -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
               <path d="m9 12 2 2 4-4"/>
@@ -154,31 +144,41 @@
         </button>
       </div>
     </nav>
-    <!-- Thin Mint Green Accent Strip -->
     <div class="navbar-accent-strip"></div>
   </header>
 
   <!-- ========================================================================
-       Main Dashboard Content
+       Main Content Area
        ======================================================================== -->
   <main class="main-container">
-    <!-- Page Header -->
-    <div class="page-header">
-      <h1 class="page-title">Equipment Dashboard</h1>
-      <p class="page-subtitle">Operational overview of barangay equipment inventory, active custody, and overdue returns.</p>
+    <!-- Page Header Row -->
+    <div class="page-header-row">
+      <div class="page-header-left">
+        <h1 class="page-title">Equipment</h1>
+        <p class="page-subtitle">Manage barangay equipment and availability.</p>
+      </div>
+      <button type="button" class="btn-primary-add" id="openAddModalBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        <span>Add Equipment</span>
+      </button>
     </div>
 
-    <!-- Top 5 KPI Summary Cards -->
-    <section class="kpi-grid" aria-label="Key Performance Indicators">
-      <!-- Card 1: Total Equipment -->
+    <!-- 4 KPI Summary Cards Row -->
+    <section class="kpi-grid" aria-label="Equipment Inventory Summary">
+      <!-- Card 1: TOTAL EQUIPMENT -->
       <article class="kpi-card">
         <div class="kpi-top">
           <div>
-            <div class="kpi-label">Total Equipment</div>
-            <div class="kpi-value">450</div>
+            <div class="kpi-label">TOTAL EQUIPMENT</div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpiTotalValue">450</span>
+              <span class="kpi-unit">items</span>
+            </div>
           </div>
           <div class="kpi-icon-box green" aria-hidden="true">
-            <!-- Archive Box Icon -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="4" width="18" height="4" rx="1"/>
               <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
@@ -186,319 +186,514 @@
             </svg>
           </div>
         </div>
-        <div class="kpi-divider"></div>
-        <div class="kpi-footer">
-          <span class="kpi-footer-left">Registered inventory across categories</span>
-        </div>
+        <div class="kpi-footer">Registered inventory</div>
       </article>
 
-      <!-- Card 2: Available Equipment -->
+      <!-- Card 2: AVAILABLE -->
       <article class="kpi-card">
         <div class="kpi-top">
           <div>
-            <div class="kpi-label">Available Equipment</div>
-            <div class="kpi-value green">352</div>
+            <div class="kpi-label">AVAILABLE</div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpiAvailableValue">352</span>
+              <span class="kpi-unit">items</span>
+            </div>
           </div>
           <div class="kpi-icon-box green" aria-hidden="true">
-            <!-- Check Circle Icon -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="9"/>
               <path d="m9 12 2 2 4-4"/>
             </svg>
           </div>
         </div>
-        <div class="kpi-divider"></div>
-        <div class="kpi-footer">
-          <span class="kpi-footer-left">Ready for borrowing</span>
-          <span class="kpi-footer-right-green">78.22% operational</span>
-        </div>
+        <div class="kpi-footer">Ready for borrowing</div>
       </article>
 
-      <!-- Card 3: Currently Borrowed -->
+      <!-- Card 3: BORROWED -->
       <article class="kpi-card">
         <div class="kpi-top">
           <div>
-            <div class="kpi-label">Currently Borrowed</div>
-            <div class="kpi-value">92</div>
+            <div class="kpi-label">BORROWED</div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpiBorrowedValue">92</span>
+              <span class="kpi-unit">items</span>
+            </div>
           </div>
           <div class="kpi-icon-box green" aria-hidden="true">
-            <!-- Left-Right Swap Arrows Icon -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M8 7h12m0 0-4-4m4 4-4 4"/>
-              <path d="M16 17H4m0 0 4 4m-4-4 4-4"/>
+              <path d="M10 17h4V5H2v12h3"/>
+              <path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5"/>
+              <circle cx="7.5" cy="17.5" r="2.5"/>
+              <circle cx="17.5" cy="17.5" r="2.5"/>
             </svg>
           </div>
         </div>
-        <div class="kpi-divider"></div>
-        <div class="kpi-footer">
-          <span class="kpi-footer-left">In active community custody</span>
-        </div>
+        <div class="kpi-footer">Currently borrowed</div>
       </article>
 
       <!-- Card 4: UNDER MAINTENANCE -->
       <article class="kpi-card">
         <div class="kpi-top">
           <div>
-            <div class="kpi-label uppercase-label">UNDER MAINTENANCE</div>
-            <div class="kpi-value red">6</div>
+            <div class="kpi-label">UNDER MAINTENANCE</div>
+            <div class="kpi-value-row">
+              <span class="kpi-value red" id="kpiMaintenanceValue">6</span>
+              <span class="kpi-unit">items</span>
+            </div>
           </div>
           <div class="kpi-icon-box red" aria-hidden="true">
-            <!-- Wrench Icon -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
             </svg>
           </div>
         </div>
-        <div class="kpi-divider"></div>
-        <div class="kpi-footer">
-          <span class="kpi-footer-left kpi-footer-red">Undergoing inspection or repair</span>
-        </div>
-      </article>
-
-      <!-- Card 5: Overdue Returns -->
-      <article class="kpi-card">
-        <div class="kpi-top">
-          <div>
-            <div class="kpi-label">Overdue Returns</div>
-            <div class="kpi-value red">3</div>
-          </div>
-          <div class="kpi-icon-box red" aria-hidden="true">
-            <!-- Alert Triangle Icon -->
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
-              <path d="M12 9v4"/>
-              <path d="M12 17h.01"/>
-            </svg>
-          </div>
-        </div>
-        <div class="kpi-divider"></div>
-        <div class="kpi-footer">
-          <span class="kpi-footer-left kpi-footer-red-bold">Requires follow-up</span>
-          <span class="action-needed-pill">Action Needed</span>
-        </div>
+        <div class="kpi-footer">Undergoing inspection or repair</div>
       </article>
     </section>
 
-    <!-- Middle 2-Column Section -->
-    <section class="middle-grid">
-      <!-- Left Card: Overdue Borrowings -->
-      <div class="panel-card">
-        <div class="panel-header">
-          <div>
-            <div class="panel-title-row">
-              <h2 class="panel-title">Overdue Borrowings</h2>
-              <span class="count-pill-red">3</span>
-            </div>
-            <p class="panel-subtitle">Equipment past scheduled return deadline requiring custodian follow-up</p>
-          </div>
-          <a href="#overdue" class="panel-action-link" data-toast="Viewing all 3 overdue borrowing records">
-            <span>View All Overdue</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14"/>
-              <path d="m12 5 7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-
-        <div class="overdue-list">
-          <!-- Overdue Item 1 -->
-          <div class="overdue-item">
-            <div class="overdue-item-top">
-              <span class="borrower-name">Eduardo Ramos</span>
-              <span class="status-badge overdue"><span class="status-dot"></span>Overdue</span>
-            </div>
-            <div class="overdue-org">Zone 3 Homeowners Assoc. &bull; Purok 3</div>
-            <div class="overdue-equip">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="4" rx="1"/>
-                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
-                <path d="M10 12h4"/>
-              </svg>
-              <span>Megaphone &amp; First Aid Kit Box</span>
-            </div>
-            <div class="overdue-due">Due: Nov 3, 2026 (1d Overdue)</div>
-          </div>
-
-          <!-- Overdue Item 2 -->
-          <div class="overdue-item">
-            <div class="overdue-item-top">
-              <span class="borrower-name">Carlos Mendoza</span>
-              <span class="status-badge overdue"><span class="status-dot"></span>Overdue</span>
-            </div>
-            <div class="overdue-org">SK Youth Sports Committee &bull; Purok 1</div>
-            <div class="overdue-equip">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="4" rx="1"/>
-                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
-                <path d="M10 12h4"/>
-              </svg>
-              <span>5x Basketballs &amp; 2x Volleyball Nets</span>
-            </div>
-            <div class="overdue-due">Due: Oct 24, 2026 (11d Overdue)</div>
-          </div>
-
-          <!-- Overdue Item 3 -->
-          <div class="overdue-item">
-            <div class="overdue-item-top">
-              <span class="borrower-name">Roberto Gomez</span>
-              <span class="status-badge overdue"><span class="status-dot"></span>Overdue</span>
-            </div>
-            <div class="overdue-org">Purok 5 Farmers Assoc.</div>
-            <div class="overdue-equip">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="4" rx="1"/>
-                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
-                <path d="M10 12h4"/>
-              </svg>
-              <span>1x Water Pump &amp; Hose Set</span>
-            </div>
-            <div class="overdue-due">Due: Oct 24, 2026 (11d Overdue)</div>
-          </div>
-        </div>
+    <!-- Search & Filter Control Bar -->
+    <section class="filter-bar-card" aria-label="Search and Filter Equipment">
+      <div class="search-input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="Search equipment by name..."
+          autocomplete="off"
+        />
       </div>
 
-      <!-- Right Card: Equipment Availability by Category -->
-      <div class="panel-card">
-        <div class="panel-header">
-          <div>
-            <div class="panel-title-row">
-              <h2 class="panel-title">Equipment Availability by Category</h2>
-            </div>
-            <p class="panel-subtitle">Current stock levels across inventory categories</p>
-          </div>
-          <a href="#manage-equipment" class="panel-action-link" data-toast="Opening Equipment Inventory Manager">
-            <span>Manage Equipment</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14"/>
-              <path d="m12 5 7 7-7 7"/>
+      <div class="filter-controls-right">
+        <!-- Category Filter Dropdown -->
+        <div class="cat-filter-wrap" id="catFilterWrap">
+          <button type="button" class="cat-filter-btn" id="catFilterBtn" aria-expanded="false">
+            <span class="cat-filter-left">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="14" y="14" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/>
+              </svg>
+              <span id="selectedCategoryLabel">All Categories</span>
+            </span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
             </svg>
-          </a>
+          </button>
+          <div class="cat-dropdown-menu" id="catDropdownMenu" role="menu">
+            <button type="button" class="cat-option selected" data-category="All Categories">All Categories</button>
+            <button type="button" class="cat-option" data-category="Chairs & Tables">Chairs &amp; Tables</button>
+            <button type="button" class="cat-option" data-category="Tents & Canopies">Tents &amp; Canopies</button>
+            <button type="button" class="cat-option" data-category="Sound Systems">Sound Systems</button>
+            <button type="button" class="cat-option" data-category="Sports & Youth">Sports &amp; Youth</button>
+            <button type="button" class="cat-option" data-category="Disaster & Emergency">Disaster &amp; Emergency</button>
+            <button type="button" class="cat-option" data-category="Maintenance/Sanitation">Maintenance/Sanitation</button>
+          </div>
         </div>
 
-        <div class="category-list">
-          <!-- Category 1 -->
-          <div class="category-item">
-            <div class="category-meta">
-              <span class="category-name">Tables &amp; Monobloc Chairs</span>
-              <span class="category-stats"><strong>235 / 300 units</strong> (78.33% available)</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width: 78.33%;"></div>
-            </div>
-          </div>
-
-          <!-- Category 2 -->
-          <div class="category-item">
-            <div class="category-meta">
-              <span class="category-name">Tents &amp; Canopies</span>
-              <span class="category-stats"><strong>13 / 20 units</strong> (65% available)</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width: 65%;"></div>
-            </div>
-          </div>
-
-          <!-- Category 3 -->
-          <div class="category-item">
-            <div class="category-meta">
-              <span class="category-name">Sound System &amp; Megaphones</span>
-              <span class="category-stats"><strong>6 / 10 sets</strong> (60% available)</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width: 60%;"></div>
-            </div>
-          </div>
-
-          <!-- Category 4 -->
-          <div class="category-item">
-            <div class="category-meta">
-              <span class="category-name">Sports &amp; Youth League Gear</span>
-              <span class="category-stats"><strong>34 / 40 items</strong> (85% available)</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width: 85%;"></div>
-            </div>
-          </div>
-
-          <!-- Category 5 -->
-          <div class="category-item">
-            <div class="category-meta">
-              <span class="category-name">Emergency &amp; Disaster Tools</span>
-              <span class="category-stats"><strong>45 / 50 items</strong> (90% available)</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width: 90%;"></div>
-            </div>
-          </div>
-
-          <!-- Category 6 -->
-          <div class="category-item">
-            <div class="category-meta">
-              <span class="category-name">Grounds &amp; Maintenance</span>
-              <span class="category-stats"><strong>25 / 30 units</strong> (83.33% available)</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width: 83.33%;"></div>
-            </div>
-          </div>
+        <!-- Segmented Status Filter Tabs -->
+        <div class="status-tabs" role="tablist" aria-label="Filter by Status">
+          <button type="button" class="status-tab active" data-status="All">All</button>
+          <button type="button" class="status-tab" data-status="Available">Available</button>
+          <button type="button" class="status-tab" data-status="Borrowed">Borrowed</button>
+          <button type="button" class="status-tab" data-status="Maintenance">Maintenance</button>
         </div>
       </div>
     </section>
 
-    <!-- Bottom Full-Width Card: Recent Borrowing Transactions -->
-    <section class="panel-card" aria-label="Recent Borrowing Transactions">
-      <div class="panel-header">
-        <div>
-          <div class="panel-title-row">
-            <h2 class="panel-title">Recent Borrowing Transactions</h2>
-          </div>
-          <p class="panel-subtitle">Latest custody transfers and recorded loans</p>
-        </div>
-        <a href="#transactions" class="panel-action-link" data-toast="Loading full ledger of 142 borrower transactions">
-          <span>View All Transactions</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"/>
-            <path d="m12 5 7 7-7 7"/>
-          </svg>
-        </a>
+    <!-- Equipment Inventory Table Card -->
+    <section class="inventory-card" aria-label="Equipment Inventory Table">
+      <div class="inventory-card-header">
+        <h2 class="inventory-card-title">Equipment Inventory</h2>
+        <span class="items-count-badge" id="itemsCountBadge">8 Items</span>
       </div>
 
       <div class="table-responsive">
-        <table class="transactions-table">
+        <table class="inventory-table">
           <thead>
             <tr>
-              <th>BORROWER</th>
-              <th>EQUIPMENT BORROWED</th>
-              <th>DATE BORROWED</th>
-              <th>RETURN DUE DATE</th>
+              <th>EQUIPMENT NAME</th>
+              <th>CATEGORY</th>
+              <th class="th-center">TOTAL QUANTITY</th>
+              <th class="th-center">AVAILABLE QUANTITY</th>
               <th>STATUS</th>
+              <th class="th-right">ACTIONS</th>
             </tr>
           </thead>
-          <tbody id="transactionsBody">
-            <!-- Populated by JavaScript (Page 1 defaults to exact screenshot data) -->
+          <tbody id="inventoryTableBody">
+            <!-- Dynamically rendered via js/equipment.js -->
           </tbody>
         </table>
-      </div>
-
-      <div class="table-footer">
-        <div class="pagination-summary" id="paginationSummary">
-          Showing <strong>1 - 5</strong> of 142 Borrowers
-        </div>
-        <div class="pagination-controls" id="paginationControls" aria-label="Table Pagination">
-          <button class="page-btn" id="prevPageBtn" disabled>Previous</button>
-          <button class="page-btn active" data-page="1">1</button>
-          <button class="page-btn" data-page="2">2</button>
-          <button class="page-btn" data-page="3">3</button>
-          <button class="page-btn" id="nextPageBtn">Next</button>
-        </div>
       </div>
     </section>
   </main>
 
-  <!-- Toast Notification Container -->
+  <!-- ========================================================================
+       MODAL 1: ADD NEW EQUIPMENT
+       ======================================================================== -->
+  <div class="modal-backdrop" id="addModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="addModalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="2" width="8" height="4" rx="1"/>
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <path d="M12 11v6"/>
+              <path d="M9 14h6"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="modal-title" id="addModalTitle">Add New Equipment</h3>
+            <p class="modal-subtitle">Enter complete physical asset specifications and allocation to record in the barangay registry.</p>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" data-close-modal="addModalBackdrop" aria-label="Close modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <form id="addEquipmentForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="form-label-row">
+              <label class="form-label" for="addEquipName">Equipment Name <span class="req">*</span></label>
+              <span class="form-hint">Official Property Label</span>
+            </div>
+            <input
+              type="text"
+              id="addEquipName"
+              class="mint-input"
+              placeholder="e.g., Heavy-Duty Canopy Tent 10×20ft"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="addEquipCategory">Category <span class="req">*</span></label>
+            <select id="addEquipCategory" class="mint-select" required>
+              <option value="" disabled selected>Select inventory category</option>
+              <option value="Chairs & Tables">Chairs &amp; Tables</option>
+              <option value="Tents & Canopies">Tents &amp; Canopies</option>
+              <option value="Sound Systems">Sound Systems</option>
+              <option value="Sports & Youth">Sports &amp; Youth</option>
+              <option value="Disaster & Emergency">Disaster &amp; Emergency</option>
+              <option value="Maintenance/Sanitation">Maintenance/Sanitation</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="addEquipCondition">Equipment Condition <span class="req">*</span></label>
+            <select id="addEquipCondition" class="mint-select" required>
+              <option value="Brand New / Excellent">Brand New / Excellent</option>
+              <option value="Good Condition (Minor Surface Wear)">Good Condition (Minor Surface Wear)</option>
+              <option value="Fair Condition">Fair Condition</option>
+              <option value="Needs Repair">Needs Repair</option>
+            </select>
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label class="form-label" for="addEquipStatus">Initial Equipment Status <span class="req">*</span></label>
+              <select id="addEquipStatus" class="mint-select" required>
+                <option value="Available">Available (Ready for Borrowing)</option>
+                <option value="Under Maintenance">Under Maintenance</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="addEquipQty">Quantity <span class="req">*</span></label>
+              <div class="stepper-box">
+                <button type="button" class="stepper-btn" id="addQtyMinus" aria-label="Decrease quantity">&minus;</button>
+                <input type="number" id="addEquipQty" class="stepper-input" value="1" min="1" max="999" required />
+                <button type="button" class="stepper-btn" id="addQtyPlus" aria-label="Increase quantity">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label-row">
+              <label class="form-label" for="addEquipDesc">Description &amp; Storage Location</label>
+              <span class="form-hint">Optional specifications</span>
+            </div>
+            <textarea
+              id="addEquipDesc"
+              class="mint-textarea"
+              placeholder="Enter technical specifications, model/serial number details, brand, accessories included, and storage location (e.g., Stored in Logistics Bay A)..."
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-modal-cancel plain-text" data-close-modal="addModalBackdrop">Cancel</button>
+          <button type="submit" class="btn-modal-submit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            <span>Save Equipment</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 2: VIEW EQUIPMENT DETAILS
+       ======================================================================== -->
+  <div class="modal-backdrop" id="detailsModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="detailsModalTitle">
+    <div class="modal-dialog modal-details-wide">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="4" rx="1"/>
+              <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
+              <path d="M10 12h4"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="modal-title" id="detailsModalTitle">Equipment Details</h3>
+            <p class="modal-subtitle">Official custodial record and availability specifications &bull; Barangay Bulacao</p>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" data-close-modal="detailsModalBackdrop" aria-label="Close details modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Mint Highlight Header Box -->
+        <div class="details-banner">
+          <div class="details-cat-pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/>
+              <circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>
+            </svg>
+            <span id="detCategory">Tables &amp; Monobloc Chairs</span>
+          </div>
+          <div class="details-item-title" id="detName">Heavy-Duty Foldable Tables 6ft</div>
+          <div class="details-meta-row">
+            <span class="details-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Cataloged: <strong id="detCataloged">January 15, 2026</strong>
+            </span>
+            <span>&bull;</span>
+            <span class="details-meta-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Custodian: <strong>Solana Rodrigo</strong>
+            </span>
+          </div>
+        </div>
+
+        <!-- 4-Column Metric Grid -->
+        <div class="details-metrics-grid">
+          <div class="detail-metric-box">
+            <div class="detail-metric-label">TOTAL QUANTITY</div>
+            <div class="detail-metric-num"><span id="detTotalQty" style="font-size:22px;font-weight:800;color:var(--text-main);margin:0;">50</span><span>Units</span></div>
+            <div class="detail-metric-sub">Registered in ledger</div>
+          </div>
+
+          <div class="detail-metric-box mint-highlight">
+            <div class="detail-metric-label" style="color:var(--primary-green);">AVAILABLE STOCK</div>
+            <div class="detail-metric-num green"><span id="detAvailQty" style="font-size:22px;font-weight:800;color:var(--primary-green);margin:0;">25</span><span>Units</span></div>
+            <div class="detail-metric-sub green" id="detOnLoanSub">&bull; 25 Active on loan</div>
+          </div>
+
+          <div class="detail-metric-box">
+            <div class="detail-metric-label">CURRENT STATUS</div>
+            <div style="margin-bottom: 6px;" id="detStatusBadgeWrap">
+              <span class="status-pill available">&#10003; Available</span>
+            </div>
+            <div class="detail-metric-sub" id="detStatusSub">Open for requests</div>
+          </div>
+
+          <div class="detail-metric-box">
+            <div class="detail-metric-label">PHYSICAL CONDITION</div>
+            <div style="margin-bottom: 6px;">
+              <span class="status-pill available" id="detConditionPill">&#10003; Good Condition</span>
+            </div>
+            <div class="detail-metric-sub" id="detInspectedSub">Inspected Oct 2024</div>
+          </div>
+        </div>
+
+        <!-- Item Description & Purpose -->
+        <div class="details-desc-section">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Item Description &amp; Purpose
+          </h4>
+          <p id="detDescription">
+            Commercial-grade 6-foot bi-fold plastic utility table with powder-coated rust-resistant steel frame. Designed for indoor and outdoor barangay assemblies, relief distribution, health missions, and registered community events. Features fold-in-half carrying handle for safe transport. Max weight capacity: 300 lbs distributed load.
+          </p>
+
+          <div class="specs-strip">
+            <div>
+              <div class="spec-col-label">DIMENSIONS</div>
+              <div class="spec-col-val" id="detDimensions">72"L &times; 30"W &times; 29"H</div>
+            </div>
+            <div>
+              <div class="spec-col-label">WEIGHT</div>
+              <div class="spec-col-val" id="detWeight">13.5 kg / table</div>
+            </div>
+            <div>
+              <div class="spec-col-label">MATERIAL</div>
+              <div class="spec-col-val" id="detMaterial">HDPE + Alloy Frame</div>
+            </div>
+            <div>
+              <div class="spec-col-label">WEAR RATING</div>
+              <div class="spec-col-val" id="detWear">Minor Surface Scratches</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Loan Notice Box -->
+        <div class="loan-notice-box" id="detLoanNoticeBox">
+          <div class="loan-notice-left">
+            <div class="loan-doc-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>
+            </div>
+            <div>
+              <div class="loan-notice-title" id="detLoanTitle">25 Units Currently Borrowed by Purok 4 Council</div>
+              <div class="loan-notice-sub" id="detLoanSub">Borrow Slip #LS-2024-1102 &bull; Due Date: Tomorrow, 17:00</div>
+            </div>
+          </div>
+          <button type="button" class="btn-view-history-sm" data-toast="Opened Borrow History for this asset">View Borrow History</button>
+        </div>
+      </div>
+
+      <div class="modal-footer space-between">
+        <button type="button" class="btn-print-slip" data-toast="Generating printable Barangay Property Custody Slip...">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          <span>Print Property Slip</span>
+        </button>
+        <button type="button" class="btn-modal-submit" data-close-modal="detailsModalBackdrop">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Close Details</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL 3: UPDATE EQUIPMENT
+       ======================================================================== -->
+  <div class="modal-backdrop" id="editModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="modal-title" id="editModalTitle">Update Equipment</h3>
+            <p class="modal-subtitle">Update the official ledger information, quantity, and operational status for this municipal item.</p>
+          </div>
+        </div>
+        <button type="button" class="modal-close-btn" data-close-modal="editModalBackdrop" aria-label="Close update modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <form id="editEquipmentForm">
+        <input type="hidden" id="editEquipId" />
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="editEquipName">Equipment / Item Name <span class="req">*</span></label>
+            <input type="text" id="editEquipName" class="mint-input" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editEquipCategory">Category <span class="req">*</span></label>
+            <select id="editEquipCategory" class="mint-select double-arrow" required>
+              <option value="Chairs & Tables">Chairs &amp; Tables</option>
+              <option value="Tents & Canopies">Tents &amp; Canopies</option>
+              <option value="Sound Systems">Sound Systems</option>
+              <option value="Sports & Youth">Sports &amp; Youth</option>
+              <option value="Disaster & Emergency">Disaster &amp; Emergency</option>
+              <option value="Maintenance/Sanitation">Maintenance/Sanitation</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label-row">
+              <label class="form-label" for="editEquipQty">Total Units in Custody <span class="req">*</span></label>
+              <span class="form-hint-bold" id="editAvailableHint">Available: 45</span>
+            </div>
+            <div class="stepper-box">
+              <button type="button" class="stepper-btn" id="editQtyMinus" aria-label="Decrease total units">&minus;</button>
+              <input type="number" id="editEquipQty" class="stepper-input" value="45" min="1" max="999" required />
+              <button type="button" class="stepper-btn" id="editQtyPlus" aria-label="Increase total units">+</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editEquipCondition">
+              Physical Condition <span class="req">*</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" title="Assessed during periodic barangay custody audit">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </label>
+            <select id="editEquipCondition" class="mint-select" required>
+              <option value="Good Condition (Minor Surface Wear)">Good Condition (Minor Surface Wear)</option>
+              <option value="Brand New / Excellent">Brand New / Excellent</option>
+              <option value="Fair Condition">Fair Condition</option>
+              <option value="Needs Repair">Needs Repair</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="editEquipStatus">Operational Status <span class="req">*</span></label>
+            <select id="editEquipStatus" class="mint-select" required>
+              <option value="Available">Available (Ready for Loan)</option>
+              <option value="Partially Borrowed">Partially Borrowed</option>
+              <option value="Borrowed">Borrowed</option>
+              <option value="Under Maintenance">Under Maintenance</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label-row">
+              <label class="form-label" for="editEquipDesc">Description &amp; Physical Bay Location <span class="req">*</span></label>
+              <span class="form-hint" id="editCharCount">Max 300 characters</span>
+            </div>
+            <textarea id="editEquipDesc" class="mint-textarea" maxlength="300" required></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-modal-cancel" data-close-modal="editModalBackdrop">Cancel</button>
+          <button type="submit" class="btn-modal-submit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Save Changes</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
-  <!-- External JavaScript inside js/ folder -->
-  <script src="js/dashboard.js"></script>
+  <script src="js/equipment.js"></script>
 </body>
 </html>
