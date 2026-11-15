@@ -3,1140 +3,519 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Barangay BorrowHub — Equipment Dashboard</title>
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              dark: '#134E36',
-              darker: '#0E3B29',
-              mint: '#F3FAF6',
-              strip: '#E2F1E8',
-              tint: '#E6F4EC',
-              iconBg: '#EAF5EE',
-              border: '#E5EDE8',
-            }
-          },
-          boxShadow: {
-            card: '0 1px 3px 0 rgba(19, 78, 54, 0.04), 0 1px 2px -1px rgba(19, 78, 54, 0.03)',
-            cardHover: '0 6px 16px -4px rgba(19, 78, 54, 0.08), 0 2px 6px -2px rgba(19, 78, 54, 0.04)',
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    /* Custom micro-interactions and smooth scrollbars */
-    body {
-      background-color: #F3FAF6;
-      color: #1E293B;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    .progress-bar-fill {
-      transition: width 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    /* Subtle row highlight for overdue transaction row */
-    .row-overdue {
-      background-color: #FEF7F7;
-    }
-    .row-overdue:hover {
-      background-color: #FDECEC;
-    }
-
-    /* Modal transition */
-    .modal-backdrop {
-      transition: opacity 0.2s ease;
-    }
-    .modal-panel {
-      transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-  </style>
+  <title>BorrowHub - Equipment Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="dashboard.css" />
 </head>
-<body class="min-h-screen flex flex-col font-sans selection:bg-[#134E36] selection:text-white">
+<body>
 
-  <!-- ==================== TOP NAVIGATION BAR ==================== -->
-  <header class="bg-white border-b border-[#E5EDE8] sticky top-0 z-30">
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
-      
-      <!-- Left: Official Barangay Seal SVG + Brand Name -->
-      <a href="#dashboard" onclick="setActiveNav('Dashboard', event)" class="flex items-center gap-2.5 shrink-0 group focus:outline-none">
-        <!-- Detailed SVG Barangay Seal Emblem -->
-        <svg class="w-9 h-9 shrink-0 transition-transform duration-200 group-hover:scale-105" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Barangay Seal">
-          <!-- Outer Rope / Gold Rim -->
-          <circle cx="32" cy="32" r="30.5" fill="#FACC15" stroke="#134E36" stroke-width="1.5"/>
-          <circle cx="32" cy="32" r="27" fill="#FFFFFF" stroke="#15803D" stroke-width="1.5"/>
-          <!-- Ring Text Arc Simulation (Top & Bottom Dots) -->
-          <path d="M11 26C13.5 16.5 22 10 32 10C42 10 50.5 16.5 53 26" stroke="#134E36" stroke-width="2.2" stroke-dasharray="1.8 2.2" stroke-linecap="round"/>
-          <path d="M13 41C16.5 48.5 23.8 53.5 32 53.5C40.2 53.5 47.5 48.5 51 41" stroke="#134E36" stroke-width="2" stroke-dasharray="1.6 2.2" stroke-linecap="round"/>
+  <!-- ========================================================================
+       Top Navigation Bar
+       ======================================================================== -->
+  <header class="navbar-wrapper">
+    <nav class="navbar" aria-label="Main Navigation">
+      <!-- Left: Official Barangay Seal + Brand Name -->
+      <a href="#dashboard" class="brand" data-toast="BorrowHub Home — Barangay Equipment System">
+        <svg class="brand-seal" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Outer Seal Ring -->
+          <circle cx="32" cy="32" r="30" fill="#FDFDFD" stroke="#134E31" stroke-width="2.2"/>
+          <circle cx="32" cy="32" r="24.5" fill="#E6F4EA" stroke="#134E31" stroke-width="1.2"/>
+          <!-- Top Banner Arc Representation -->
+          <path d="M12 24C15.5 14.5 23 10 32 10C41 10 48.5 14.5 52 24" stroke="#134E31" stroke-width="3.2" stroke-linecap="round"/>
           <!-- Inner Shield / Crest -->
-          <circle cx="32" cy="32" r="18.5" fill="#E0F2FE" stroke="#134E36" stroke-width="1.5"/>
-          <!-- Sky & Sun -->
-          <circle cx="32" cy="24" r="5" fill="#F59E0B"/>
-          <!-- Sun Rays -->
-          <path d="M32 16.5V18M32 30V31.5M24.5 24H26M38 24H39.5M26.7 18.7L27.8 19.8M36.2 28.2L37.3 29.3M37.3 18.7L36.2 19.8M27.8 28.2L26.7 29.3" stroke="#D97706" stroke-width="1.2" stroke-linecap="round"/>
-          <!-- Rolling Green Hills -->
-          <path d="M14.5 35C19 30.5 25 30.5 31 35C36.5 31 43 31 49.5 35.5C47.5 44 40.5 50 32 50C23.5 50 16.5 44 14.5 35Z" fill="#15803D"/>
-          <path d="M17 39C23 35.5 30 36.5 36 40C41 37.5 45 38 48 40C45.5 46 39.2 50 32 50C24.8 50 19.2 45.8 17 39Z" fill="#134E36"/>
-          <!-- Blue River Ribbon -->
-          <path d="M27 36C30 39 28 43 32 48" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
-          <!-- Left & Right Laurel Leaves -->
-          <path d="M15 34C13.5 30 14 25 16.5 22" stroke="#15803D" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M49 34C50.5 30 50 25 47.5 22" stroke="#15803D" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M22 23H42V34C42 41.5 32 47 32 47C32 47 22 41.5 22 34V23Z" fill="#134E31"/>
+          <!-- Sun & Stars Motif inside Shield -->
+          <circle cx="32" cy="31" r="4.2" fill="#FACC15"/>
+          <path d="M32 24.5V26M32 36V37.5M25.5 31H27M37 31H38.5M27.4 26.4L28.5 27.5M35.5 34.5L36.6 35.6M36.6 26.4L35.5 27.5M28.5 34.5L27.4 35.6" stroke="#FACC15" stroke-width="1.3" stroke-linecap="round"/>
+          <!-- Bottom Laurel / Ribbon Accent -->
+          <path d="M16 45C20.5 50.5 26 53 32 53C38 53 43.5 50.5 48 45" stroke="#D97706" stroke-width="2.4" stroke-linecap="round"/>
         </svg>
-        <span class="text-[19px] font-bold tracking-tight text-[#134E36]">BorrowHub</span>
+        <span class="brand-name">BorrowHub</span>
       </a>
 
-      <!-- Center: Navigation Menu -->
-      <nav class="hidden xl:flex items-center gap-1.5" aria-label="Primary Navigation">
-        <button type="button" data-nav="Dashboard" onclick="setActiveNav('Dashboard')"
-          class="nav-item active flex items-center gap-2 px-3.5 py-2 rounded-lg text-[13.5px] font-semibold bg-[#134E36] text-white shadow-xs transition-all cursor-pointer">
-          <!-- Dashboard Grid Icon -->
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
-            <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
-            <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
-            <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
-          </svg>
-          <span>Dashboard</span>
-        </button>
+      <!-- Center: Navigation Links -->
+      <div class="nav-links" id="navLinks">
+        <div class="nav-item">
+          <button class="nav-btn active" data-nav="Dashboard">
+            <!-- LayoutGrid Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.2"/>
+              <rect x="14" y="3" width="7" height="7" rx="1.2"/>
+              <rect x="14" y="14" width="7" height="7" rx="1.2"/>
+              <rect x="3" y="14" width="7" height="7" rx="1.2"/>
+            </svg>
+            <span>Dashboard</span>
+          </button>
+        </div>
 
-        <button type="button" data-nav="Equipment" onclick="setActiveNav('Equipment')"
-          class="nav-item flex items-center gap-2 px-3.5 py-2 rounded-lg text-[13.5px] font-medium text-[#334155] hover:bg-[#F3FAF6] hover:text-[#134E36] transition-all cursor-pointer">
-          <!-- Equipment Box/Archive Icon -->
-          <svg class="w-4 h-4 text-[#475569]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
-            <path d="m3.3 7 8.7 5 8.7-5"></path>
-            <path d="M12 22V12"></path>
-          </svg>
-          <span>Equipment</span>
-        </button>
+        <div class="nav-item">
+          <button class="nav-btn" data-nav="Equipment">
+            <!-- Tag / Equipment Box Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/>
+              <circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>
+            </svg>
+            <span>Equipment</span>
+          </button>
+        </div>
 
-        <button type="button" data-nav="Borrower" onclick="setActiveNav('Borrower')"
-          class="nav-item flex items-center gap-2 px-3.5 py-2 rounded-lg text-[13.5px] font-medium text-[#334155] hover:bg-[#F3FAF6] hover:text-[#134E36] transition-all cursor-pointer">
-          <!-- Borrower Users Icon -->
-          <svg class="w-4 h-4 text-[#475569]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-          </svg>
-          <span>Borrower</span>
-        </button>
+        <div class="nav-item">
+          <button class="nav-btn" data-nav="Borrower">
+            <!-- Users Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Borrower</span>
+          </button>
+        </div>
 
-        <button type="button" data-nav="Borrowing" onclick="setActiveNav('Borrowing')"
-          class="nav-item flex items-center gap-2 px-3.5 py-2 rounded-lg text-[13.5px] font-medium text-[#334155] hover:bg-[#F3FAF6] hover:text-[#134E36] transition-all cursor-pointer">
-          <!-- Borrowing Clipboard Icon -->
-          <svg class="w-4 h-4 text-[#475569]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-            <path d="M12 11v6"></path>
-            <path d="m9 14 3-3 3 3"></path>
-          </svg>
-          <span>Borrowing</span>
-        </button>
+        <div class="nav-item">
+          <button class="nav-btn" data-nav="Borrowing">
+            <!-- Clipboard / Outbox Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <path d="M12 11v6"/>
+              <path d="m9 14 3-3 3 3"/>
+            </svg>
+            <span>Borrowing</span>
+          </button>
+        </div>
 
-        <button type="button" data-nav="Return" onclick="setActiveNav('Return')"
-          class="nav-item flex items-center gap-2 px-3.5 py-2 rounded-lg text-[13.5px] font-medium text-[#334155] hover:bg-[#F3FAF6] hover:text-[#134E36] transition-all cursor-pointer">
-          <!-- Return Clipboard-Check Icon -->
-          <svg class="w-4 h-4 text-[#475569]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-            <path d="m9 14 2 2 4-4"></path>
-          </svg>
-          <span>Return</span>
-        </button>
+        <div class="nav-item">
+          <button class="nav-btn" data-nav="Return">
+            <!-- Clipboard Check Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <path d="m9 14 2 2 4-4"/>
+            </svg>
+            <span>Return</span>
+          </button>
+        </div>
 
-        <button type="button" data-nav="History" onclick="setActiveNav('History')"
-          class="nav-item flex items-center gap-2 px-3.5 py-2 rounded-lg text-[13.5px] font-medium text-[#334155] hover:bg-[#F3FAF6] hover:text-[#134E36] transition-all cursor-pointer">
-          <!-- Clock History Icon -->
-          <svg class="w-4 h-4 text-[#475569]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-            <path d="M3 3v5h5"></path>
-            <path d="M12 7v5l4 2"></path>
-          </svg>
-          <span>History</span>
-        </button>
+        <div class="nav-item">
+          <button class="nav-btn" data-nav="History">
+            <!-- History Clock Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+              <path d="M12 7v5l4 2"/>
+            </svg>
+            <span>History</span>
+          </button>
+        </div>
 
-        <!-- Administration Dropdown -->
-        <div class="relative" id="adminDropdownWrapper">
-          <button type="button" data-nav="Administration" onclick="toggleAdminDropdown(event)"
-            class="nav-item flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-[13.5px] font-medium text-[#334155] hover:bg-[#F3FAF6] hover:text-[#134E36] transition-all cursor-pointer">
+        <div class="nav-item" id="adminDropdownWrapper">
+          <button class="nav-btn" id="adminDropdownBtn" aria-expanded="false" aria-haspopup="true">
             <!-- Shield Check Icon -->
-            <svg class="w-4 h-4 text-[#475569]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              <path d="m9 12 2 2 4-4"></path>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+              <path d="m9 12 2 2 4-4"/>
             </svg>
             <span>Administration</span>
-            <svg id="adminChevron" class="w-3.5 h-3.5 text-[#64748B] transition-transform duration-150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m6 9 6 6 6-6"></path>
+            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
             </svg>
           </button>
-
-          <!-- Dropdown Menu -->
-          <div id="adminDropdownMenu" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-xl border border-[#E5EDE8] shadow-lg py-1.5 z-40">
-            <button type="button" onclick="handleAdminAction('Staff & Custodian Accounts')" class="w-full text-left px-3.5 py-2 text-xs font-medium text-[#334155] hover:bg-[#F3FAF6] hover:text-[#134E36] flex items-center gap-2 cursor-pointer">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#134E36]"></span> Staff & Custodian Roles
+          <div class="dropdown-menu" role="menu">
+            <button class="dropdown-item" role="menuitem" data-toast="Opened Staff & Custodian Accounts">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Staff &amp; Custodians
             </button>
-            <button type="button" onclick="handleAdminAction('Equipment Categories')" class="w-full text-left px-3.5 py-2 text-xs font-medium text-[#334155] hover:bg-[#F3FAF6] hover:text-[#134E36] flex items-center gap-2 cursor-pointer">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#134E36]"></span> Equipment Categories
+            <button class="dropdown-item" role="menuitem" data-toast="Opened Inventory Categories & Rules">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+              Category Settings
             </button>
-            <button type="button" onclick="handleAdminAction('Purok & Zone Directory')" class="w-full text-left px-3.5 py-2 text-xs font-medium text-[#334155] hover:bg-[#F3FAF6] hover:text-[#134E36] flex items-center gap-2 cursor-pointer">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#134E36]"></span> Purok & Zone Directory
-            </button>
-            <div class="my-1 border-t border-[#E5EDE8]"></div>
-            <button type="button" onclick="handleAdminAction('System Audit Logs')" class="w-full text-left px-3.5 py-2 text-xs font-medium text-[#334155] hover:bg-[#F3FAF6] hover:text-[#134E36] flex items-center gap-2 cursor-pointer">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> System Audit Logs
+            <button class="dropdown-item" role="menuitem" data-toast="Opened Barangay Audit Trail Logs">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              System Audit Logs
             </button>
           </div>
         </div>
-      </nav>
+      </div>
 
-      <!-- Right: User Profile Pill + Mobile Hamburger -->
-      <div class="flex items-center gap-2.5">
-        <div class="bg-[#E6F4EC] border border-[#D4EBDD] rounded-xl px-3 py-1.5 flex items-center gap-2.5">
-          <!-- Dark Green Circular Avatar -->
-          <div class="w-8 h-8 rounded-full bg-[#134E36] text-white flex items-center justify-center shrink-0">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
+      <!-- Right: User Profile Pill + Mobile Menu Button -->
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="user-pill">
+          <div class="user-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
             </svg>
           </div>
-          <!-- User Details -->
-          <div class="leading-tight pr-1">
-            <div class="text-[12.5px] font-bold text-[#0F172A]">Solana Rodrigo</div>
-            <div class="text-[11px] font-medium text-[#475569]">Staff</div>
+          <div class="user-info">
+            <span class="user-name">Solana Rodrigo</span>
+            <span class="user-role">Staff</span>
           </div>
-          <!-- Exit / Logout Icon Button -->
-          <button type="button" onclick="showToast('Session active: Signed in as Solana Rodrigo (Staff)')" title="Sign out"
-            class="p-1.5 rounded-lg text-[#334155] hover:bg-[#D5ECDF] hover:text-[#134E36] transition-colors cursor-pointer">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
+          <button class="logout-btn" title="Sign Out" aria-label="Sign Out" data-toast="Session locked for Solana Rodrigo (Staff)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
             </svg>
           </button>
         </div>
 
-        <!-- Mobile Menu Button -->
-        <button type="button" onclick="toggleMobileNav()" class="xl:hidden p-2 rounded-lg text-[#334155] hover:bg-[#F3FAF6] border border-[#E5EDE8] cursor-pointer" aria-label="Open Navigation">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
           </svg>
         </button>
       </div>
-    </div>
-
-    <!-- Mobile Responsive Navigation Drawer -->
-    <div id="mobileNavDrawer" class="hidden xl:hidden bg-white border-t border-[#E5EDE8] px-4 py-3 space-y-1">
-      <button type="button" onclick="setActiveNav('Dashboard'); toggleMobileNav()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold bg-[#134E36] text-white">Dashboard</button>
-      <button type="button" onclick="setActiveNav('Equipment'); toggleMobileNav()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-[#334155] hover:bg-[#F3FAF6]">Equipment</button>
-      <button type="button" onclick="setActiveNav('Borrower'); toggleMobileNav()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-[#334155] hover:bg-[#F3FAF6]">Borrower</button>
-      <button type="button" onclick="setActiveNav('Borrowing'); toggleMobileNav()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-[#334155] hover:bg-[#F3FAF6]">Borrowing</button>
-      <button type="button" onclick="setActiveNav('Return'); toggleMobileNav()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-[#334155] hover:bg-[#F3FAF6]">Return</button>
-      <button type="button" onclick="setActiveNav('History'); toggleMobileNav()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-[#334155] hover:bg-[#F3FAF6]">History</button>
-      <button type="button" onclick="setActiveNav('Administration'); toggleMobileNav()" class="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-[#334155] hover:bg-[#F3FAF6]">Administration</button>
-    </div>
-
-    <!-- Thin Light Mint Green Horizontal Accent Bar (~12px high) -->
-    <div class="h-3 w-full bg-[#E2F1E8] border-t border-[#D6EADF]"></div>
+    </nav>
+    <!-- Thin Mint Green Accent Strip -->
+    <div class="navbar-accent-strip"></div>
   </header>
 
-  <!-- ==================== MAIN CONTENT CONTAINER ==================== -->
-  <main class="flex-1 max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 pt-7 pb-12">
-
-    <!-- Page Title & Subtitle -->
-    <div class="mb-7">
-      <h1 class="text-[28px] sm:text-[31px] font-extrabold tracking-tight text-[#134E36] leading-tight">
-        Equipment Dashboard
-      </h1>
-      <p class="mt-1 text-[13.5px] sm:text-[14px] text-[#64748B]">
-        Operational overview of barangay equipment inventory, active custody, and overdue returns.
-      </p>
+  <!-- ========================================================================
+       Main Dashboard Content
+       ======================================================================== -->
+  <main class="main-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Equipment Dashboard</h1>
+      <p class="page-subtitle">Operational overview of barangay equipment inventory, active custody, and overdue returns.</p>
     </div>
 
-    <!-- ==================== TOP 5 KPI SUMMARY CARDS ==================== -->
-    <section aria-label="Inventory Key Metrics" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
-      
+    <!-- Top 5 KPI Summary Cards -->
+    <section class="kpi-grid" aria-label="Key Performance Indicators">
       <!-- Card 1: Total Equipment -->
-      <div class="bg-white rounded-xl border border-[#E5EDE8] p-5 shadow-card hover:shadow-cardHover transition-shadow flex flex-col justify-between">
-        <div class="flex items-start justify-between">
+      <article class="kpi-card">
+        <div class="kpi-top">
           <div>
-            <p class="text-[12.5px] font-medium text-[#475569]">Total Equipment</p>
-            <p class="mt-2.5 text-[30px] font-extrabold text-[#1E293B] leading-none tracking-tight">450</p>
+            <div class="kpi-label">Total Equipment</div>
+            <div class="kpi-value">450</div>
           </div>
-          <div class="w-9 h-9 rounded-lg bg-[#EAF5EE] text-[#134E36] flex items-center justify-center shrink-0">
+          <div class="kpi-icon-box green" aria-hidden="true">
             <!-- Archive Box Icon -->
-            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="4" width="18" height="4" rx="1"></rect>
-              <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"></path>
-              <path d="M10 12h4"></path>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="4" rx="1"/>
+              <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
+              <path d="M10 12h4"/>
             </svg>
           </div>
         </div>
-        <div>
-          <div class="my-3.5 border-t border-[#F1F5F9]"></div>
-          <p class="text-[11.5px] font-medium text-[#64748B]">Registered inventory across categories</p>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">
+          <span class="kpi-footer-left">Registered inventory across categories</span>
         </div>
-      </div>
+      </article>
 
       <!-- Card 2: Available Equipment -->
-      <div class="bg-white rounded-xl border border-[#E5EDE8] p-5 shadow-card hover:shadow-cardHover transition-shadow flex flex-col justify-between">
-        <div class="flex items-start justify-between">
+      <article class="kpi-card">
+        <div class="kpi-top">
           <div>
-            <p class="text-[12.5px] font-medium text-[#475569]">Available Equipment</p>
-            <p class="mt-2.5 text-[30px] font-extrabold text-[#134E36] leading-none tracking-tight">352</p>
+            <div class="kpi-label">Available Equipment</div>
+            <div class="kpi-value green">352</div>
           </div>
-          <div class="w-9 h-9 rounded-lg bg-[#DCFCE7] text-[#15803D] flex items-center justify-center shrink-0">
+          <div class="kpi-icon-box green" aria-hidden="true">
             <!-- Check Circle Icon -->
-            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"></circle>
-              <path d="m9 12 2 2 4-4"></path>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="m9 12 2 2 4-4"/>
             </svg>
           </div>
         </div>
-        <div>
-          <div class="my-3.5 border-t border-[#F1F5F9]"></div>
-          <div class="flex items-center justify-between gap-1 text-[11.5px]">
-            <span class="font-medium text-[#64748B]">Ready for borrowing</span>
-            <span class="font-bold text-[#134E36]">78.22% operational</span>
-          </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">
+          <span class="kpi-footer-left">Ready for borrowing</span>
+          <span class="kpi-footer-right-green">78.22% operational</span>
         </div>
-      </div>
+      </article>
 
       <!-- Card 3: Currently Borrowed -->
-      <div class="bg-white rounded-xl border border-[#E5EDE8] p-5 shadow-card hover:shadow-cardHover transition-shadow flex flex-col justify-between">
-        <div class="flex items-start justify-between">
+      <article class="kpi-card">
+        <div class="kpi-top">
           <div>
-            <p class="text-[12.5px] font-medium text-[#475569]">Currently Borrowed</p>
-            <p class="mt-2.5 text-[30px] font-extrabold text-[#1E293B] leading-none tracking-tight">92</p>
+            <div class="kpi-label">Currently Borrowed</div>
+            <div class="kpi-value">92</div>
           </div>
-          <div class="w-9 h-9 rounded-lg bg-[#EAF5EE] text-[#134E36] flex items-center justify-center shrink-0">
-            <!-- Swap / Transfer Arrows Icon -->
-            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M8 7h12l-4-4"></path>
-              <path d="M16 17H4l4 4"></path>
+          <div class="kpi-icon-box green" aria-hidden="true">
+            <!-- Left-Right Swap Arrows Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 7h12m0 0-4-4m4 4-4 4"/>
+              <path d="M16 17H4m0 0 4 4m-4-4 4-4"/>
             </svg>
           </div>
         </div>
-        <div>
-          <div class="my-3.5 border-t border-[#F1F5F9]"></div>
-          <p class="text-[11.5px] font-medium text-[#64748B]">In active community custody</p>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">
+          <span class="kpi-footer-left">In active community custody</span>
         </div>
-      </div>
+      </article>
 
       <!-- Card 4: UNDER MAINTENANCE -->
-      <div class="bg-white rounded-xl border border-[#E5EDE8] p-5 shadow-card hover:shadow-cardHover transition-shadow flex flex-col justify-between">
-        <div class="flex items-start justify-between">
+      <article class="kpi-card">
+        <div class="kpi-top">
           <div>
-            <p class="text-[11px] font-bold uppercase tracking-wider text-[#64748B]">UNDER MAINTENANCE</p>
-            <p class="mt-2.5 text-[30px] font-extrabold text-[#DC2626] leading-none tracking-tight">6</p>
+            <div class="kpi-label uppercase-label">UNDER MAINTENANCE</div>
+            <div class="kpi-value red">6</div>
           </div>
-          <div class="w-9 h-9 rounded-lg bg-[#FEE2E2] text-[#DC2626] flex items-center justify-center shrink-0">
+          <div class="kpi-icon-box red" aria-hidden="true">
             <!-- Wrench Icon -->
-            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
             </svg>
           </div>
         </div>
-        <div>
-          <div class="my-3.5 border-t border-[#F1F5F9]"></div>
-          <p class="text-[11.5px] font-semibold text-[#DC2626]">Undergoing inspection or repair</p>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">
+          <span class="kpi-footer-left kpi-footer-red">Undergoing inspection or repair</span>
         </div>
-      </div>
+      </article>
 
       <!-- Card 5: Overdue Returns -->
-      <div class="bg-white rounded-xl border border-[#E5EDE8] p-5 shadow-card hover:shadow-cardHover transition-shadow flex flex-col justify-between">
-        <div class="flex items-start justify-between">
+      <article class="kpi-card">
+        <div class="kpi-top">
           <div>
-            <p class="text-[12.5px] font-medium text-[#475569]">Overdue Returns</p>
-            <p class="mt-2.5 text-[30px] font-extrabold text-[#DC2626] leading-none tracking-tight">3</p>
+            <div class="kpi-label">Overdue Returns</div>
+            <div class="kpi-value red">3</div>
           </div>
-          <div class="w-9 h-9 rounded-lg bg-[#FEE2E2] text-[#DC2626] flex items-center justify-center shrink-0">
-            <!-- Warning Triangle Icon -->
-            <svg class="w-[18px] h-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
-              <line x1="12" y1="9" x2="12" y2="13"></line>
-              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          <div class="kpi-icon-box red" aria-hidden="true">
+            <!-- Alert Triangle Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+              <path d="M12 9v4"/>
+              <path d="M12 17h.01"/>
             </svg>
           </div>
         </div>
-        <div>
-          <div class="my-3.5 border-t border-[#F1F5F9]"></div>
-          <div class="flex items-center justify-between gap-1.5">
-            <span class="text-[11.5px] font-bold text-[#DC2626]">Requires follow-up</span>
-            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10.5px] font-semibold bg-[#FEE2E2] text-[#DC2626]">
-              Action Needed
-            </span>
-          </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">
+          <span class="kpi-footer-left kpi-footer-red-bold">Requires follow-up</span>
+          <span class="action-needed-pill">Action Needed</span>
         </div>
-      </div>
-
+      </article>
     </section>
 
-    <!-- ==================== MIDDLE TWO-COLUMN SECTION ==================== -->
-    <section class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
-      
-      <!-- Left Panel: Overdue Borrowings -->
-      <div class="bg-white rounded-xl border border-[#E5EDE8] shadow-card flex flex-col">
-        <!-- Panel Header -->
-        <div class="px-6 pt-5 pb-4 border-b border-[#E5EDE8] flex items-start justify-between gap-3">
+    <!-- Middle 2-Column Section -->
+    <section class="middle-grid">
+      <!-- Left Card: Overdue Borrowings -->
+      <div class="panel-card">
+        <div class="panel-header">
           <div>
-            <div class="flex items-center gap-2">
-              <h2 class="text-[16px] font-bold text-[#0F172A]">Overdue Borrowings</h2>
-              <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#FEE2E2] text-[#DC2626] text-[11px] font-bold">
-                3
-              </span>
+            <div class="panel-title-row">
+              <h2 class="panel-title">Overdue Borrowings</h2>
+              <span class="count-pill-red">3</span>
             </div>
-            <p class="mt-0.5 text-[12px] text-[#64748B]">
-              Equipment past scheduled return deadline requiring custodian follow-up
-            </p>
+            <p class="panel-subtitle">Equipment past scheduled return deadline requiring custodian follow-up</p>
           </div>
-          <button type="button" onclick="openOverdueModal()" class="shrink-0 text-[12.5px] font-semibold text-[#134E36] hover:text-[#0E3B29] hover:underline inline-flex items-center gap-1 cursor-pointer mt-0.5">
+          <a href="#overdue" class="panel-action-link" data-toast="Viewing all 3 overdue borrowing records">
             <span>View All Overdue</span>
-            <span aria-hidden="true">→</span>
-          </button>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
         </div>
 
-        <!-- Stacked Overdue Items -->
-        <div class="divide-y divide-[#E5EDE8] flex-1">
-          
-          <!-- Item 1 -->
-          <div onclick="openBorrowerDetail('Eduardo Ramos', 'Zone 3 Homeowners Assoc. • Purok 3', 'Megaphone & First Aid Kit Box', 'Nov 3, 2026 (1d Overdue)', '0917-482-1934')"
-               class="px-6 py-4 hover:bg-[#FAFDFB] transition-colors cursor-pointer group">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <h3 class="text-[14px] font-bold text-[#0F172A] group-hover:text-[#134E36] transition-colors">Eduardo Ramos</h3>
-                <p class="text-[12px] text-[#64748B] mt-0.5">Zone 3 Homeowners Assoc. • Purok 3</p>
-              </div>
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FEE2E2] text-[#DC2626] shrink-0">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#DC2626]"></span>
-                Overdue
-              </span>
+        <div class="overdue-list">
+          <!-- Overdue Item 1 -->
+          <div class="overdue-item">
+            <div class="overdue-item-top">
+              <span class="borrower-name">Eduardo Ramos</span>
+              <span class="status-badge overdue"><span class="status-dot"></span>Overdue</span>
             </div>
-            <div class="mt-2.5 flex items-center gap-1.5 text-[12.5px] font-medium text-[#334155]">
-              <svg class="w-3.5 h-3.5 text-[#64748B] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="4" rx="1"></rect>
-                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"></path>
-                <path d="M10 12h4"></path>
+            <div class="overdue-org">Zone 3 Homeowners Assoc. &bull; Purok 3</div>
+            <div class="overdue-equip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="4" rx="1"/>
+                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
+                <path d="M10 12h4"/>
               </svg>
-              <span>Megaphone & First Aid Kit Box</span>
+              <span>Megaphone &amp; First Aid Kit Box</span>
             </div>
-            <p class="mt-1.5 text-[11.5px] font-semibold text-[#DC2626]">
-              Due: Nov 3, 2026 (1d Overdue)
-            </p>
+            <div class="overdue-due">Due: Nov 3, 2026 (1d Overdue)</div>
           </div>
 
-          <!-- Item 2 -->
-          <div onclick="openBorrowerDetail('Carlos Mendoza', 'SK Youth Sports Committee • Purok 1', '5x Basketballs & 2x Volleyball Nets', 'Oct 24, 2026 (11d Overdue)', '0928-910-4421')"
-               class="px-6 py-4 hover:bg-[#FAFDFB] transition-colors cursor-pointer group">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <h3 class="text-[14px] font-bold text-[#0F172A] group-hover:text-[#134E36] transition-colors">Carlos Mendoza</h3>
-                <p class="text-[12px] text-[#64748B] mt-0.5">SK Youth Sports Committee • Purok 1</p>
-              </div>
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FEE2E2] text-[#DC2626] shrink-0">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#DC2626]"></span>
-                Overdue
-              </span>
+          <!-- Overdue Item 2 -->
+          <div class="overdue-item">
+            <div class="overdue-item-top">
+              <span class="borrower-name">Carlos Mendoza</span>
+              <span class="status-badge overdue"><span class="status-dot"></span>Overdue</span>
             </div>
-            <div class="mt-2.5 flex items-center gap-1.5 text-[12.5px] font-medium text-[#334155]">
-              <svg class="w-3.5 h-3.5 text-[#64748B] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="4" rx="1"></rect>
-                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"></path>
-                <path d="M10 12h4"></path>
+            <div class="overdue-org">SK Youth Sports Committee &bull; Purok 1</div>
+            <div class="overdue-equip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="4" rx="1"/>
+                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
+                <path d="M10 12h4"/>
               </svg>
-              <span>5x Basketballs & 2x Volleyball Nets</span>
+              <span>5x Basketballs &amp; 2x Volleyball Nets</span>
             </div>
-            <p class="mt-1.5 text-[11.5px] font-semibold text-[#DC2626]">
-              Due: Oct 24, 2026 (11d Overdue)
-            </p>
+            <div class="overdue-due">Due: Oct 24, 2026 (11d Overdue)</div>
           </div>
 
-          <!-- Item 3 -->
-          <div onclick="openBorrowerDetail('Roberto Gomez', 'Purok 5 Farmers Assoc.', '1x Water Pump & Hose Set', 'Oct 24, 2026 (11d Overdue)', '0915-734-8820')"
-               class="px-6 py-4 hover:bg-[#FAFDFB] transition-colors cursor-pointer group">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <h3 class="text-[14px] font-bold text-[#0F172A] group-hover:text-[#134E36] transition-colors">Roberto Gomez</h3>
-                <p class="text-[12px] text-[#64748B] mt-0.5">Purok 5 Farmers Assoc.</p>
-              </div>
-              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FEE2E2] text-[#DC2626] shrink-0">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#DC2626]"></span>
-                Overdue
-              </span>
+          <!-- Overdue Item 3 -->
+          <div class="overdue-item">
+            <div class="overdue-item-top">
+              <span class="borrower-name">Roberto Gomez</span>
+              <span class="status-badge overdue"><span class="status-dot"></span>Overdue</span>
             </div>
-            <div class="mt-2.5 flex items-center gap-1.5 text-[12.5px] font-medium text-[#334155]">
-              <svg class="w-3.5 h-3.5 text-[#64748B] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="4" rx="1"></rect>
-                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"></path>
-                <path d="M10 12h4"></path>
+            <div class="overdue-org">Purok 5 Farmers Assoc.</div>
+            <div class="overdue-equip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="4" rx="1"/>
+                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
+                <path d="M10 12h4"/>
               </svg>
-              <span>1x Water Pump & Hose Set</span>
+              <span>1x Water Pump &amp; Hose Set</span>
             </div>
-            <p class="mt-1.5 text-[11.5px] font-semibold text-[#DC2626]">
-              Due: Oct 24, 2026 (11d Overdue)
-            </p>
+            <div class="overdue-due">Due: Oct 24, 2026 (11d Overdue)</div>
           </div>
-
         </div>
       </div>
 
-      <!-- Right Panel: Equipment Availability by Category -->
-      <div class="bg-white rounded-xl border border-[#E5EDE8] shadow-card flex flex-col">
-        <!-- Panel Header -->
-        <div class="px-6 pt-5 pb-4 border-b border-[#E5EDE8] flex items-start justify-between gap-3">
+      <!-- Right Card: Equipment Availability by Category -->
+      <div class="panel-card">
+        <div class="panel-header">
           <div>
-            <h2 class="text-[16px] font-bold text-[#0F172A]">Equipment Availability by Category</h2>
-            <p class="mt-0.5 text-[12px] text-[#64748B]">
-              Current stock levels across inventory categories
-            </p>
+            <div class="panel-title-row">
+              <h2 class="panel-title">Equipment Availability by Category</h2>
+            </div>
+            <p class="panel-subtitle">Current stock levels across inventory categories</p>
           </div>
-          <button type="button" onclick="openManageEquipmentModal()" class="shrink-0 text-[12.5px] font-semibold text-[#134E36] hover:text-[#0E3B29] hover:underline inline-flex items-center gap-1 cursor-pointer mt-0.5">
+          <a href="#manage-equipment" class="panel-action-link" data-toast="Opening Equipment Inventory Manager">
             <span>Manage Equipment</span>
-            <span aria-hidden="true">→</span>
-          </button>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
         </div>
 
-        <!-- 6 Category Progress Bars -->
-        <div class="px-6 py-5 space-y-4 flex-1 flex flex-col justify-between" id="categoryProgressList">
+        <div class="category-list">
           <!-- Category 1 -->
-          <div>
-            <div class="flex items-center justify-between text-[12.5px] mb-1.5 gap-2">
-              <span class="font-semibold text-[#1E293B]">Tables & Monobloc Chairs</span>
-              <span class="text-right">
-                <span class="font-bold text-[#134E36]">235 / 300 units</span>
-                <span class="text-[#64748B] font-normal ml-1">(78.33% available)</span>
-              </span>
+          <div class="category-item">
+            <div class="category-meta">
+              <span class="category-name">Tables &amp; Monobloc Chairs</span>
+              <span class="category-stats"><strong>235 / 300 units</strong> (78.33% available)</span>
             </div>
-            <div class="w-full h-2 bg-[#E2E8F0] rounded-full overflow-hidden">
-              <div class="progress-bar-fill h-full bg-[#134E36] rounded-full" style="width: 78.33%"></div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 78.33%;"></div>
             </div>
           </div>
 
           <!-- Category 2 -->
-          <div>
-            <div class="flex items-center justify-between text-[12.5px] mb-1.5 gap-2">
-              <span class="font-semibold text-[#1E293B]">Tents & Canopies</span>
-              <span class="text-right">
-                <span class="font-bold text-[#134E36]">13 / 20 units</span>
-                <span class="text-[#64748B] font-normal ml-1">(65% available)</span>
-              </span>
+          <div class="category-item">
+            <div class="category-meta">
+              <span class="category-name">Tents &amp; Canopies</span>
+              <span class="category-stats"><strong>13 / 20 units</strong> (65% available)</span>
             </div>
-            <div class="w-full h-2 bg-[#E2E8F0] rounded-full overflow-hidden">
-              <div class="progress-bar-fill h-full bg-[#134E36] rounded-full" style="width: 65%"></div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 65%;"></div>
             </div>
           </div>
 
           <!-- Category 3 -->
-          <div>
-            <div class="flex items-center justify-between text-[12.5px] mb-1.5 gap-2">
-              <span class="font-semibold text-[#1E293B]">Sound System & Megaphones</span>
-              <span class="text-right">
-                <span class="font-bold text-[#134E36]">6 / 10 sets</span>
-                <span class="text-[#64748B] font-normal ml-1">(60% available)</span>
-              </span>
+          <div class="category-item">
+            <div class="category-meta">
+              <span class="category-name">Sound System &amp; Megaphones</span>
+              <span class="category-stats"><strong>6 / 10 sets</strong> (60% available)</span>
             </div>
-            <div class="w-full h-2 bg-[#E2E8F0] rounded-full overflow-hidden">
-              <div class="progress-bar-fill h-full bg-[#134E36] rounded-full" style="width: 60%"></div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 60%;"></div>
             </div>
           </div>
 
           <!-- Category 4 -->
-          <div>
-            <div class="flex items-center justify-between text-[12.5px] mb-1.5 gap-2">
-              <span class="font-semibold text-[#1E293B]">Sports & Youth League Gear</span>
-              <span class="text-right">
-                <span class="font-bold text-[#134E36]">34 / 40 items</span>
-                <span class="text-[#64748B] font-normal ml-1">(85% available)</span>
-              </span>
+          <div class="category-item">
+            <div class="category-meta">
+              <span class="category-name">Sports &amp; Youth League Gear</span>
+              <span class="category-stats"><strong>34 / 40 items</strong> (85% available)</span>
             </div>
-            <div class="w-full h-2 bg-[#E2E8F0] rounded-full overflow-hidden">
-              <div class="progress-bar-fill h-full bg-[#134E36] rounded-full" style="width: 85%"></div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 85%;"></div>
             </div>
           </div>
 
           <!-- Category 5 -->
-          <div>
-            <div class="flex items-center justify-between text-[12.5px] mb-1.5 gap-2">
-              <span class="font-semibold text-[#1E293B]">Emergency & Disaster Tools</span>
-              <span class="text-right">
-                <span class="font-bold text-[#134E36]">45 / 50 items</span>
-                <span class="text-[#64748B] font-normal ml-1">(90% available)</span>
-              </span>
+          <div class="category-item">
+            <div class="category-meta">
+              <span class="category-name">Emergency &amp; Disaster Tools</span>
+              <span class="category-stats"><strong>45 / 50 items</strong> (90% available)</span>
             </div>
-            <div class="w-full h-2 bg-[#E2E8F0] rounded-full overflow-hidden">
-              <div class="progress-bar-fill h-full bg-[#134E36] rounded-full" style="width: 90%"></div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 90%;"></div>
             </div>
           </div>
 
           <!-- Category 6 -->
-          <div>
-            <div class="flex items-center justify-between text-[12.5px] mb-1.5 gap-2">
-              <span class="font-semibold text-[#1E293B]">Grounds & Maintenance</span>
-              <span class="text-right">
-                <span class="font-bold text-[#134E36]">25 / 30 units</span>
-                <span class="text-[#64748B] font-normal ml-1">(83.33% available)</span>
-              </span>
+          <div class="category-item">
+            <div class="category-meta">
+              <span class="category-name">Grounds &amp; Maintenance</span>
+              <span class="category-stats"><strong>25 / 30 units</strong> (83.33% available)</span>
             </div>
-            <div class="w-full h-2 bg-[#E2E8F0] rounded-full overflow-hidden">
-              <div class="progress-bar-fill h-full bg-[#134E36] rounded-full" style="width: 83.33%"></div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 83.33%;"></div>
             </div>
           </div>
         </div>
       </div>
-
     </section>
 
-    <!-- ==================== BOTTOM FULL-WIDTH CARD: RECENT BORROWING TRANSACTIONS ==================== -->
-    <section class="bg-white rounded-xl border border-[#E5EDE8] shadow-card overflow-hidden">
-      
-      <!-- Card Header -->
-      <div class="px-6 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <!-- Bottom Full-Width Card: Recent Borrowing Transactions -->
+    <section class="panel-card" aria-label="Recent Borrowing Transactions">
+      <div class="panel-header">
         <div>
-          <h2 class="text-[16px] font-bold text-[#0F172A]">Recent Borrowing Transactions</h2>
-          <p class="mt-0.5 text-[12px] text-[#64748B]">Latest custody transfers and recorded loans</p>
+          <div class="panel-title-row">
+            <h2 class="panel-title">Recent Borrowing Transactions</h2>
+          </div>
+          <p class="panel-subtitle">Latest custody transfers and recorded loans</p>
         </div>
-        <button type="button" onclick="openAllTransactionsModal()" class="self-start sm:self-auto text-[12.5px] font-semibold text-[#134E36] hover:text-[#0E3B29] hover:underline inline-flex items-center gap-1 cursor-pointer">
+        <a href="#transactions" class="panel-action-link" data-toast="Loading full ledger of 142 borrower transactions">
           <span>View All Transactions</span>
-          <span aria-hidden="true">→</span>
-        </button>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/>
+            <path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
       </div>
 
-      <!-- Responsive Table Wrapper -->
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse min-w-[760px]">
+      <div class="table-responsive">
+        <table class="transactions-table">
           <thead>
-            <tr class="bg-[#E6F4EC] border-y border-[#D6EADF]">
-              <th class="py-3 px-6 text-[11px] font-bold uppercase tracking-wider text-[#134E36]">BORROWER</th>
-              <th class="py-3 px-4 text-[11px] font-bold uppercase tracking-wider text-[#134E36]">EQUIPMENT BORROWED</th>
-              <th class="py-3 px-4 text-[11px] font-bold uppercase tracking-wider text-[#134E36]">DATE BORROWED</th>
-              <th class="py-3 px-4 text-[11px] font-bold uppercase tracking-wider text-[#134E36]">RETURN DUE DATE</th>
-              <th class="py-3 px-6 text-[11px] font-bold uppercase tracking-wider text-[#134E36]">STATUS</th>
+            <tr>
+              <th>BORROWER</th>
+              <th>EQUIPMENT BORROWED</th>
+              <th>DATE BORROWED</th>
+              <th>RETURN DUE DATE</th>
+              <th>STATUS</th>
             </tr>
           </thead>
-          <tbody id="transactionsTableBody" class="divide-y divide-[#E5EDE8] text-[13px]">
-            <!-- Populated by JavaScript on load (defaults to exact Page 1 rows) -->
+          <tbody id="transactionsBody">
+            <!-- Populated by JavaScript (Page 1 defaults to exact screenshot data) -->
           </tbody>
         </table>
       </div>
 
-      <!-- Table Footer with Pagination -->
-      <div class="bg-[#E6F4EC] border-t border-[#D6EADF] px-6 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p id="paginationSummary" class="text-[12px] font-medium text-[#334155]">
-          Showing <span class="font-bold text-[#0F172A]">1 - 5</span> of <span class="font-bold text-[#0F172A]">142</span> Borrowers
-        </p>
-
-        <div class="flex items-center gap-1.5" role="navigation" aria-label="Transactions Pagination">
-          <button type="button" id="btnPrevPage" onclick="changePage(currentPage - 1)"
-            class="px-3 py-1.5 rounded-md text-[12px] font-medium bg-white/80 text-[#94A3B8] border border-[#DCE8E1] cursor-not-allowed transition-colors">
-            Previous
-          </button>
-          <button type="button" data-page="1" onclick="changePage(1)"
-            class="page-btn w-8 h-8 rounded-md text-[12px] font-bold bg-[#134E36] text-white shadow-xs transition-colors cursor-pointer">
-            1
-          </button>
-          <button type="button" data-page="2" onclick="changePage(2)"
-            class="page-btn w-8 h-8 rounded-md text-[12px] font-semibold bg-white text-[#334155] border border-[#DCE8E1] hover:bg-[#F3FAF6] transition-colors cursor-pointer">
-            2
-          </button>
-          <button type="button" data-page="3" onclick="changePage(3)"
-            class="page-btn w-8 h-8 rounded-md text-[12px] font-semibold bg-white text-[#334155] border border-[#DCE8E1] hover:bg-[#F3FAF6] transition-colors cursor-pointer">
-            3
-          </button>
-          <button type="button" id="btnNextPage" onclick="changePage(currentPage + 1)"
-            class="px-3 py-1.5 rounded-md text-[12px] font-semibold bg-white text-[#334155] border border-[#DCE8E1] hover:bg-[#F3FAF6] transition-colors cursor-pointer">
-            Next
-          </button>
+      <div class="table-footer">
+        <div class="pagination-summary" id="paginationSummary">
+          Showing <strong>1 - 5</strong> of 142 Borrowers
+        </div>
+        <div class="pagination-controls" id="paginationControls" aria-label="Table Pagination">
+          <button class="page-btn" id="prevPageBtn" disabled>Previous</button>
+          <button class="page-btn active" data-page="1">1</button>
+          <button class="page-btn" data-page="2">2</button>
+          <button class="page-btn" data-page="3">3</button>
+          <button class="page-btn" id="nextPageBtn">Next</button>
         </div>
       </div>
-
     </section>
-
   </main>
 
-  <!-- ==================== INTERACTIVE MODAL ==================== -->
-  <div id="appModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/40 backdrop-blur-[1px] modal-backdrop" onclick="closeModalOnBackdrop(event)">
-    <div class="bg-white rounded-2xl border border-[#E5EDE8] shadow-xl max-w-lg w-full overflow-hidden modal-panel">
-      <div class="px-6 py-4 bg-[#F3FAF6] border-b border-[#E5EDE8] flex items-center justify-between">
-        <h3 id="modalTitle" class="text-[16px] font-bold text-[#134E36]">Modal Title</h3>
-        <button type="button" onclick="closeModal()" class="p-1.5 rounded-lg text-[#64748B] hover:text-[#0F172A] hover:bg-[#E2F1E8] transition-colors cursor-pointer" aria-label="Close modal">
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-      <div id="modalBody" class="px-6 py-5 text-[13.5px] text-[#334155] space-y-3">
-        <!-- Dynamic content injected here -->
-      </div>
-      <div class="px-6 py-3.5 bg-[#F8FAFC] border-t border-[#E5EDE8] flex justify-end gap-2">
-        <button type="button" onclick="closeModal()" class="px-4 py-2 rounded-lg text-[12.5px] font-semibold bg-[#134E36] text-white hover:bg-[#0E3B29] transition-colors cursor-pointer">
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
-  <!-- ==================== FLOATING TOAST NOTIFICATION ==================== -->
-  <div id="toastNotification" class="fixed bottom-5 right-5 z-50 transform translate-y-16 opacity-0 pointer-events-none transition-all duration-300">
-    <div class="bg-[#134E36] text-white px-4 py-3 rounded-xl shadow-lg border border-[#1E6B4B] flex items-center gap-2.5 text-[13px] font-medium">
-      <svg class="w-4 h-4 text-[#86EFAC] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <path d="m9 12 2 2 4-4"></path>
-      </svg>
-      <span id="toastMessage">Action completed</span>
-    </div>
-  </div>
-
-  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
-  <script>
-    // Dataset for Recent Borrowing Transactions across 3 interactive pages
-    const transactionsData = {
-      1: [
-        {
-          borrower: 'Maria Santos',
-          org: 'Resident • Purok 2',
-          equipment: '40 Monobloc Chairs, 4 Foldable Tables',
-          dateBorrowed: 'Nov 4, 2026',
-          dueDate: 'Nov 7, 2026',
-          dueBold: false,
-          dueRed: false,
-          status: 'Pending'
-        },
-        {
-          borrower: 'Roberto Diaz',
-          org: 'Barangay Council• Purok 1',
-          equipment: '2 Heavy Duty Tent (Canopy 10×10)',
-          dateBorrowed: 'Nov 2, 2026',
-          dueDate: 'Nov 04, 2026',
-          dueBold: true,
-          dueRed: false,
-          status: 'Due Today'
-        },
-        {
-          borrower: 'Eduardo Ramos',
-          org: 'Zone 3 Homeowners • Purok 3',
-          equipment: '1 Megaphone, 1 First Aid Kit Box',
-          dateBorrowed: 'Oct 20, 2026',
-          dueDate: 'Nov 3, 2026',
-          dueBold: true,
-          dueRed: true,
-          status: 'Overdue'
-        },
-        {
-          borrower: 'Ricardo Dalisay',
-          org: 'Resident • Purok 1',
-          equipment: '1 Portable PA Sound System, 1 Wireless Mic',
-          dateBorrowed: 'Oct 28, 2026',
-          dueDate: 'Nov 4, 2026',
-          dueBold: true,
-          dueRed: false,
-          status: 'Due Today'
-        },
-        {
-          borrower: 'Pedro Mendoza',
-          org: 'Resident • Purok 1',
-          equipment: '30 Monobloc Chairs, 3 Tents',
-          dateBorrowed: 'Oct 20, 10:00',
-          dueDate: 'Oct 22, 17:00',
-          dueBold: false,
-          dueRed: false,
-          status: 'Returned'
-        }
-      ],
-      2: [
-        {
-          borrower: 'Elena Villanueva',
-          org: 'Women’s Livelihood Org • Purok 4',
-          equipment: '25 Monobloc Chairs, 2 Banquet Tables',
-          dateBorrowed: 'Nov 1, 2026',
-          dueDate: 'Nov 5, 2026',
-          dueBold: false,
-          dueRed: false,
-          status: 'Pending'
-        },
-        {
-          borrower: 'Carlos Mendoza',
-          org: 'SK Youth Sports Committee • Purok 1',
-          equipment: '5x Basketballs & 2x Volleyball Nets',
-          dateBorrowed: 'Oct 18, 2026',
-          dueDate: 'Oct 24, 2026',
-          dueBold: true,
-          dueRed: true,
-          status: 'Overdue'
-        },
-        {
-          borrower: 'Teresa Magbanua',
-          org: 'Daycare Parents Assoc. • Purok 2',
-          equipment: '1 Canopy Tent (10×10), 15 Chairs',
-          dateBorrowed: 'Oct 29, 2026',
-          dueDate: 'Nov 4, 2026',
-          dueBold: true,
-          dueRed: false,
-          status: 'Due Today'
-        },
-        {
-          borrower: 'Manuel Quezon Jr.',
-          org: 'Resident • Purok 6',
-          equipment: '1 Grass Cutter, 1 Wheelbarrow',
-          dateBorrowed: 'Oct 25, 2026',
-          dueDate: 'Oct 27, 2026',
-          dueBold: false,
-          dueRed: false,
-          status: 'Returned'
-        },
-        {
-          borrower: 'Liza Soberano-Cruz',
-          org: 'Barangay Health Workers • Purok 3',
-          equipment: '2 Folding Tables, 1 Megaphone',
-          dateBorrowed: 'Oct 21, 2026',
-          dueDate: 'Oct 23, 2026',
-          dueBold: false,
-          dueRed: false,
-          status: 'Returned'
-        }
-      ],
-      3: [
-        {
-          borrower: 'Roberto Gomez',
-          org: 'Purok 5 Farmers Assoc.',
-          equipment: '1x Water Pump & Hose Set',
-          dateBorrowed: 'Oct 19, 2026',
-          dueDate: 'Oct 24, 2026',
-          dueBold: true,
-          dueRed: true,
-          status: 'Overdue'
-        },
-        {
-          borrower: 'Antonio Luna',
-          org: 'Barangay Tanod Outpost • Purok 4',
-          equipment: '4 Rechargeable Searchlights, 2 Megaphones',
-          dateBorrowed: 'Nov 3, 2026',
-          dueDate: 'Nov 8, 2026',
-          dueBold: false,
-          dueRed: false,
-          status: 'Pending'
-        },
-        {
-          borrower: 'Clarissa Reyes',
-          org: 'Senior Citizens Club • Purok 2',
-          equipment: '50 Monobloc Chairs, 1 Portable PA System',
-          dateBorrowed: 'Oct 15, 2026',
-          dueDate: 'Oct 17, 2026',
-          dueBold: false,
-          dueRed: false,
-          status: 'Returned'
-        },
-        {
-          borrower: 'Jose Rizalino',
-          org: 'Resident • Purok 5',
-          equipment: '1 Extension Ladder (20ft)',
-          dateBorrowed: 'Oct 14, 2026',
-          dueDate: 'Oct 15, 2026',
-          dueBold: false,
-          dueRed: false,
-          status: 'Returned'
-        },
-        {
-          borrower: 'Maricel Soriano',
-          org: 'Chapel Pastoral Council • Purok 1',
-          equipment: '3 Heavy Duty Tents, 60 Monobloc Chairs',
-          dateBorrowed: 'Oct 10, 2026',
-          dueDate: 'Oct 13, 2026',
-          dueBold: false,
-          dueRed: false,
-          status: 'Returned'
-        }
-      ]
-    };
-
-    let currentPage = 1;
-    const totalBorrowers = 142;
-    const pageSize = 5;
-
-    // Render status badge HTML matching exact screenshot design
-    function renderStatusBadge(status) {
-      if (status === 'Overdue') {
-        return `
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#FEE2E2] text-[#DC2626]">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#DC2626]"></span>
-            Overdue
-          </span>
-        `;
-      }
-      if (status === 'Pending' || status === 'Due Today') {
-        return `
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#DCFCE7] text-[#15803D]">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#15803D]"></span>
-            ${status}
-          </span>
-        `;
-      }
-      return `
-        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#F1F5F9] text-[#475569]">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#64748B]"></span>
-          ${status}
-        </span>
-      `;
-    }
-
-    // Render table rows for the selected page
-    function renderTransactionsTable(page) {
-      const tbody = document.getElementById('transactionsTableBody');
-      const rows = transactionsData[page] || transactionsData[1];
-
-      tbody.innerHTML = rows.map(row => {
-        const isOverdue = row.status === 'Overdue';
-        const trClass = isOverdue ? 'row-overdue transition-colors' : 'bg-white hover:bg-[#FAFDFB] transition-colors';
-        const dueTextColor = row.dueRed ? 'text-[#DC2626]' : (row.dueBold ? 'text-[#0F172A]' : 'text-[#475569]');
-        const dueTextWeight = (row.dueBold || row.dueRed) ? 'font-bold' : 'font-normal';
-
-        return `
-          <tr class="${trClass} cursor-pointer" onclick="openBorrowerDetail('${row.borrower}', '${row.org}', '${row.equipment}', '${row.dueDate}', '0917-555-0192')">
-            <td class="py-3.5 px-6">
-              <div class="font-bold text-[#0F172A] text-[13px]">${row.borrower}</div>
-              <div class="text-[11.5px] text-[#64748B] mt-0.5">${row.org}</div>
-            </td>
-            <td class="py-3.5 px-4 font-semibold text-[#1E293B] text-[13px]">
-              ${row.equipment}
-            </td>
-            <td class="py-3.5 px-4 text-[#475569] text-[12.5px]">
-              ${row.dateBorrowed}
-            </td>
-            <td class="py-3.5 px-4 ${dueTextColor} ${dueTextWeight} text-[12.5px]">
-              ${row.dueDate}
-            </td>
-            <td class="py-3.5 px-6">
-              ${renderStatusBadge(row.status)}
-            </td>
-          </tr>
-        `;
-      }).join('');
-
-      // Update summary counter
-      const start = (page - 1) * pageSize + 1;
-      const end = start + rows.length - 1;
-      document.getElementById('paginationSummary').innerHTML =
-        `Showing <span class="font-bold text-[#0F172A]">${start} - ${end}</span> of <span class="font-bold text-[#0F172A]">${totalBorrowers}</span> Borrowers`;
-
-      // Update active page button styling
-      document.querySelectorAll('.page-btn').forEach(btn => {
-        const btnPage = Number(btn.getAttribute('data-page'));
-        if (btnPage === page) {
-          btn.className = 'page-btn w-8 h-8 rounded-md text-[12px] font-bold bg-[#134E36] text-white shadow-xs transition-colors cursor-pointer';
-        } else {
-          btn.className = 'page-btn w-8 h-8 rounded-md text-[12px] font-semibold bg-white text-[#334155] border border-[#DCE8E1] hover:bg-[#F3FAF6] transition-colors cursor-pointer';
-        }
-      });
-
-      // Update Previous / Next button states
-      const prevBtn = document.getElementById('btnPrevPage');
-      const nextBtn = document.getElementById('btnNextPage');
-
-      if (page <= 1) {
-        prevBtn.className = 'px-3 py-1.5 rounded-md text-[12px] font-medium bg-white/80 text-[#94A3B8] border border-[#DCE8E1] cursor-not-allowed transition-colors';
-      } else {
-        prevBtn.className = 'px-3 py-1.5 rounded-md text-[12px] font-semibold bg-white text-[#334155] border border-[#DCE8E1] hover:bg-[#F3FAF6] transition-colors cursor-pointer';
-      }
-
-      if (page >= 3) {
-        nextBtn.className = 'px-3 py-1.5 rounded-md text-[12px] font-medium bg-white/80 text-[#94A3B8] border border-[#DCE8E1] cursor-not-allowed transition-colors';
-      } else {
-        nextBtn.className = 'px-3 py-1.5 rounded-md text-[12px] font-semibold bg-white text-[#334155] border border-[#DCE8E1] hover:bg-[#F3FAF6] transition-colors cursor-pointer';
-      }
-    }
-
-    function changePage(targetPage) {
-      if (targetPage < 1 || targetPage > 3 || targetPage === currentPage) return;
-      currentPage = targetPage;
-      renderTransactionsTable(currentPage);
-    }
-
-    // Navigation active state switcher
-    function setActiveNav(navName, e) {
-      if (e) e.preventDefault();
-      document.querySelectorAll('.nav-item').forEach(item => {
-        const itemName = item.getAttribute('data-nav');
-        if (itemName === navName) {
-          item.className = 'nav-item active flex items-center gap-2 px-3.5 py-2 rounded-lg text-[13.5px] font-semibold bg-[#134E36] text-white shadow-xs transition-all cursor-pointer';
-          const svg = item.querySelector('svg');
-          if (svg) svg.classList.remove('text-[#475569]');
-        } else {
-          item.className = 'nav-item flex items-center gap-2 px-3.5 py-2 rounded-lg text-[13.5px] font-medium text-[#334155] hover:bg-[#F3FAF6] hover:text-[#134E36] transition-all cursor-pointer';
-          const svg = item.querySelector('svg');
-          if (svg) svg.classList.add('text-[#475569]');
-        }
-      });
-
-      if (navName !== 'Dashboard') {
-        showToast(`Switched view to ${navName} module`);
-      }
-    }
-
-    // Administration dropdown toggle
-    function toggleAdminDropdown(e) {
-      e.stopPropagation();
-      const menu = document.getElementById('adminDropdownMenu');
-      const chevron = document.getElementById('adminChevron');
-      menu.classList.toggle('hidden');
-      chevron.classList.toggle('rotate-180');
-    }
-
-    function handleAdminAction(section) {
-      document.getElementById('adminDropdownMenu').classList.add('hidden');
-      document.getElementById('adminChevron').classList.remove('rotate-180');
-      showToast(`Opened Administration: ${section}`);
-    }
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', (e) => {
-      const wrapper = document.getElementById('adminDropdownWrapper');
-      if (wrapper && !wrapper.contains(e.target)) {
-        document.getElementById('adminDropdownMenu').classList.add('hidden');
-        document.getElementById('adminChevron').classList.remove('rotate-180');
-      }
-    });
-
-    function toggleMobileNav() {
-      document.getElementById('mobileNavDrawer').classList.toggle('hidden');
-    }
-
-    // Modal helpers
-    function openModal(title, htmlContent) {
-      document.getElementById('modalTitle').textContent = title;
-      document.getElementById('modalBody').innerHTML = htmlContent;
-      const modal = document.getElementById('appModal');
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeModal() {
-      const modal = document.getElementById('appModal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    function closeModalOnBackdrop(e) {
-      if (e.target.id === 'appModal') closeModal();
-    }
-
-    function openBorrowerDetail(name, org, equipment, dueDate, phone) {
-      openModal('Custody & Borrower Record', `
-        <div class="p-3.5 rounded-xl bg-[#F3FAF6] border border-[#DCE8E1]">
-          <div class="text-[11px] font-bold uppercase tracking-wider text-[#134E36]">Borrower Information</div>
-          <div class="mt-1 text-[15px] font-bold text-[#0F172A]">${name}</div>
-          <div class="text-[12.5px] text-[#64748B]">${org} • Contact: ${phone}</div>
-        </div>
-        <div class="space-y-2 pt-1">
-          <div class="flex justify-between text-[13px] border-b border-[#F1F5F9] pb-2">
-            <span class="text-[#64748B]">Equipment Issued:</span>
-            <span class="font-semibold text-[#0F172A] text-right">${equipment}</span>
-          </div>
-          <div class="flex justify-between text-[13px] border-b border-[#F1F5F9] pb-2">
-            <span class="text-[#64748B]">Return Deadline:</span>
-            <span class="font-semibold text-[#DC2626]">${dueDate}</span>
-          </div>
-          <div class="flex justify-between text-[13px]">
-            <span class="text-[#64748B]">Custodian Officer:</span>
-            <span class="font-medium text-[#0F172A]">Solana Rodrigo (Staff)</span>
-          </div>
-        </div>
-        <div class="pt-2">
-          <button type="button" onclick="closeModal(); showToast('SMS follow-up reminder sent to ${name}')"
-            class="w-full py-2.5 px-4 rounded-xl bg-[#EAF5EE] hover:bg-[#DCFCE7] text-[#134E36] font-semibold text-[12.5px] transition-colors cursor-pointer">
-            Send SMS Return Reminder
-          </button>
-        </div>
-      `);
-    }
-
-    function openOverdueModal() {
-      openModal('All Overdue Borrowings (3 Active)', `
-        <p class="text-[12.5px] text-[#64748B]">The following equipment loans have exceeded their scheduled return timestamps and require Barangay custodian follow-up:</p>
-        <div class="divide-y divide-[#E5EDE8] border border-[#E5EDE8] rounded-xl overflow-hidden">
-          <div class="p-3 bg-[#FEF7F7]">
-            <div class="flex justify-between font-bold text-[#0F172A]"><span>Eduardo Ramos</span><span class="text-[#DC2626] text-xs">1d Overdue</span></div>
-            <div class="text-xs text-[#64748B]">Zone 3 Homeowners Assoc. • Megaphone & First Aid Kit Box</div>
-          </div>
-          <div class="p-3 bg-[#FEF7F7]">
-            <div class="flex justify-between font-bold text-[#0F172A]"><span>Carlos Mendoza</span><span class="text-[#DC2626] text-xs">11d Overdue</span></div>
-            <div class="text-xs text-[#64748B]">SK Youth Sports Committee • 5x Basketballs & 2x Volleyball Nets</div>
-          </div>
-          <div class="p-3 bg-[#FEF7F7]">
-            <div class="flex justify-between font-bold text-[#0F172A]"><span>Roberto Gomez</span><span class="text-[#DC2626] text-xs">11d Overdue</span></div>
-            <div class="text-xs text-[#64748B]">Purok 5 Farmers Assoc. • 1x Water Pump & Hose Set</div>
-          </div>
-        </div>
-      `);
-    }
-
-    function openManageEquipmentModal() {
-      openModal('Inventory Category Summary', `
-        <p class="text-[12.5px] text-[#64748B]">Total registered barangay assets: <strong class="text-[#0F172A]">450 items</strong> (352 available, 92 borrowed, 6 under maintenance).</p>
-        <div class="grid grid-cols-2 gap-2.5 pt-1 text-xs">
-          <div class="p-3 rounded-xl bg-[#F3FAF6] border border-[#DCE8E1]">
-            <div class="font-bold text-[#134E36]">Tables & Chairs</div>
-            <div class="text-[#475569] mt-0.5">235 available / 300 total</div>
-          </div>
-          <div class="p-3 rounded-xl bg-[#F3FAF6] border border-[#DCE8E1]">
-            <div class="font-bold text-[#134E36]">Tents & Canopies</div>
-            <div class="text-[#475569] mt-0.5">13 available / 20 total</div>
-          </div>
-          <div class="p-3 rounded-xl bg-[#F3FAF6] border border-[#DCE8E1]">
-            <div class="font-bold text-[#134E36]">Sound & Megaphones</div>
-            <div class="text-[#475569] mt-0.5">6 available / 10 total</div>
-          </div>
-          <div class="p-3 rounded-xl bg-[#F3FAF6] border border-[#DCE8E1]">
-            <div class="font-bold text-[#134E36]">Emergency & Disaster</div>
-            <div class="text-[#475569] mt-0.5">45 available / 50 total</div>
-          </div>
-        </div>
-      `);
-    }
-
-    function openAllTransactionsModal() {
-      openModal('Transaction Ledger Overview', `
-        <p class="text-[13px] text-[#475569]">Displaying summary across <strong class="text-[#0F172A]">142 recorded borrower accounts</strong> for the current barangay fiscal period.</p>
-        <div class="p-3.5 rounded-xl bg-[#F3FAF6] border border-[#DCE8E1] space-y-1.5 text-xs">
-          <div class="flex justify-between"><span class="text-[#64748B]">Active Custody Loans:</span><span class="font-bold text-[#134E36]">92 items</span></div>
-          <div class="flex justify-between"><span class="text-[#64748B]">Due Today (Nov 4, 2026):</span><span class="font-bold text-[#15803D]">2 transactions</span></div>
-          <div class="flex justify-between"><span class="text-[#64748B]">Overdue Returns:</span><span class="font-bold text-[#DC2626]">3 transactions</span></div>
-        </div>
-      `);
-    }
-
-    // Toast feedback helper
-    let toastTimer;
-    function showToast(message) {
-      const toast = document.getElementById('toastNotification');
-      document.getElementById('toastMessage').textContent = message;
-      toast.classList.remove('translate-y-16', 'opacity-0', 'pointer-events-none');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        toast.classList.add('translate-y-16', 'opacity-0', 'pointer-events-none');
-      }, 3000);
-    }
-
-    // Initialize Page 1 table on DOM load
-    document.addEventListener('DOMContentLoaded', () => {
-      renderTransactionsTable(1);
-    });
-  </script>
+  <!-- External JavaScript -->
+  <script src="dashboard.js"></script>
 </body>
 </html>
