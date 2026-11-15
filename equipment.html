@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BorrowHub - Equipment Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+  <!-- ========================================================================
+       Top Navigation Bar
+       ======================================================================== -->
+  <header class="navbar-wrapper">
+    <nav class="navbar" aria-label="Main Navigation">
+      <!-- Left: Official Barangay Seal + Brand Name -->
+      <a href="#dashboard" class="brand" data-toast="BorrowHub Home — Barangay Equipment System">
+        <svg class="brand-seal" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Outer Seal Ring -->
+          <circle cx="32" cy="32" r="30" fill="#FDFDFD" stroke="#134E31" stroke-width="2.2"/>
+          <circle cx="32" cy="32" r="24.5" fill="#E6F4EA" stroke="#134E31" stroke-width="1.2"/>
+          <!-- Top Banner Arc Representation -->
+          <path d="M12 24C15.5 14.5 23 10 32 10C41 10 48.5 14.5 52 24" stroke="#134E31" stroke-width="3.2" stroke-linecap="round"/>
+          <!-- Inner Shield / Crest -->
+          <path d="M22 23H42V34C42 41.5 32 47 32 47C32 47 22 41.5 22 34V23Z" fill="#134E31"/>
+          <!-- Sun & Stars Motif inside Shield -->
+          <circle cx="32" cy="31" r="4.2" fill="#FACC15"/>
+          <path d="M32 24.5V26M32 36V37.5M25.5 31H27M37 31H38.5M27.4 26.4L28.5 27.5M35.5 34.5L36.6 35.6M36.6 26.4L35.5 27.5M28.5 34.5L27.4 35.6" stroke="#FACC15" stroke-width="1.3" stroke-linecap="round"/>
+          <!-- Bottom Laurel / Ribbon Accent -->
+          <path d="M16 45C20.5 50.5 26 53 32 53C38 53 43.5 50.5 48 45" stroke="#D97706" stroke-width="2.4" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-name">BorrowHub</span>
+      </a>
+
+      <!-- Center: Navigation Links -->
+      <div class="nav-links" id="navLinks">
+        <div class="nav-item">
+          <button class="nav-btn active" data-nav="Dashboard">
+            <!-- LayoutGrid Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.2"/>
+              <rect x="14" y="3" width="7" height="7" rx="1.2"/>
+              <rect x="14" y="14" width="7" height="7" rx="1.2"/>
+              <rect x="3" y="14" width="7" height="7" rx="1.2"/>
+            </svg>
+            <span>Dashboard</span>
+          </button>
+        </div>
+
+        <div class="nav-item">
+          <button class="nav-btn" data-nav="Equipment">
+            <!-- Tag / Equipment Box Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/>
+              <circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>
+            </svg>
+            <span>Equipment</span>
+          </button>
+        </div>
+
+        <div class="nav-item">
+          <button class="nav-btn" data-nav="Borrower">
+            <!-- Users Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Borrower</span>
+          </button>
+        </div>
+
+        <div class="nav-item">
+          <button class="nav-btn" data-nav="Borrowing">
+            <!-- Clipboard / Outbox Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <path d="M12 11v6"/>
+              <path d="m9 14 3-3 3 3"/>
+            </svg>
+            <span>Borrowing</span>
+          </button>
+        </div>
+
+        <div class="nav-item">
+          <button class="nav-btn" data-nav="Return">
+            <!-- Clipboard Check Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <path d="m9 14 2 2 4-4"/>
+            </svg>
+            <span>Return</span>
+          </button>
+        </div>
+
+        <div class="nav-item">
+          <button class="nav-btn" data-nav="History">
+            <!-- History Clock Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+              <path d="M12 7v5l4 2"/>
+            </svg>
+            <span>History</span>
+          </button>
+        </div>
+
+        <div class="nav-item" id="adminDropdownWrapper">
+          <button class="nav-btn" id="adminDropdownBtn" aria-expanded="false" aria-haspopup="true">
+            <!-- Shield Check Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+            <span>Administration</span>
+            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu" role="menu">
+            <button class="dropdown-item" role="menuitem" data-toast="Opened Staff & Custodian Accounts">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Staff &amp; Custodians
+            </button>
+            <button class="dropdown-item" role="menuitem" data-toast="Opened Inventory Categories & Rules">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+              Category Settings
+            </button>
+            <button class="dropdown-item" role="menuitem" data-toast="Opened Barangay Audit Trail Logs">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              System Audit Logs
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: User Profile Pill + Mobile Menu Button -->
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="user-pill">
+          <div class="user-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div class="user-info">
+            <span class="user-name">Solana Rodrigo</span>
+            <span class="user-role">Staff</span>
+          </div>
+          <button class="logout-btn" title="Sign Out" aria-label="Sign Out" data-toast="Session locked for Solana Rodrigo (Staff)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </button>
+        </div>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+    <!-- Thin Mint Green Accent Strip -->
+    <div class="navbar-accent-strip"></div>
+  </header>
+
+  <!-- ========================================================================
+       Main Dashboard Content
+       ======================================================================== -->
+  <main class="main-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Equipment Dashboard</h1>
+      <p class="page-subtitle">Operational overview of barangay equipment inventory, active custody, and overdue returns.</p>
+    </div>
+
+    <!-- Top 5 KPI Summary Cards -->
+    <section class="kpi-grid" aria-label="Key Performance Indicators">
+      <!-- Card 1: Total Equipment -->
+      <article class="kpi-card">
+        <div class="kpi-top">
+          <div>
+            <div class="kpi-label">Total Equipment</div>
+            <div class="kpi-value">450</div>
+          </div>
+          <div class="kpi-icon-box green" aria-hidden="true">
+            <!-- Archive Box Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="4" rx="1"/>
+              <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
+              <path d="M10 12h4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">
+          <span class="kpi-footer-left">Registered inventory across categories</span>
+        </div>
+      </article>
+
+      <!-- Card 2: Available Equipment -->
+      <article class="kpi-card">
+        <div class="kpi-top">
+          <div>
+            <div class="kpi-label">Available Equipment</div>
+            <div class="kpi-value green">352</div>
+          </div>
+          <div class="kpi-icon-box green" aria-hidden="true">
+            <!-- Check Circle Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">
+          <span class="kpi-footer-left">Ready for borrowing</span>
+          <span class="kpi-footer-right-green">78.22% operational</span>
+        </div>
+      </article>
+
+      <!-- Card 3: Currently Borrowed -->
+      <article class="kpi-card">
+        <div class="kpi-top">
+          <div>
+            <div class="kpi-label">Currently Borrowed</div>
+            <div class="kpi-value">92</div>
+          </div>
+          <div class="kpi-icon-box green" aria-hidden="true">
+            <!-- Left-Right Swap Arrows Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 7h12m0 0-4-4m4 4-4 4"/>
+              <path d="M16 17H4m0 0 4 4m-4-4 4-4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">
+          <span class="kpi-footer-left">In active community custody</span>
+        </div>
+      </article>
+
+      <!-- Card 4: UNDER MAINTENANCE -->
+      <article class="kpi-card">
+        <div class="kpi-top">
+          <div>
+            <div class="kpi-label uppercase-label">UNDER MAINTENANCE</div>
+            <div class="kpi-value red">6</div>
+          </div>
+          <div class="kpi-icon-box red" aria-hidden="true">
+            <!-- Wrench Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">
+          <span class="kpi-footer-left kpi-footer-red">Undergoing inspection or repair</span>
+        </div>
+      </article>
+
+      <!-- Card 5: Overdue Returns -->
+      <article class="kpi-card">
+        <div class="kpi-top">
+          <div>
+            <div class="kpi-label">Overdue Returns</div>
+            <div class="kpi-value red">3</div>
+          </div>
+          <div class="kpi-icon-box red" aria-hidden="true">
+            <!-- Alert Triangle Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+              <path d="M12 9v4"/>
+              <path d="M12 17h.01"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">
+          <span class="kpi-footer-left kpi-footer-red-bold">Requires follow-up</span>
+          <span class="action-needed-pill">Action Needed</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- Middle 2-Column Section -->
+    <section class="middle-grid">
+      <!-- Left Card: Overdue Borrowings -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title-row">
+              <h2 class="panel-title">Overdue Borrowings</h2>
+              <span class="count-pill-red">3</span>
+            </div>
+            <p class="panel-subtitle">Equipment past scheduled return deadline requiring custodian follow-up</p>
+          </div>
+          <a href="#overdue" class="panel-action-link" data-toast="Viewing all 3 overdue borrowing records">
+            <span>View All Overdue</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="overdue-list">
+          <!-- Overdue Item 1 -->
+          <div class="overdue-item">
+            <div class="overdue-item-top">
+              <span class="borrower-name">Eduardo Ramos</span>
+              <span class="status-badge overdue"><span class="status-dot"></span>Overdue</span>
+            </div>
+            <div class="overdue-org">Zone 3 Homeowners Assoc. &bull; Purok 3</div>
+            <div class="overdue-equip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="4" rx="1"/>
+                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
+                <path d="M10 12h4"/>
+              </svg>
+              <span>Megaphone &amp; First Aid Kit Box</span>
+            </div>
+            <div class="overdue-due">Due: Nov 3, 2026 (1d Overdue)</div>
+          </div>
+
+          <!-- Overdue Item 2 -->
+          <div class="overdue-item">
+            <div class="overdue-item-top">
+              <span class="borrower-name">Carlos Mendoza</span>
+              <span class="status-badge overdue"><span class="status-dot"></span>Overdue</span>
+            </div>
+            <div class="overdue-org">SK Youth Sports Committee &bull; Purok 1</div>
+            <div class="overdue-equip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="4" rx="1"/>
+                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
+                <path d="M10 12h4"/>
+              </svg>
+              <span>5x Basketballs &amp; 2x Volleyball Nets</span>
+            </div>
+            <div class="overdue-due">Due: Oct 24, 2026 (11d Overdue)</div>
+          </div>
+
+          <!-- Overdue Item 3 -->
+          <div class="overdue-item">
+            <div class="overdue-item-top">
+              <span class="borrower-name">Roberto Gomez</span>
+              <span class="status-badge overdue"><span class="status-dot"></span>Overdue</span>
+            </div>
+            <div class="overdue-org">Purok 5 Farmers Assoc.</div>
+            <div class="overdue-equip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="4" rx="1"/>
+                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
+                <path d="M10 12h4"/>
+              </svg>
+              <span>1x Water Pump &amp; Hose Set</span>
+            </div>
+            <div class="overdue-due">Due: Oct 24, 2026 (11d Overdue)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Card: Equipment Availability by Category -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title-row">
+              <h2 class="panel-title">Equipment Availability by Category</h2>
+            </div>
+            <p class="panel-subtitle">Current stock levels across inventory categories</p>
+          </div>
+          <a href="#manage-equipment" class="panel-action-link" data-toast="Opening Equipment Inventory Manager">
+            <span>Manage Equipment</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="category-list">
+          <!-- Category 1 -->
+          <div class="category-item">
+            <div class="category-meta">
+              <span class="category-name">Tables &amp; Monobloc Chairs</span>
+              <span class="category-stats"><strong>235 / 300 units</strong> (78.33% available)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 78.33%;"></div>
+            </div>
+          </div>
+
+          <!-- Category 2 -->
+          <div class="category-item">
+            <div class="category-meta">
+              <span class="category-name">Tents &amp; Canopies</span>
+              <span class="category-stats"><strong>13 / 20 units</strong> (65% available)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 65%;"></div>
+            </div>
+          </div>
+
+          <!-- Category 3 -->
+          <div class="category-item">
+            <div class="category-meta">
+              <span class="category-name">Sound System &amp; Megaphones</span>
+              <span class="category-stats"><strong>6 / 10 sets</strong> (60% available)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 60%;"></div>
+            </div>
+          </div>
+
+          <!-- Category 4 -->
+          <div class="category-item">
+            <div class="category-meta">
+              <span class="category-name">Sports &amp; Youth League Gear</span>
+              <span class="category-stats"><strong>34 / 40 items</strong> (85% available)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 85%;"></div>
+            </div>
+          </div>
+
+          <!-- Category 5 -->
+          <div class="category-item">
+            <div class="category-meta">
+              <span class="category-name">Emergency &amp; Disaster Tools</span>
+              <span class="category-stats"><strong>45 / 50 items</strong> (90% available)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 90%;"></div>
+            </div>
+          </div>
+
+          <!-- Category 6 -->
+          <div class="category-item">
+            <div class="category-meta">
+              <span class="category-name">Grounds &amp; Maintenance</span>
+              <span class="category-stats"><strong>25 / 30 units</strong> (83.33% available)</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" style="width: 83.33%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Full-Width Card: Recent Borrowing Transactions -->
+    <section class="panel-card" aria-label="Recent Borrowing Transactions">
+      <div class="panel-header">
+        <div>
+          <div class="panel-title-row">
+            <h2 class="panel-title">Recent Borrowing Transactions</h2>
+          </div>
+          <p class="panel-subtitle">Latest custody transfers and recorded loans</p>
+        </div>
+        <a href="#transactions" class="panel-action-link" data-toast="Loading full ledger of 142 borrower transactions">
+          <span>View All Transactions</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/>
+            <path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="table-responsive">
+        <table class="transactions-table">
+          <thead>
+            <tr>
+              <th>BORROWER</th>
+              <th>EQUIPMENT BORROWED</th>
+              <th>DATE BORROWED</th>
+              <th>RETURN DUE DATE</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+          <tbody id="transactionsBody">
+            <!-- Populated by JavaScript (Page 1 defaults to exact screenshot data) -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-footer">
+        <div class="pagination-summary" id="paginationSummary">
+          Showing <strong>1 - 5</strong> of 142 Borrowers
+        </div>
+        <div class="pagination-controls" id="paginationControls" aria-label="Table Pagination">
+          <button class="page-btn" id="prevPageBtn" disabled>Previous</button>
+          <button class="page-btn active" data-page="1">1</button>
+          <button class="page-btn" data-page="2">2</button>
+          <button class="page-btn" data-page="3">3</button>
+          <button class="page-btn" id="nextPageBtn">Next</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- External JavaScript inside js/ folder -->
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
