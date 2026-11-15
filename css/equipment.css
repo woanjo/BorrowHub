@@ -926,7 +926,7 @@ a {
     padding: 7px 8px;
     font-size: 12.5px;
   }
-
+}
 @media (max-width: 1100px) {
   .middle-grid {
     grid-template-columns: 1fr;
