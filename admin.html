@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Administration - Barangay BorrowHub</title>
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="[fonts.googleapis.com](https://fonts.googleapis.com)">
-  <link rel="preconnect" href="[fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-  <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap)" rel="stylesheet">
-  <link rel="stylesheet" href="css/admin.css" />
+  <title>BorrowHub | Administration</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-
   <!-- ========================================================================
        Top Navigation Bar
        ======================================================================== -->
@@ -26,7 +25,7 @@
       <!-- Center: Navigation Links -->
       <div class="nav-links" id="navLinks">
         <div class="nav-item">
-          <a href="dashboard.html" class="nav-btn active">
+          <a href="dashboard.html" class="nav-btn">
             <!-- LayoutGrid Icon -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="7" height="7" rx="1.2"/>
@@ -100,12 +99,13 @@
         </div>
 
         <div class="nav-item" id="adminDropdownWrapper">
-          <button class="nav-btn" id="adminDropdownBtn" aria-expanded="false" aria-haspopup="true">
+          <button class="nav-btn active" id="adminDropdownBtn" aria-expanded="false" aria-haspopup="true">
             <!-- Shield Check Icon -->
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
               <path d="m9 12 2 2 4-4"/>
             </svg>
+
             <span>Administration</span>
             <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="m6 9 6 6 6-6"/>
@@ -159,270 +159,118 @@
     <div class="navbar-accent-strip"></div>
   </header>
 
-  <!-- Page Title & Header Action -->
-  <section class="header-card">
-    <div class="header-title-box">
-      <div class="header-icon">
-        <i data-lucide="contact" size="24"></i>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+
+  <main class="page">
+    <section class="page-heading">
+      <div class="heading-title">
+        <span class="heading-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M2.33333 23.3333C1.69167 23.3333 1.14236 23.1049 0.685417 22.6479C0.228472 22.191 0 21.6417 0 21V8.16667C0 7.525 0.228472 6.97569 0.685417 6.51875C1.14236 6.06181 1.69167 5.83333 2.33333 5.83333H8.16667V2.33333C8.16667 1.69167 8.39514 1.14236 8.85208 0.685417C9.30903 0.228472 9.85833 0 10.5 0H12.8333C13.475 0 14.0243 0.228472 14.4812 0.685417C14.9382 1.14236 15.1667 1.69167 15.1667 2.33333V5.83333H21C21.6417 5.83333 22.191 6.06181 22.6479 6.51875C23.1049 6.97569 23.3333 7.525 23.3333 8.16667V21C23.3333 21.6417 23.1049 22.191 22.6479 22.6479C22.191 23.1049 21.6417 23.3333 21 23.3333H2.33333V23.3333M2.33333 21H21V21V21V8.16667V8.16667V8.16667H15.1667V8.16667C15.1667 8.80833 14.9382 9.35764 14.4812 9.81458C14.0243 10.2715 13.475 10.5 12.8333 10.5H10.5C9.85833 10.5 9.30903 10.2715 8.85208 9.81458C8.39514 9.35764 8.16667 8.80833 8.16667 8.16667V8.16667H2.33333V8.16667V8.16667V21V21V21V21M4.66667 18.6667H11.6667V18.1417C11.6667 17.8111 11.5743 17.5049 11.3896 17.2229C11.2049 16.941 10.9472 16.7222 10.6167 16.5667C10.2278 16.3917 9.83403 16.2604 9.43542 16.1729C9.03681 16.0854 8.61389 16.0417 8.16667 16.0417C7.71944 16.0417 7.29653 16.0854 6.89792 16.1729C6.49931 16.2604 6.10556 16.3917 5.71667 16.5667C5.38611 16.7222 5.12847 16.941 4.94375 17.2229C4.75903 17.5049 4.66667 17.8111 4.66667 18.1417V18.6667V18.6667M14 16.9167H18.6667V15.1667H14V16.9167V16.9167M8.16667 15.1667C8.65278 15.1667 9.06597 14.9965 9.40625 14.6562C9.74653 14.316 9.91667 13.9028 9.91667 13.4167C9.91667 12.9306 9.74653 12.5174 9.40625 12.1771C9.06597 11.8368 8.65278 11.6667 8.16667 11.6667C7.68056 11.6667 7.26736 11.8368 6.92708 12.1771C6.58681 12.5174 6.41667 12.9306 6.41667 13.4167C6.41667 13.9028 6.58681 14.316 6.92708 14.6562C7.26736 14.9965 7.68056 15.1667 8.16667 15.1667V15.1667M14 13.4167H18.6667V11.6667H14V13.4167V13.4167M10.5 8.16667H12.8333V2.33333H10.5V8.16667V8.16667M11.6667 14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833V14.5833" fill="white"/>
+          </svg>
+        </span><h1>Staff Management</h1>
+      </div>
+
+      <button class="primary-btn" id="addStaffBtn">
+        <i class="fa-solid fa-user-plus"></i> + Add Staff/Admin Account
+      </button>
+    </section>
+
+    <section class="stats">
+      <article class="stat-card">
+        <div><label>TOTAL STAFF</label>
+          <strong id="totalCount">6</strong>
+          <small>officials</small></div>
+          <span class="stat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="13" viewBox="0 0 26 13" fill="none">
+              <path d="M0 13V11.2937C0 10.5174 0.397222 9.88542 1.19167 9.39792C1.98611 8.91042 3.03333 8.66667 4.33333 8.66667C4.56806 8.66667 4.79375 8.67118 5.01042 8.68021C5.22708 8.68924 5.43472 8.71181 5.63333 8.74792C5.38056 9.12708 5.19097 9.52431 5.06458 9.93958C4.93819 10.3549 4.875 10.7882 4.875 11.2396V13H0V13M6.5 13V11.2396C6.5 10.6618 6.65799 10.1337 6.97396 9.65521C7.28993 9.17674 7.73681 8.75694 8.31458 8.39583C8.89236 8.03472 9.58299 7.76389 10.3865 7.58333C11.1899 7.40278 12.0611 7.3125 13 7.3125C13.9569 7.3125 14.8372 7.40278 15.6406 7.58333C16.4441 7.76389 17.1347 8.03472 17.7125 8.39583C18.2903 8.75694 18.7326 9.17674 19.0396 9.65521C19.3465 10.1337 19.5 10.6618 19.5 11.2396V13H6.5V13M21.125 13V11.2396C21.125 10.7701 21.0663 10.3278 20.949 9.9125C20.8316 9.49722 20.6556 9.10903 20.4208 8.74792C20.6194 8.71181 20.8226 8.68924 21.0302 8.68021C21.2378 8.67118 21.45 8.66667 21.6667 8.66667C22.9667 8.66667 24.0139 8.9059 24.8083 9.38437C25.6028 9.86285 26 10.4993 26 11.2937V13H21.125V13M8.80208 10.8333H17.225V10.8333C17.0444 10.4722 16.5434 10.1562 15.7219 9.88542C14.9003 9.61458 13.9931 9.47917 13 9.47917C12.0069 9.47917 11.0997 9.61458 10.2781 9.88542C9.4566 10.1562 8.96458 10.4722 8.80208 10.8333V10.8333V10.8333M4.33333 7.58333C3.7375 7.58333 3.22743 7.37118 2.80312 6.94688C2.37882 6.52257 2.16667 6.0125 2.16667 5.41667C2.16667 4.80278 2.37882 4.28819 2.80312 3.87292C3.22743 3.45764 3.7375 3.25 4.33333 3.25C4.94722 3.25 5.46181 3.45764 5.87708 3.87292C6.29236 4.28819 6.5 4.80278 6.5 5.41667C6.5 6.0125 6.29236 6.52257 5.87708 6.94688C5.46181 7.37118 4.94722 7.58333 4.33333 7.58333V7.58333M21.6667 7.58333C21.0708 7.58333 20.5608 7.37118 20.1365 6.94688C19.7122 6.52257 19.5 6.0125 19.5 5.41667C19.5 4.80278 19.7122 4.28819 20.1365 3.87292C20.5608 3.45764 21.0708 3.25 21.6667 3.25C22.2806 3.25 22.7951 3.45764 23.2104 3.87292C23.6257 4.28819 23.8333 4.80278 23.8333 5.41667C23.8333 6.0125 23.6257 6.52257 23.2104 6.94688C22.7951 7.37118 22.2806 7.58333 21.6667 7.58333V7.58333M13 6.5C12.0972 6.5 11.3299 6.18403 10.6979 5.55208C10.066 4.92014 9.75 4.15278 9.75 3.25C9.75 2.32917 10.066 1.55729 10.6979 0.934375C11.3299 0.311458 12.0972 0 13 0C13.9208 0 14.6927 0.311458 15.3156 0.934375C15.9385 1.55729 16.25 2.32917 16.25 3.25C16.25 4.15278 15.9385 4.92014 15.3156 5.55208C14.6927 6.18403 13.9208 6.5 13 6.5V6.5M13 4.33333C13.3069 4.33333 13.5642 4.22951 13.7719 4.02187C13.9795 3.81424 14.0833 3.55694 14.0833 3.25C14.0833 2.94306 13.9795 2.68576 13.7719 2.47813C13.5642 2.27049 13.3069 2.16667 13 2.16667C12.6931 2.16667 12.4358 2.27049 12.2281 2.47813C12.0205 2.68576 11.9167 2.94306 11.9167 3.25C11.9167 3.55694 12.0205 3.81424 12.2281 4.02187C12.4358 4.22951 12.6931 4.33333 13 4.33333V4.33333M13.0271 10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333M13 3.25V3.25V3.25V3.25V3.25V3.25V3.25V3.25V3.25V3.25" fill="#04432F"/>
+            </svg>
+          </span>
+        </article>
+      <article class="stat-card">
+        <div><label>ACTIVE STAFF 
+          <span class="dot green"></span></label>
+          <strong id="activeCount">5</strong></div>
+          <span class="stat-icon active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 18 22" fill="none">
+              <path d="M7.52917 14.6792L13.65 8.55833L12.1062 7.01458L7.52917 11.5917L5.25417 9.31667L3.71042 10.8604L7.52917 14.6792V14.6792M8.66667 21.6667C6.15694 21.0347 4.08507 19.5948 2.45104 17.3469C0.817014 15.099 0 12.6028 0 9.85833V3.25L8.66667 0L17.3333 3.25V9.85833C17.3333 12.6028 16.5163 15.099 14.8823 17.3469C13.2483 19.5948 11.1764 21.0347 8.66667 21.6667V21.6667M8.66667 19.3917C10.5444 18.7958 12.0972 17.6042 13.325 15.8167C14.5528 14.0292 15.1667 12.0431 15.1667 9.85833V4.73958L8.66667 2.30208L2.16667 4.73958V9.85833C2.16667 12.0431 2.78056 14.0292 4.00833 15.8167C5.23611 17.6042 6.78889 18.7958 8.66667 19.3917V19.3917M8.66667 10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333" fill="#4E6B55"/>
+            </svg>
+          </span>
+        </article>
+      <article class="stat-card">
+        <div><label>INACTIVE STAFF 
+          <span class="dot gray"></span></label>
+          <strong id="inactiveCount">1</strong></div>
+          <span class="stat-icon inactive">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M19.9333 21.4771L17.0896 18.6333H2.84375V15.6C2.84375 14.9861 3.00174 14.4219 3.31771 13.9073C3.63368 13.3927 4.05347 13 4.57708 12.7292C5.38958 12.3139 6.21562 11.9799 7.05521 11.7271C7.89479 11.4743 8.74792 11.2847 9.61458 11.1583V11.1583V11.1583L0 1.54375L1.54375 0L21.4771 19.9333L19.9333 21.4771V21.4771M5.01042 16.4667H14.9229L11.6729 13.2167C11.6368 13.2167 11.6097 13.2167 11.5917 13.2167C11.5736 13.2167 11.5465 13.2167 11.5104 13.2167C10.4993 13.2167 9.49722 13.3385 8.50417 13.5823C7.51111 13.826 6.52708 14.1917 5.55208 14.6792C5.38958 14.7694 5.25868 14.8958 5.15938 15.0583C5.06007 15.2208 5.01042 15.4014 5.01042 15.6V16.4667V16.4667M18.4438 12.7292C18.9674 12.9819 19.3826 13.3656 19.6896 13.8802C19.9965 14.3948 20.159 14.95 20.1771 15.5458V15.5458L16.5479 11.9167C16.8729 12.0431 17.1934 12.1694 17.5094 12.2958C17.8253 12.4222 18.1368 12.5667 18.4438 12.7292V12.7292M13.8938 9.2625L12.2958 7.66458C12.7111 7.50208 13.0451 7.23576 13.2979 6.86562C13.5507 6.49549 13.6771 6.08472 13.6771 5.63333C13.6771 5.0375 13.4649 4.52743 13.0406 4.10313C12.6163 3.67882 12.1063 3.46667 11.5104 3.46667C11.059 3.46667 10.6483 3.59306 10.2781 3.84583C9.90799 4.09861 9.64167 4.43264 9.47917 4.84792L7.88125 3.25C8.29653 2.63611 8.82014 2.15764 9.45208 1.81458C10.084 1.47153 10.7701 1.3 11.5104 1.3C12.7021 1.3 13.7222 1.72431 14.5708 2.57292C15.4194 3.42153 15.8438 4.44167 15.8438 5.63333C15.8438 6.37361 15.6722 7.05972 15.3292 7.69167C14.9861 8.32361 14.5076 8.84722 13.8938 9.2625V9.2625M14.9229 16.4667H5.01042V16.4667C5.01042 16.4667 5.06007 16.4667 5.15938 16.4667C5.25868 16.4667 5.38958 16.4667 5.55208 16.4667C6.03958 16.4667 6.54514 16.4667 7.06875 16.4667C7.59236 16.4667 8.21076 16.4667 8.92396 16.4667C9.63715 16.4667 10.4767 16.4667 11.4427 16.4667C12.4087 16.4667 13.5687 16.4667 14.9229 16.4667V16.4667V16.4667V16.4667V16.4667M10.8875 6.25625V6.25625V6.25625V6.25625V6.25625V6.25625V6.25625V6.25625V6.25625" fill="#353C38"/>
+            </svg>
+          </span>
+        </article>
+    </section>
+
+    <section class="toolbar">
+      <label class="search-box">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+          <path d="M13.8333 15L8.58333 9.75C8.16667 10.0833 7.6875 10.3472 7.14583 10.5417C6.60417 10.7361 6.02778 10.8333 5.41667 10.8333C3.90278 10.8333 2.62153 10.309 1.57292 9.26042C0.524305 8.21181 0 6.93056 0 5.41667C0 3.90278 0.524305 2.62153 1.57292 1.57292C2.62153 0.524305 3.90278 0 5.41667 0C6.93056 0 8.21181 0.524305 9.26042 1.57292C10.309 2.62153 10.8333 3.90278 10.8333 5.41667C10.8333 6.02778 10.7361 6.60417 10.5417 7.14583C10.3472 7.6875 10.0833 8.16667 9.75 8.58333L15 13.8333L13.8333 15V15M5.41667 9.16667C6.45833 9.16667 7.34375 8.80208 8.07292 8.07292C8.80208 7.34375 9.16667 6.45833 9.16667 5.41667C9.16667 4.375 8.80208 3.48958 8.07292 2.76042C7.34375 2.03125 6.45833 1.66667 5.41667 1.66667C4.375 1.66667 3.48958 2.03125 2.76042 2.76042C2.03125 3.48958 1.66667 4.375 1.66667 5.41667C1.66667 6.45833 2.03125 7.34375 2.76042 8.07292C3.48958 8.80208 4.375 9.16667 5.41667 9.16667V9.16667" fill="#486550"/>
         </svg>
+      <input id="searchInput" type="search" placeholder="Search by name or email"></label>
+
+      <div class="filter-tabs" role="group" aria-label="Filter accounts">
+        <button class="selected" data-filter="All">All</button>
+        <button data-filter="Admin">Admin</button>
+        <button data-filter="Staff">Staff</button>
       </div>
-      <h1>Staff Management</h1>
-    </div>
-    <button class="btn-primary">
-      <i data-lucide="user-plus" size="18"></i>
-      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="14" viewBox="0 0 19 14" fill="none">
-        <path d="M14.1667 8.33333V5.83333H11.6667V4.16667H14.1667V1.66667H15.8333V4.16667H18.3333V5.83333H15.8333V8.33333H14.1667V8.33333M6.66667 6.66667C5.75 6.66667 4.96528 6.34028 4.3125 5.6875C3.65972 5.03472 3.33333 4.25 3.33333 3.33333C3.33333 2.41667 3.65972 1.63194 4.3125 0.979167C4.96528 0.326389 5.75 0 6.66667 0C7.58333 0 8.36806 0.326389 9.02083 0.979167C9.67361 1.63194 10 2.41667 10 3.33333C10 4.25 9.67361 5.03472 9.02083 5.6875C8.36806 6.34028 7.58333 6.66667 6.66667 6.66667V6.66667M0 13.3333V11C0 10.5278 0.121528 10.0938 0.364583 9.69792C0.607639 9.30208 0.930556 9 1.33333 8.79167C2.19444 8.36111 3.06944 8.03819 3.95833 7.82292C4.84722 7.60764 5.75 7.5 6.66667 7.5C7.58333 7.5 8.48611 7.60764 9.375 7.82292C10.2639 8.03819 11.1389 8.36111 12 8.79167C12.4028 9 12.7257 9.30208 12.9688 9.69792C13.2118 10.0938 13.3333 10.5278 13.3333 11V13.3333H0V13.3333M1.66667 11.6667H11.6667V11C11.6667 10.8472 11.6285 10.7083 11.5521 10.5833C11.4757 10.4583 11.375 10.3611 11.25 10.2917C10.5 9.91667 9.74306 9.63542 8.97917 9.44792C8.21528 9.26042 7.44444 9.16667 6.66667 9.16667C5.88889 9.16667 5.11806 9.26042 4.35417 9.44792C3.59028 9.63542 2.83333 9.91667 2.08333 10.2917C1.95833 10.3611 1.85764 10.4583 1.78125 10.5833C1.70486 10.7083 1.66667 10.8472 1.66667 11V11.6667V11.6667M6.66667 5C7.125 5 7.51736 4.83681 7.84375 4.51042C8.17014 4.18403 8.33333 3.79167 8.33333 3.33333C8.33333 2.875 8.17014 2.48264 7.84375 2.15625C7.51736 1.82986 7.125 1.66667 6.66667 1.66667C6.20833 1.66667 5.81597 1.82986 5.48958 2.15625C5.16319 2.48264 5 2.875 5 3.33333C5 3.79167 5.16319 4.18403 5.48958 4.51042C5.81597 4.83681 6.20833 5 6.66667 5V5M6.66667 3.33333V3.33333V3.33333V3.33333V3.33333V3.33333V3.33333V3.33333V3.33333V3.33333M6.66667 11.6667V11.6667V11.6667V11.6667V11.6667V11.6667V11.6667V11.6667V11.6667V11.6667V11.6667V11.6667V11.6667" fill="white"/>
-      </svg>
-      Add Staff/Admin Account
-    </button>
-  </section>
+    </section>
 
-  <!-- Summary Statistics -->
-  <section class="stats-grid">
-    <div class="stat-card">
-      <div>
-        <div class="stat-title">TOTAL STAFF</div>
-        <div><span class="stat-value">6</span><span class="stat-subtitle">officials</span></div>
+    <section class="table-card">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>STAFF OFFICIAL &amp; ROLE</th>
+              <th>USERNAME</th>
+              <th>EMAIL ADDRESS</th>
+              <th>ASSIGNED ROLE</th>
+              <th>ACCOUNT STATUS</th>
+              <th>ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody id="staffRows"></tbody>
+        </table>
       </div>
-      <div class="stat-icon mint">
-        <i data-lucide="users" size="20"></i>
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="13" viewBox="0 0 26 13" fill="none">
-            <path d="M0 13V11.2937C0 10.5174 0.397222 9.88542 1.19167 9.39792C1.98611 8.91042 3.03333 8.66667 4.33333 8.66667C4.56806 8.66667 4.79375 8.67118 5.01042 8.68021C5.22708 8.68924 5.43472 8.71181 5.63333 8.74792C5.38056 9.12708 5.19097 9.52431 5.06458 9.93958C4.93819 10.3549 4.875 10.7882 4.875 11.2396V13H0V13M6.5 13V11.2396C6.5 10.6618 6.65799 10.1337 6.97396 9.65521C7.28993 9.17674 7.73681 8.75694 8.31458 8.39583C8.89236 8.03472 9.58299 7.76389 10.3865 7.58333C11.1899 7.40278 12.0611 7.3125 13 7.3125C13.9569 7.3125 14.8372 7.40278 15.6406 7.58333C16.4441 7.76389 17.1347 8.03472 17.7125 8.39583C18.2903 8.75694 18.7326 9.17674 19.0396 9.65521C19.3465 10.1337 19.5 10.6618 19.5 11.2396V13H6.5V13M21.125 13V11.2396C21.125 10.7701 21.0663 10.3278 20.949 9.9125C20.8316 9.49722 20.6556 9.10903 20.4208 8.74792C20.6194 8.71181 20.8226 8.68924 21.0302 8.68021C21.2378 8.67118 21.45 8.66667 21.6667 8.66667C22.9667 8.66667 24.0139 8.9059 24.8083 9.38437C25.6028 9.86285 26 10.4993 26 11.2937V13H21.125V13M8.80208 10.8333H17.225V10.8333C17.0444 10.4722 16.5434 10.1562 15.7219 9.88542C14.9003 9.61458 13.9931 9.47917 13 9.47917C12.0069 9.47917 11.0997 9.61458 10.2781 9.88542C9.4566 10.1562 8.96458 10.4722 8.80208 10.8333V10.8333V10.8333M4.33333 7.58333C3.7375 7.58333 3.22743 7.37118 2.80312 6.94688C2.37882 6.52257 2.16667 6.0125 2.16667 5.41667C2.16667 4.80278 2.37882 4.28819 2.80312 3.87292C3.22743 3.45764 3.7375 3.25 4.33333 3.25C4.94722 3.25 5.46181 3.45764 5.87708 3.87292C6.29236 4.28819 6.5 4.80278 6.5 5.41667C6.5 6.0125 6.29236 6.52257 5.87708 6.94688C5.46181 7.37118 4.94722 7.58333 4.33333 7.58333V7.58333M21.6667 7.58333C21.0708 7.58333 20.5608 7.37118 20.1365 6.94688C19.7122 6.52257 19.5 6.0125 19.5 5.41667C19.5 4.80278 19.7122 4.28819 20.1365 3.87292C20.5608 3.45764 21.0708 3.25 21.6667 3.25C22.2806 3.25 22.7951 3.45764 23.2104 3.87292C23.6257 4.28819 23.8333 4.80278 23.8333 5.41667C23.8333 6.0125 23.6257 6.52257 23.2104 6.94688C22.7951 7.37118 22.2806 7.58333 21.6667 7.58333V7.58333M13 6.5C12.0972 6.5 11.3299 6.18403 10.6979 5.55208C10.066 4.92014 9.75 4.15278 9.75 3.25C9.75 2.32917 10.066 1.55729 10.6979 0.934375C11.3299 0.311458 12.0972 0 13 0C13.9208 0 14.6927 0.311458 15.3156 0.934375C15.9385 1.55729 16.25 2.32917 16.25 3.25C16.25 4.15278 15.9385 4.92014 15.3156 5.55208C14.6927 6.18403 13.9208 6.5 13 6.5V6.5M13 4.33333C13.3069 4.33333 13.5642 4.22951 13.7719 4.02187C13.9795 3.81424 14.0833 3.55694 14.0833 3.25C14.0833 2.94306 13.9795 2.68576 13.7719 2.47813C13.5642 2.27049 13.3069 2.16667 13 2.16667C12.6931 2.16667 12.4358 2.27049 12.2281 2.47813C12.0205 2.68576 11.9167 2.94306 11.9167 3.25C11.9167 3.55694 12.0205 3.81424 12.2281 4.02187C12.4358 4.22951 12.6931 4.33333 13 4.33333V4.33333M13.0271 10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333M13 3.25V3.25V3.25V3.25V3.25V3.25V3.25V3.25V3.25V3.25" fill="#04432F"/>
-        </svg>
-      </div>
-    </div>
-
-    <div class="stat-card">
-      <div>
-        <div class="stat-title">ACTIVE STAFF <span class="dot green"></span></div>
-        <div class="stat-value">5</div>
-      </div>
-      <div class="stat-icon soft-green">
-        <i data-lucide="shield-check" size="20"></i>
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 18 22" fill="none">
-            <path d="M7.52917 14.6792L13.65 8.55833L12.1062 7.01458L7.52917 11.5917L5.25417 9.31667L3.71042 10.8604L7.52917 14.6792V14.6792M8.66667 21.6667C6.15694 21.0347 4.08507 19.5948 2.45104 17.3469C0.817014 15.099 0 12.6028 0 9.85833V3.25L8.66667 0L17.3333 3.25V9.85833C17.3333 12.6028 16.5163 15.099 14.8823 17.3469C13.2483 19.5948 11.1764 21.0347 8.66667 21.6667V21.6667M8.66667 19.3917C10.5444 18.7958 12.0972 17.6042 13.325 15.8167C14.5528 14.0292 15.1667 12.0431 15.1667 9.85833V4.73958L8.66667 2.30208L2.16667 4.73958V9.85833C2.16667 12.0431 2.78056 14.0292 4.00833 15.8167C5.23611 17.6042 6.78889 18.7958 8.66667 19.3917V19.3917M8.66667 10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333" fill="#4E6B55"/>
-        </svg>
-      </div>
-    </div>
-
-    <div class="stat-card">
-      <div>
-        <div class="stat-title">INACTIVE STAFF <span class="dot gray"></span></div>
-        <div class="stat-value">1</div>
-      </div>
-      <div class="stat-icon gray">
-        <i data-lucide="shield-off" size="20"></i>
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <path d="M19.9333 21.4771L17.0896 18.6333H2.84375V15.6C2.84375 14.9861 3.00174 14.4219 3.31771 13.9073C3.63368 13.3927 4.05347 13 4.57708 12.7292C5.38958 12.3139 6.21562 11.9799 7.05521 11.7271C7.89479 11.4743 8.74792 11.2847 9.61458 11.1583V11.1583V11.1583L0 1.54375L1.54375 0L21.4771 19.9333L19.9333 21.4771V21.4771M5.01042 16.4667H14.9229L11.6729 13.2167C11.6368 13.2167 11.6097 13.2167 11.5917 13.2167C11.5736 13.2167 11.5465 13.2167 11.5104 13.2167C10.4993 13.2167 9.49722 13.3385 8.50417 13.5823C7.51111 13.826 6.52708 14.1917 5.55208 14.6792C5.38958 14.7694 5.25868 14.8958 5.15938 15.0583C5.06007 15.2208 5.01042 15.4014 5.01042 15.6V16.4667V16.4667M18.4438 12.7292C18.9674 12.9819 19.3826 13.3656 19.6896 13.8802C19.9965 14.3948 20.159 14.95 20.1771 15.5458V15.5458L16.5479 11.9167C16.8729 12.0431 17.1934 12.1694 17.5094 12.2958C17.8253 12.4222 18.1368 12.5667 18.4438 12.7292V12.7292M13.8938 9.2625L12.2958 7.66458C12.7111 7.50208 13.0451 7.23576 13.2979 6.86562C13.5507 6.49549 13.6771 6.08472 13.6771 5.63333C13.6771 5.0375 13.4649 4.52743 13.0406 4.10313C12.6163 3.67882 12.1063 3.46667 11.5104 3.46667C11.059 3.46667 10.6483 3.59306 10.2781 3.84583C9.90799 4.09861 9.64167 4.43264 9.47917 4.84792L7.88125 3.25C8.29653 2.63611 8.82014 2.15764 9.45208 1.81458C10.084 1.47153 10.7701 1.3 11.5104 1.3C12.7021 1.3 13.7222 1.72431 14.5708 2.57292C15.4194 3.42153 15.8438 4.44167 15.8438 5.63333C15.8438 6.37361 15.6722 7.05972 15.3292 7.69167C14.9861 8.32361 14.5076 8.84722 13.8938 9.2625V9.2625M14.9229 16.4667H5.01042V16.4667C5.01042 16.4667 5.06007 16.4667 5.15938 16.4667C5.25868 16.4667 5.38958 16.4667 5.55208 16.4667C6.03958 16.4667 6.54514 16.4667 7.06875 16.4667C7.59236 16.4667 8.21076 16.4667 8.92396 16.4667C9.63715 16.4667 10.4767 16.4667 11.4427 16.4667C12.4087 16.4667 13.5687 16.4667 14.9229 16.4667V16.4667V16.4667V16.4667V16.4667M10.8875 6.25625V6.25625V6.25625V6.25625V6.25625V6.25625V6.25625V6.25625V6.25625" fill="#353C38"/>
-        </svg>
-      </div>
-    </div>
-  </section>
-
-  <!-- Filters & Search Controls -->
-  <section class="controls-row">
-    <div class="search-wrapper">
-      <i data-lucide="search" size="18" class="search-icon"></i>
-      <input type="text" class="search-input" placeholder="Search by name or email">
-    </div>
-    <div class="tab-group">
-      <button class="tab-btn active">All</button>
-      <button class="tab-btn">Admin</button>
-      <button class="tab-btn">Staff</button>
-    </div>
-  </section>
-
-  <!-- Table Container -->
-  <main class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>STAFF OFFICIAL & ROLE</th>
-          <th>USERNAME</th>
-          <th>EMAIL ADDRESS</th>
-          <th>ASSIGNED ROLE</th>
-          <th>ACCOUNT STATUS</th>
-          <th>ACTIONS</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Danilo Soriano -->
-        <tr>
-          <td>
-            <div class="official-cell">
-              <div class="avatar avatar-soft">DS</div>
-              <div class="name-wrapper">Danilo Soriano</div>
-            </div>
-          </td>
-          <td class="username-cell">@dsoriano</td>
-          <td class="email-cell">d.soriano@gmail.com</td>
-          <td>
-            <span class="role-badge staff">
-              <i data-lucide="user-check" size="14"></i> Staff
-            </span>
-          </td>
-          <td>
-            <span class="status-badge active"><span class="status-dot"></span> Active</span>
-          </td>
-          <td>
-            <div class="actions-cell">
-              <a class="action-link"><i data-lucide="eye" size="14"></i> View Details</a>
-              <a class="action-link"><i data-lucide="edit-3" size="14"></i> Edit</a>
-            </div>
-          </td>
-        </tr>
-
-        <!-- Angelica Reyes -->
-        <tr>
-          <td>
-            <div class="official-cell">
-              <div class="avatar avatar-soft">AR</div>
-              <div class="name-wrapper">Angelica Reyes</div>
-            </div>
-          </td>
-          <td class="username-cell">@areyes</td>
-          <td class="email-cell">a.reyes@gmail.com</td>
-          <td>
-            <span class="role-badge staff">
-              <i data-lucide="user-check" size="14"></i> Staff
-            </span>
-          </td>
-          <td>
-            <span class="status-badge active"><span class="status-dot"></span> Active</span>
-          </td>
-          <td>
-            <div class="actions-cell">
-              <a class="action-link"><i data-lucide="eye" size="14"></i> View Details</a>
-              <a class="action-link"><i data-lucide="edit-3" size="14"></i> Edit</a>
-            </div>
-          </td>
-        </tr>
-
-        <!-- Joshua Flores -->
-        <tr>
-          <td>
-            <div class="official-cell">
-              <div class="avatar avatar-soft">JF</div>
-              <div class="name-wrapper">Joshua Flores</div>
-            </div>
-          </td>
-          <td class="username-cell">@jflores</td>
-          <td class="email-cell">j.flores@gmail.com</td>
-          <td>
-            <span class="role-badge staff">
-              <i data-lucide="user-check" size="14"></i> Staff
-            </span>
-          </td>
-          <td>
-            <span class="status-badge active"><span class="status-dot"></span> Active</span>
-          </td>
-          <td>
-            <div class="actions-cell">
-              <a class="action-link"><i data-lucide="eye" size="14"></i> View Details</a>
-              <a class="action-link"><i data-lucide="edit-3" size="14"></i> Edit</a>
-            </div>
-          </td>
-        </tr>
-
-        <!-- Gabriela Flores (YOU) -->
-        <tr>
-          <td>
-            <div class="official-cell">
-              <div class="avatar avatar-dark">GF</div>
-              <div class="name-wrapper">
-                Gabriela Flores <span class="you-badge">YOU</span>
-              </div>
-            </div>
-          </td>
-          <td class="username-cell">@gabflores</td>
-          <td class="email-cell">gab.flores@gmail.com</td>
-          <td>
-            <span class="role-badge admin">
-              <i data-lucide="shield" size="14"></i> Admin
-            </span>
-          </td>
-          <td>
-            <span class="status-badge active"><span class="status-dot"></span> Active</span>
-          </td>
-          <td>
-            <div class="actions-cell">
-              <a class="action-link"><i data-lucide="eye" size="14"></i> View Details</a>
-              <a class="action-link"><i data-lucide="edit-3" size="14"></i> Edit</a>
-            </div>
-          </td>
-        </tr>
-
-        <!-- Hon. Rolando Macaraeg -->
-        <tr>
-          <td>
-            <div class="official-cell">
-              <div class="avatar avatar-dark">RM</div>
-              <div class="name-wrapper">Hon. Rolando Macaraeg</div>
-            </div>
-          </td>
-          <td class="username-cell">@rmacaraeg</td>
-          <td class="email-cell">r.macaraeg@gmail.com</td>
-          <td>
-            <span class="role-badge staff">
-              <i data-lucide="user-check" size="14"></i> Staff
-            </span>
-          </td>
-          <td>
-            <span class="status-badge active"><span class="status-dot"></span> Active</span>
-          </td>
-          <td>
-            <div class="actions-cell">
-              <a class="action-link"><i data-lucide="eye" size="14"></i> View Details</a>
-              <a class="action-link"><i data-lucide="edit-3" size="14"></i> Edit</a>
-            </div>
-          </td>
-        </tr>
-
-        <!-- Ramon Bautista -->
-        <tr>
-          <td>
-            <div class="official-cell">
-              <div class="avatar avatar-muted">RB</div>
-              <div class="name-wrapper">Ramon Bautista</div>
-            </div>
-          </td>
-          <td class="username-cell">@rbautista</td>
-          <td class="email-cell">r.bautista@gmail.com</td>
-          <td>
-            <span class="role-badge staff">
-              <i data-lucide="user-check" size="14"></i> Staff
-            </span>
-          </td>
-          <td>
-            <span class="status-badge inactive"><span class="status-dot"></span> Inactive</span>
-          </td>
-          <td>
-            <div class="actions-cell">
-              <a class="action-link"><i data-lucide="eye" size="14"></i> View Details</a>
-              <a class="action-link"><i data-lucide="edit-3" size="14"></i> Edit</a>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- Pagination Footer -->
-    <div class="table-footer">
-      <div>Showing <span class="footer-highlight">6</span> of <span class="footer-highlight">6</span> staff accounts</div>
-      <div class="pagination">
-        <button class="page-btn disabled">&lt; Previous</button>
-        <span class="page-number">1</span>
-        <button class="page-btn disabled">Next &gt;</button>
-      </div>
-    </div>
+      <footer class="table-footer">
+        <span id="showingText">Showing <b>6</b> of <b>6</b> staff accounts</span>
+        <div class="pagination">
+          <button disabled>‹ Previous</button>
+          <button class="current-page">1</button>
+          <button disabled>Next ›</button>
+        </div>
+      </footer>
+    </section>
   </main>
 
-  <!-- Toast Notification Container -->
-  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+  <div class="overlay hidden" id="modalOverlay">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="icon-close" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      <div id="modalContent"></div>
+    </section>
+  </div>
 
-  <!-- External JavaScript -->
+  <div class="overlay restricted-overlay hidden" id="restrictedOverlay">
+    <section class="restricted-card" role="alertdialog" aria-modal="true">
+      <div class="restricted-heading">
+        <span class="restricted-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+          <i class="fa-solid fa-lock mini-lock"></i>
+        </span><h2>Access Restricted</h2>
+      </div>
+      
+      <p>You don't have permission to access Administration. This section is restricted to Admin accounts and is only available to authorized administrators.</p>
+      <div class="restricted-actions"><button class="primary-btn" id="closeRestricted">Close</button></div>
+    </section>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
   <script src="js/admin.js"></script>
 </body>
 </html>
