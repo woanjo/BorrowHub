@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BorrowHub - Barangay Bulacao Equipment Borrowing Management System</title>
+  <link rel="preconnect" href="[fonts.googleapis.com](https://fonts.googleapis.com)">
+  <link rel="preconnect" href="[fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+  <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap)" rel="stylesheet">
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+  <main class="page-container">
+    <!-- Header with Seal and Titles -->
+    <header class="header">
+      <div class="logo-wrapper">
+        <!-- Replace src with your local barangay seal image path if available -->
+        <img 
+          src="img/brgy_logo.png"
+          alt="Barangay Bulacao Cebu City Official Seal" 
+          class="seal-img"
+        >
+      </div>
+      <h1 class="brand-title">BorrowHub</h1>
+      <p class="brand-subtitle">Barangay Bulacao Equipment Borrowing Management System</p>
+    </header>
+
+    <!-- Login Card -->
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Sign in to BorrowHub</h2>
+        <p class="card-description"> Enter your staff username or email address to sign in to BorrowHub.</p>
+      </div> <br>
+      
+
+      <form class="login-form" id="loginForm" onsubmit="event.preventDefault();">
+        <!-- Username / Email Field -->
+        <div class="form-group">
+          <label for="username">Username or Official Email</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <!-- ID Card / Badge Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+                <path d="M7 8h2"></path>
+                <path d="M7 11h6"></path>
+              </svg>
+            </span>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              placeholder="e.g. joan.borres@gmail.com" 
+              autocomplete="username"
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <span class="input-icon">
+              <!-- Lock Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              placeholder="••••••••••••" 
+              autocomplete="current-password"
+              required
+            >
+            <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
+              <!-- Eye Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember Me Checkbox -->
+        <div class="checkbox-group">
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">Remember this device</label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-submit">
+          <span>Sign In to Barangay BorrowHub</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    const toggleBtn = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    toggleBtn.addEventListener('click', () => {
+      const isPassword = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+    });
+  </script>
+</body>
+</html>
