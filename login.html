@@ -33,7 +33,7 @@
       </div> <br>
       
 
-      <form class="login-form" id="loginForm" onsubmit="event.preventDefault();">
+      <form class="login-form" id="loginForm">
         <!-- Username / Email Field -->
         <div class="form-group">
           <label for="username">Username or Official Email</label>
@@ -100,14 +100,6 @@
     </div>
   </main>
 
-  <script>
-    const toggleBtn = document.getElementById('togglePassword');
-    const passwordInput = document.getElementById('password');
-
-    toggleBtn.addEventListener('click', () => {
-      const isPassword = passwordInput.getAttribute('type') === 'password';
-      passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
-    });
-  </script>
+  <script src="js/login.js" defer></script>
 </body>
 </html>
