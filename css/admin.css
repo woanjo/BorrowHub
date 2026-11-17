@@ -1,40 +1,40 @@
 :root {
-  --bg-page: #f4f9f6;
-  --bg-surface: #ffffff;
-  --bg-mint-bar: #e2f1e8;
-  --bg-mint-tint: #e6f4ea;
-  --bg-mint-track: #d5ebd9;
-  --bg-table-head: #e4f1e8;
-  --bg-table-foot: #e8f3ec;
-  --bg-row-overdue: #fdf3f3;
+    --bg-page: #f4f9f6;
+    --bg-surface: #ffffff;
+    --bg-mint-bar: #e2f1e8;
+    --bg-mint-tint: #e6f4ea;
+    --bg-mint-track: #d5ebd9;
+    --bg-table-head: #e4f1e8;
+    --bg-table-foot: #e8f3ec;
+    --bg-row-overdue: #fdf3f3;
 
-  --forest-primary: #134e31;
-  --forest-hover: #0e3d26;
-  --forest-text: #114b2f;
+    --forest-primary: #134e31;
+    --forest-hover: #0e3d26;
+    --forest-text: #114b2f;
 
-  --text-primary: #1a241f;
-  --text-secondary: #5c6b63;
-  --text-muted: #76857d;
+    --text-primary: #1a241f;
+    --text-secondary: #5c6b63;
+    --text-muted: #76857d;
 
-  --danger-red: #c23028;
-  --danger-bright: #dc2626;
-  --danger-bg: #fee2e2;
-  --danger-pill-bg: #fce8e8;
+    --danger-red: #c23028;
+    --danger-bright: #dc2626;
+    --danger-bg: #fee2e2;
+    --danger-pill-bg: #fce8e8;
 
-  --badge-green-bg: #d4eddc;
-  --badge-green-text: #1b653d;
-  --badge-gray-bg: #e6ede9;
-  --badge-gray-text: #4c5b53;
+    --badge-green-bg: #d4eddc;
+    --badge-green-text: #1b653d;
+    --badge-gray-bg: #e6ede9;
+    --badge-gray-text: #4c5b53;
 
-  --border-light: #e5ece8;
-  --border-card: #e1ebe5;
-  --shadow-card: 0 1px 3px rgba(19, 78, 49, 0.04), 0 1px 2px rgba(19, 78, 49, 0.02);
-  --shadow-dropdown: 0 10px 25px -5px rgba(15, 45, 30, 0.12), 0 4px 10px -2px rgba(15, 45, 30, 0.06);
+    --border-light: #e5ece8;
+    --border-card: #e1ebe5;
+    --shadow-card: 0 1px 3px rgba(19, 78, 49, 0.04), 0 1px 2px rgba(19, 78, 49, 0.02);
+    --shadow-dropdown: 0 10px 25px -5px rgba(15, 45, 30, 0.12), 0 4px 10px -2px rgba(15, 45, 30, 0.06);
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 12px;
-  --radius-pill: 9999px;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+    --radius-pill: 9999px;
 
     --green: #205f49;
     --deep: #064b37;
@@ -49,34 +49,37 @@
 /* ==========================================================================
    Base & Reset
    ========================================================================== */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-html, body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--bg-page);
-  color: var(--text-primary);
-  font-size: 14px;
-  line-height: 1.45;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+html,
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
 button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  background: none;
-  color: inherit;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: inherit;
 }
 
 a {
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 /* ==========================================================================
@@ -312,7 +315,7 @@ a {
 .page {
     max-width: 1500px;
     margin: 0 auto;
-    padding: 18px 3.1% 38px
+    padding: 18px 3.1% 38px;
 }
 
 .page-heading {
@@ -323,19 +326,19 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 2px 4px #16452a0b
+    box-shadow: 0 2px 4px #16452a0b;
 }
 
 .heading-title {
     display: flex;
     align-items: center;
-    gap: 17px
+    gap: 17px;
 }
 
 .heading-title h1 {
     font-size: 29px;
     margin: 0;
-    letter-spacing: -1px
+    letter-spacing: -1px;
 }
 
 .heading-icon {
@@ -346,7 +349,7 @@ a {
     border-radius: 10px;
     display: grid;
     place-items: center;
-    font-size: 23px
+    font-size: 23px;
 }
 
 .primary-btn {
@@ -357,7 +360,7 @@ a {
     border-radius: 5px;
     font: 600 14px Inter;
     cursor: pointer;
-    box-shadow: 0 2px 4px #123b2920
+    box-shadow: 0 2px 4px #123b2920;
 }
 
 .primary-btn:hover {
@@ -394,12 +397,12 @@ a {
 
 .stat-card strong {
     font-size: 38px;
-    line-height: 1
+    line-height: 1;
 }
 
 .stat-card small {
     color: var(--muted);
-    margin-left: 8px
+    margin-left: 8px;
 }
 
 .dot {
@@ -408,12 +411,16 @@ a {
     border-radius: 50%;
     display: inline-block;
     margin-left: 6px;
-    margin-right: 4px
+    margin-right: 4px;
 }
 
-.dot.green {background-color: #16a34a; }
+.dot.green {
+    background-color: #16a34a;
+}
 
-.dot.gray { background-color: #9ca3af; }
+.dot.gray {
+    background-color: #9ca3af;
+}
 
 
 .stat-icon {
@@ -429,12 +436,12 @@ a {
 
 .stat-icon.active {
     background: #ccefd6;
-    color: #52765d
+    color: #52765d;
 }
 
 .stat-icon.inactive {
     background: #e2eee6;
-    color: #4e5f55
+    color: #4e5f55;
 }
 
 .toolbar {
@@ -444,7 +451,7 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 25px
+    margin-bottom: 25px;
 }
 
 .search-box {
@@ -456,7 +463,7 @@ a {
     align-items: center;
     gap: 13px;
     padding: 0 15px;
-    color: #52745f
+    color: #52745f;
 }
 
 .search-box input {
@@ -465,7 +472,7 @@ a {
     background: transparent;
     width: 100%;
     font: 14px Inter;
-    color: var(--text)
+    color: var(--text);
 }
 
 .filter-tabs {
@@ -473,7 +480,7 @@ a {
     padding: 4px;
     border-radius: 6px;
     display: flex;
-    gap: 3px
+    gap: 3px;
 }
 
 .filter-tabs button {
@@ -483,12 +490,12 @@ a {
     padding: 9px 18px;
     border-radius: 6px;
     font: 600 12px Inter;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .filter-tabs button.selected {
     background: #205f49;
-    color: #fff
+    color: #fff;
 }
 
 .table-card {
@@ -496,21 +503,21 @@ a {
     border: 1px solid var(--line);
     border-radius: 9px;
     overflow: hidden;
-    box-shadow: 0 2px 4px #123b290c
+    box-shadow: 0 2px 4px #123b290c;
 }
 
 .table-scroll {
-    overflow-x: auto
+    overflow-x: auto;
 }
 
 table {
     border-collapse: collapse;
     width: 100%;
-    min-width: 900px
+    min-width: 900px;
 }
 
 thead {
-    background: #e8f6ed
+    background: #e8f6ed;
 }
 
 th {
@@ -519,7 +526,11 @@ th {
     color: #52705c;
     font-size: 11px;
     letter-spacing: .4px;
-    white-space: nowrap
+    white-space: nowrap;
+}
+
+.th-actions {
+    text-align: center;
 }
 
 td {
@@ -527,11 +538,11 @@ td {
     border-top: 1px solid var(--line);
     color: #53635a;
     font-size: 12px;
-    white-space: nowrap
+    white-space: nowrap;
 }
 
 tbody tr:hover {
-    background: #f8fcf9
+    background: #f8fcf9;
 }
 
 .person-cell {
@@ -540,7 +551,7 @@ tbody tr:hover {
     gap: 15px;
     color: var(--text);
     font-weight: 650;
-    font-size: 14px
+    font-size: 14px;
 }
 
 .initials {
@@ -553,32 +564,32 @@ tbody tr:hover {
     color: #173f2d;
     font-size: 15px;
     font-weight: 700;
-    border: 1px solid #a9d4b7
+    border: 1px solid #a9d4b7;
 }
 
 .initials.a2 {
-    background: #b7f0d9
+    background: #b7f0d9;
 }
 
 .initials.a3 {
     background: #dce9e0;
-    color: #4c5b52
+    color: #4c5b52;
 }
 
 .initials.a4 {
     background: #205f49;
     color: #fff;
-    border: 2px solid #b4dbc1
+    border: 2px solid #b4dbc1;
 }
 
 .initials.a5 {
     background: #034b36;
-    color: #fff
+    color: #fff;
 }
 
 .initials.a6 {
     background: #e4eee7;
-    color: #5c6d62
+    color: #5c6d62;
 }
 
 .you-tag {
@@ -586,7 +597,7 @@ tbody tr:hover {
     background: #dff0e5;
     color: #064b37;
     padding: 5px 7px;
-    border-radius: 3px
+    border-radius: 3px;
 }
 
 .role-pill,
@@ -599,30 +610,30 @@ tbody tr:hover {
     background: #e0eee4;
     color: #56735f;
     font-size: 11px;
-    font-weight: 700
+    font-weight: 700;
 }
 
 .role-pill.admin {
     background: #ccefd5;
-    color: #205f49
+    color: #205f49;
 }
 
 .status-pill {
     background: #d9f2df;
     color: #54765d;
-    border: 1px solid #bce7c6
+    border: 1px solid #bce7c6;
 }
 
 .status-pill.inactive {
     background: #e5eee8;
     color: #58645d;
-    border-color: #c7d5cc
+    border-color: #c7d5cc;
 }
 
 .actions {
     display: flex;
     align-items: center;
-    gap: 23px
+    gap: 23px;
 }
 
 .actions button {
@@ -631,7 +642,7 @@ tbody tr:hover {
     color: #45534b;
     font: 600 12px Inter;
     cursor: pointer;
-    padding: 4px
+    padding: 4px;
 }
 
 .actions button:hover {
@@ -644,12 +655,12 @@ tbody tr:hover {
     justify-content: space-between;
     padding: 17px 25px;
     color: #55715f;
-    font-size: 12px
+    font-size: 12px;
 }
 
 .pagination {
     display: flex;
-    gap: 5px
+    gap: 5px;
 }
 
 .pagination button {
@@ -657,7 +668,7 @@ tbody tr:hover {
     background: #fff;
     color: #9aada0;
     padding: 8px 12px;
-    border-radius: 4px
+    border-radius: 4px;
 }
 
 .pagination .current-page {
@@ -674,11 +685,11 @@ tbody tr:hover {
     display: grid;
     place-items: center;
     padding: 20px;
-    z-index: 20
+    z-index: 20;
 }
 
 .hidden {
-    display: none !important
+    display: none !important;
 }
 
 .modal {
@@ -689,7 +700,7 @@ tbody tr:hover {
     max-height: 92vh;
     overflow: auto;
     box-shadow: 0 20px 55px #102d1e40;
-    padding: 25px 26px 18px
+    padding: 25px 26px 18px;
 }
 
 .icon-close {
@@ -701,31 +712,31 @@ tbody tr:hover {
     color: #506a59;
     font-size: 20px;
     cursor: pointer;
-    z-index: 2
+    z-index: 2;
 }
 
 .modal-header {
     display: flex;
     align-items: center;
     gap: 14px;
-    margin: 0 30px 20px 0
+    margin: 0 30px 20px 0;
 }
 
 .modal-icon {
     width: 48px;
     height: 48px;
     border-radius: 10px;
-    background: #e1f3e7;
+    background: #CAEBCF;
     color: #064b37;
     display: grid;
     place-items: center;
-    font-size: 21px
+    font-size: 21px;
 }
 
 .modal-header h2 {
     font-size: 20px;
     margin: 0;
-    letter-spacing: -.5px
+    letter-spacing: -.5px;
 }
 
 .id-tag {
@@ -734,7 +745,7 @@ tbody tr:hover {
     font-size: 11px;
     font-weight: 700;
     padding: 7px 10px;
-    border-radius: 20px
+    border-radius: 20px;
 }
 
 .account-state {
@@ -745,7 +756,7 @@ tbody tr:hover {
     padding: 5px 10px;
     font-size: 11px;
     margin-top: 5px;
-    width: max-content
+    width: max-content;
 }
 
 .identity-card {
@@ -756,7 +767,7 @@ tbody tr:hover {
     border: 1px solid #e4eee7;
     border-radius: 11px;
     padding: 18px;
-    margin-bottom: 15px
+    margin-bottom: 15px;
 }
 
 .big-initials {
@@ -769,43 +780,43 @@ tbody tr:hover {
     display: grid;
     place-items: center;
     font-size: 26px;
-    font-weight: 600
+    font-weight: 600;
 }
 
 .identity-card h3 {
     margin: 0 0 6px;
-    font-size: 21px
+    font-size: 21px;
 }
 
 .identity-card p {
     margin: 0 0 7px;
-    color: var(--muted)
+    color: var(--muted);
 }
 
 .identity-id {
     font-size: 11px;
-    color: #64756b
+    color: #64756b;
 }
 
 .section-card {
     border: 1px solid #e4eee7;
     border-radius: 11px;
     padding: 20px;
-    margin-bottom: 15px
+    margin-bottom: 15px;
 }
 
 .section-card h3 {
     font-size: 13px;
     color: #064b37;
     margin: 0 0 18px;
-    letter-spacing: .2px
+    letter-spacing: .2px;
 }
 
 .info-grid,
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 13px
+    gap: 13px;
 }
 
 .info-item {
@@ -815,7 +826,7 @@ tbody tr:hover {
     display: flex;
     align-items: center;
     gap: 13px;
-    min-height: 64px
+    min-height: 64px;
 }
 
 .info-item i {
@@ -825,30 +836,30 @@ tbody tr:hover {
     color: #064b37;
     border-radius: 8px;
     display: grid;
-    place-items: center
+    place-items: center;
 }
 
 .info-item small,
 .info-item b {
-    display: block
+    display: block;
 }
 
 .info-item small {
     color: #64806d;
     font-size: 11px;
-    margin-bottom: 4px
+    margin-bottom: 4px;
 }
 
 .info-item b {
     font-size: 12px;
-    font-weight: 600
+    font-weight: 600;
 }
 
 .modal-footer {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    padding-top: 10px
+    padding-top: 10px;
 }
 
 .soft-btn,
@@ -857,28 +868,28 @@ tbody tr:hover {
     border: 0;
     border-radius: 5px;
     font: 600 12px Inter;
-    cursor: pointer
+    cursor: pointer;
 }
 
 .soft-btn {
     background: #e2f2e7;
-    color: #263e30
+    color: #263e30;
 }
 
 .primary-btn.compact {
     background: #064b37;
-    color: white
+    color: white;
 }
 
 .form-grid {
-    gap: 17px 16px
+    gap: 17px 16px;
 }
 
 .field label {
     display: block;
     font-weight: 650;
     font-size: 12px;
-    margin-bottom: 7px
+    margin-bottom: 7px;
 }
 
 .field input,
@@ -891,53 +902,55 @@ tbody tr:hover {
     padding: 0 13px;
     font: 13px Inter;
     color: #24382c;
-    outline: 1px solid transparent
+    outline: 1px solid transparent;
 }
 
 .field input:focus,
 .field select:focus {
-    outline: 1px solid #6ca985
+    outline: 1px solid #6ca985;
 }
 
 .field.full {
-    grid-column: 1/-1
+    grid-column: 1/-1;
 }
 
 .field-note {
     font-size: 10px;
     color: #64806d;
-    margin-top: 5px
+    margin-top: 5px;
 }
 
 .required {
-    color: #b33b36
+    color: #b33b36;
 }
 
 .readonly {
     background: #dcece1 !important;
-    color: #5e7665 !important
+    color: #5e7665 !important;
 }
 
 .status-options {
     display: flex;
-    gap: 12px
+    gap: 12px;
 }
 
 .status-option {
     flex: 1;
     background: #e8f6ed;
-    padding: 13px;
+    padding: 12px;
     border-radius: 5px;
-    font-size: 12px
+    font-size: 12px;
 }
 
 .status-option input {
     accent-color: #064b37;
-    margin-right: 8px
+    height: 13px;
+    width: 13px;
+    margin-right: 8px;
 }
 
 .restricted-overlay {
-    background: #20362b
+    background: #20362b;
 }
 
 .restricted-card {
@@ -945,19 +958,19 @@ tbody tr:hover {
     width: min(536px, 94vw);
     border-radius: 9px;
     padding: 34px;
-    box-shadow: 0 20px 55px #071a1040
+    box-shadow: 0 20px 55px #071a1040;
 }
 
 .restricted-heading {
     display: flex;
     align-items: center;
     gap: 20px;
-    margin-bottom: 19px
+    margin-bottom: 19px;
 }
 
 .restricted-heading h2 {
     font-size: 21px;
-    margin: 0
+    margin: 0;
 }
 
 .restricted-icon {
@@ -969,7 +982,7 @@ tbody tr:hover {
     display: grid;
     place-items: center;
     font-size: 22px;
-    position: relative
+    position: relative;
 }
 
 .mini-lock {
@@ -979,24 +992,24 @@ tbody tr:hover {
     background: white;
     border-radius: 50%;
     padding: 4px;
-    font-size: 11px
+    font-size: 11px;
 }
 
 .restricted-card p {
     font-size: 14px;
     line-height: 1.7;
     color: #56615a;
-    margin: 0
+    margin: 0;
 }
 
 .restricted-actions {
     display: flex;
     justify-content: flex-end;
-    margin-top: 25px
+    margin-top: 25px;
 }
 
 .restricted-actions button {
-    padding: 11px 22px
+    padding: 11px 22px;
 }
 
 .toast {
@@ -1009,37 +1022,37 @@ tbody tr:hover {
     border-radius: 8px;
     box-shadow: var(--shadow);
     z-index: 50;
-    font-size: 13px
+    font-size: 13px;
 }
 
 @media(max-width:1100px) {
     .topbar {
         gap: 10px;
-        padding: 0 18px
+        padding: 0 18px;
     }
 
     .main-nav {
-        gap: 0
+        gap: 0;
     }
 
     .main-nav a,
     .main-nav button {
         padding: 10px 7px;
-        font-size: 12px
+        font-size: 12px;
     }
 
     .main-nav a i,
     .main-nav button i {
-        margin-right: 4px
+        margin-right: 4px;
     }
 
     .profile-button {
-        padding: 7px
+        padding: 7px;
     }
 
     .page {
         padding-left: 18px;
-        padding-right: 18px
+        padding-right: 18px;
     }
 }
 
@@ -1048,87 +1061,87 @@ tbody tr:hover {
         height: auto;
         min-height: 70px;
         flex-wrap: wrap;
-        padding: 10px 14px
+        padding: 10px 14px;
     }
 
     .main-nav {
         order: 3;
         overflow-x: auto;
         width: 100%;
-        justify-content: flex-start
+        justify-content: flex-start;
     }
 
     .profile-area {
-        margin-left: auto
+        margin-left: auto;
     }
 
     .page-heading {
         align-items: flex-start;
         gap: 16px;
-        flex-direction: column
+        flex-direction: column;
     }
 
     .heading-title h1 {
-        font-size: 24px
+        font-size: 24px;
     }
 
     .stats {
         grid-template-columns: 1fr;
         gap: 10px;
-        margin: 15px 0
+        margin: 15px 0;
     }
 
     .stat-card {
         min-height: 90px;
-        padding: 16px 20px
+        padding: 16px 20px;
     }
 
     .toolbar {
         gap: 12px;
         align-items: stretch;
-        flex-direction: column
+        flex-direction: column;
     }
 
     .search-box {
-        width: 100%
+        width: 100%;
     }
 
     .filter-tabs {
-        justify-content: space-between
+        justify-content: space-between;
     }
 
     .filter-tabs button {
-        flex: 1
+        flex: 1;
     }
 
     .table-footer {
         gap: 12px;
         align-items: flex-start;
-        flex-direction: column
+        flex-direction: column;
     }
 
     .modal {
-        padding: 22px 17px
+        padding: 22px 17px;
     }
 
     .info-grid,
     .form-grid {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
     }
 
     .field.full {
-        grid-column: auto
+        grid-column: auto;
     }
 
     .status-options {
-        flex-direction: column
+        flex-direction: column;
     }
 
     .restricted-card {
-        padding: 25px
+        padding: 25px;
     }
 
     .restricted-heading {
-        gap: 13px
+        gap: 13px;
     }
 }
