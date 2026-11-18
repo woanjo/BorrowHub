@@ -300,7 +300,6 @@ a {
     border-bottom: 1px solid #d5e8dc;
 }
 
-/* Mobile Hamburger Button */
 .mobile-menu-btn {
     display: none;
     align-items: center;
@@ -316,16 +315,19 @@ a {
     padding: 24px 30px 48px
 }
 
-.page-heading h1 {
-    margin: 0 0 5px;
-    font-size: 30px;
-    letter-spacing: -1px
+.page-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--forest-primary);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  margin-bottom: 6px;
 }
 
-.page-heading p {
-    margin: 0;
-    color: #4e5b54;
-    font-size: 14px
+.page-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 400;
 }
 
 .stats-grid {
@@ -354,7 +356,7 @@ a {
 .stat-label {
     color: #4d5852;
     font-size: 11px;
-    font-weight: 800;
+    font-weight: 700;
     letter-spacing: .4px
 }
 
@@ -635,12 +637,10 @@ td:last-child {
 
 .description code {
     color: #07543d;
-    font: 11px ui-monospace, Consolas, monospace
 }
 
 .date-text {
     color: #58635d;
-    font: 10px ui-monospace, Consolas, monospace
 }
 
 .empty-state {
