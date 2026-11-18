@@ -379,7 +379,7 @@ a {
     padding: 4px 8px;
     border-radius: 20px;
     background: #e8f7ed;
-    color: var(--deep);
+    color: #04432F;
     font-size: 10px;
     font-style: normal;
     letter-spacing: 0
@@ -408,8 +408,8 @@ a {
     gap: 10px;
     border: 1px solid #dceee2;
     border-radius: 8px;
-    background: #eaf7ee;
-    color: #667a6e
+    background: #E8F7ED;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05) inset;
 }
 
 .search-box input {

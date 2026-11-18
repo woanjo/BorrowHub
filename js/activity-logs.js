@@ -155,15 +155,18 @@ tabs.forEach(tab => tab.addEventListener("click", () => {
   currentPage = 1;
   renderRows();
 }));
+
 searchInput.addEventListener("input", () => { currentPage = 1; renderRows(); });
 dateFilter.addEventListener("change", () => { currentPage = 1; renderRows(); });
 document.getElementById("prevPage").addEventListener("click", () => {
   if (currentPage > 1) { currentPage--; renderRows(); }
 });
+
 document.getElementById("nextPage").addEventListener("click", () => { currentPage++; renderRows(); });
 document.querySelectorAll(".page-number").forEach(btn => btn.addEventListener("click", () => {
   currentPage = Number(btn.dataset.page); renderRows();
 }));
+
 document.getElementById("menuToggle").addEventListener("click", () =>
   document.getElementById("mainNav").classList.toggle("open"));
 
