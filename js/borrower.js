@@ -180,6 +180,88 @@
   var keyCounter = borrowers.length;
   var state = { page: 1, search: '', purok: 'All', status: 'All', selected: borrowers[1].key };
 
+  // Administration Access Restriction
+const adminWrapper = document.getElementById('adminDropdownWrapper');
+const adminBtn = document.getElementById('adminDropdownBtn');
+
+const restrictedOverlay = document.getElementById('restrictedOverlay');
+const closeRestricted = document.getElementById('closeRestricted');
+
+// Get the authenticated account role from the HTML body
+const accountRole = (
+    document.body.dataset.role || ''
+).trim().toLowerCase();
+
+// Check whether the account is an administrator
+const isAdmin = accountRole === 'admin';
+
+// Display the restriction modal
+function showRestrictedModal() {
+    if (restrictedOverlay) {
+        restrictedOverlay.classList.remove('hidden');
+    }
+}
+
+// Close the restriction modal
+function hideRestrictedModal() {
+    if (restrictedOverlay) {
+        restrictedOverlay.classList.add('hidden');
+    }
+}
+
+// Administration dropdown click
+if (adminBtn && adminWrapper) {
+    adminBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Staff accounts cannot access Administration
+        if (!isAdmin) {
+            adminWrapper.classList.remove('open');
+            adminBtn.setAttribute('aria-expanded', 'false');
+
+            showRestrictedModal();
+            return;
+        }
+
+        // Admin accounts can access Administration
+        const isOpen = adminWrapper.classList.toggle('open');
+
+        adminBtn.setAttribute(
+            'aria-expanded',
+            String(isOpen)
+        );
+    });
+}
+
+// Close restriction modal using the Close button
+if (closeRestricted) {
+    closeRestricted.addEventListener('click', hideRestrictedModal);
+}
+
+// Close restriction modal when clicking outside the card
+if (restrictedOverlay) {
+    restrictedOverlay.addEventListener('click', (e) => {
+        if (e.target === restrictedOverlay) {
+            hideRestrictedModal();
+        }
+    });
+}
+
+// Close Administration dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    if (
+        adminWrapper &&
+        !adminWrapper.contains(e.target)
+    ) {
+        adminWrapper.classList.remove('open');
+
+        if (adminBtn) {
+            adminBtn.setAttribute('aria-expanded', 'false');
+        }
+    }
+});
+
   /* ------------------------------------------------------------------
      Toast Helper
      ------------------------------------------------------------------ */
@@ -208,28 +290,6 @@
       toast(btn.getAttribute('data-toast'));
     });
   });
-
-  /* ------------------------------------------------------------------
-     Navbar & Filter Dropdowns
-     ------------------------------------------------------------------ */
-  var adminWrap = $('#adminDropdownWrapper');
-  var adminBtn = $('#adminDropdownBtn');
-  if (adminBtn && adminWrap) {
-    adminBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var open = adminWrap.classList.toggle('open');
-      adminBtn.setAttribute('aria-expanded', String(open));
-    });
-  }
-
-  var mobileBtn = $('#mobileMenuBtn');
-  var navLinks = $('#navLinks');
-  if (mobileBtn && navLinks) {
-    mobileBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      navLinks.classList.toggle('open');
-    });
-  }
 
   function setupFilterDropdown(wrapId, key) {
     var wrap = $('#' + wrapId);

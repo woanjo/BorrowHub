@@ -566,45 +566,86 @@
     });
   });
 
-  // Top Navbar Administration Dropdown & Mobile Menu
-  const adminWrapper = document.getElementById('adminDropdownWrapper');
-  const adminBtn = document.getElementById('adminDropdownBtn');
+// Administration Access Restriction
+const adminWrapper = document.getElementById('adminDropdownWrapper');
+const adminBtn = document.getElementById('adminDropdownBtn');
 
-  if (adminBtn && adminWrapper) {
+const restrictedOverlay = document.getElementById('restrictedOverlay');
+const closeRestricted = document.getElementById('closeRestricted');
+
+// Get the authenticated account role from the HTML body
+const accountRole = (
+    document.body.dataset.role || ''
+).trim().toLowerCase();
+
+// Check whether the account is an administrator
+const isAdmin = accountRole === 'admin';
+
+// Display the restriction modal
+function showRestrictedModal() {
+    if (restrictedOverlay) {
+        restrictedOverlay.classList.remove('hidden');
+    }
+}
+
+// Close the restriction modal
+function hideRestrictedModal() {
+    if (restrictedOverlay) {
+        restrictedOverlay.classList.add('hidden');
+    }
+}
+
+// Administration dropdown click
+if (adminBtn && adminWrapper) {
     adminBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isOpen = adminWrapper.classList.toggle('open');
-      adminBtn.setAttribute('aria-expanded', String(isOpen));
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Staff accounts cannot access Administration
+        if (!isAdmin) {
+            adminWrapper.classList.remove('open');
+            adminBtn.setAttribute('aria-expanded', 'false');
+
+            showRestrictedModal();
+            return;
+        }
+
+        // Admin accounts can access Administration
+        const isOpen = adminWrapper.classList.toggle('open');
+
+        adminBtn.setAttribute(
+            'aria-expanded',
+            String(isOpen)
+        );
     });
-  }
+}
 
-  document.addEventListener('click', (e) => {
-    if (adminWrapper && !adminWrapper.contains(e.target)) {
-      adminWrapper.classList.remove('open');
-      adminBtn.setAttribute('aria-expanded', 'false');
-    }
-    if (catFilterWrap && !catFilterWrap.contains(e.target)) {
-      catFilterWrap.classList.remove('open');
-      catFilterBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
+// Close restriction modal using the Close button
+if (closeRestricted) {
+    closeRestricted.addEventListener('click', hideRestrictedModal);
+}
 
-  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-  const navLinks = document.getElementById('navLinks');
-  if (mobileMenuBtn && navLinks) {
-    mobileMenuBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('mobile-open');
+// Close restriction modal when clicking outside the card
+if (restrictedOverlay) {
+    restrictedOverlay.addEventListener('click', (e) => {
+        if (e.target === restrictedOverlay) {
+            hideRestrictedModal();
+        }
     });
-  }
+}
 
-  document.querySelectorAll('button.nav-btn[data-nav]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.nav-btn[data-nav]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    if (navLinks) navLinks.classList.remove('mobile-open');
-    const mod = btn.getAttribute('data-nav');
-    showToast(`Switched view to ${mod} module`);
-  });
+// Close Administration dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    if (
+        adminWrapper &&
+        !adminWrapper.contains(e.target)
+    ) {
+        adminWrapper.classList.remove('open');
+
+        if (adminBtn) {
+            adminBtn.setAttribute('aria-expanded', 'false');
+        }
+    }
 });
 
   // Toast Notification Helper

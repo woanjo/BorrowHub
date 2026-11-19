@@ -867,6 +867,89 @@ a {
   color: var(--text-muted);
 }
 
+.hidden {
+  display: none !important;
+}
+
+.restricted-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.restricted-overlay.hidden {
+  display: none !important;
+}
+
+.restricted-card {
+  background: #fff;
+  width: min(536px, 94vw);
+  border-radius: 9px;
+  padding: 34px;
+  box-shadow: 0 20px 55px #071a1040;
+}
+
+.restricted-heading {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 19px;
+}
+
+.restricted-heading h2 {
+  font-size: 21px;
+  margin: 0;
+}
+
+.restricted-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 9px;
+  background: #e3f3e8;
+  color: #064b37;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  position: relative;
+}
+
+.mini-lock {
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  background: white;
+  border-radius: 50%;
+  padding: 4px;
+  font-size: 11px;
+}
+
+.restricted-card p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #56615a;
+  margin: 0;
+}
+
+.restricted-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
+  color: #ffffff;
+}
+
+.restricted-actions button {
+  padding: 11px 22px;
+  background: #245B45;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.15s ease;
+}
+
 /* ==========================================================================
    Toast Notification (Subtle Interactive Feedback)
    ========================================================================== */
