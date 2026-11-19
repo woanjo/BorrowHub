@@ -12,7 +12,6 @@
   const summaryEl = document.getElementById('paginationSummary');
   const prevBtn = document.getElementById('prevPageBtn');
   const nextBtn = document.getElementById('nextPageBtn');
-  const paginationControls = document.getElementById('paginationControls');
 
   const overdueListContainer = document.getElementById('overdueListContainer');
   const overduePanelCount = document.getElementById('overduePanelCount');
@@ -23,10 +22,12 @@
     if (overduePanelCount) overduePanelCount.textContent = overdueList.length;
 
     if (overdueList.length === 0) {
-      overdueListContainer.innerHTML = `<div class="empty-panel-msg" style="padding: 16px 0; color: var(--text-muted); font-size: 13px;">No overdue borrowings found.</div>`;
+      overdueListContainer.style.justifyContent = 'center';
+      overdueListContainer.innerHTML = `<div class="empty-panel-msg" style="padding: 36px 24px; color: var(--text-muted); font-size: 13.5px; text-align: center;">No overdue borrowings found.</div>`;
       return;
     }
 
+    overdueListContainer.style.justifyContent = 'flex-start';
     overdueListContainer.innerHTML = overdueList.map(item => `
       <div class="overdue-item">
         <div class="overdue-item-top">
@@ -51,10 +52,12 @@
     if (!categoryAvailabilityList) return;
 
     if (categoryStatsList.length === 0) {
-      categoryAvailabilityList.innerHTML = `<div class="empty-panel-msg" style="padding: 16px 0; color: var(--text-muted); font-size: 13px;">No category inventory data available.</div>`;
+      categoryAvailabilityList.style.justifyContent = 'center';
+      categoryAvailabilityList.innerHTML = `<div class="empty-panel-msg" style="padding: 36px 24px; color: var(--text-muted); font-size: 13.5px; text-align: center;">No category inventory data available.</div>`;
       return;
     }
 
+    categoryAvailabilityList.style.justifyContent = 'flex-start';
     categoryAvailabilityList.innerHTML = categoryStatsList.map(cat => {
       const pct = cat.total > 0 ? Math.round((cat.available / cat.total) * 10000) / 100 : 0;
       return `
@@ -80,7 +83,7 @@
     if (totalRecords === 0) {
       tbody.innerHTML = `
         <tr>
-          <td colspan="5" style="text-align:center; padding: 24px; color: var(--text-muted);">No borrowing transactions recorded yet.</td>
+          <td colspan="5" style="text-align:center; padding: 28px; color: var(--text-muted);">No borrowing transactions recorded yet.</td>
         </tr>
       `;
       summaryEl.innerHTML = `Showing <strong>0</strong> of 0 Borrowers`;
