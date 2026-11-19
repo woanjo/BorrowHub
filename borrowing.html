@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BorrowHub | Borrowing</title>
+  <link rel="stylesheet" href="css/borrowing.css">
+
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-area">
+      <div class="logo" aria-label="BorrowHub logo">◉</div>
+      <div class="brand">BorrowHub</div>
+    </div>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="nav-item" href="dashboard.html"><span class="ico">▦</span>Dashboard</a>
+      <a class="nav-item" href="equipment.html"><span class="ico">⚒</span>Equipment</a>
+      <a class="nav-item" href="borrower.html"><span class="ico">♧</span>Borrower</a>
+      <a class="nav-item active" href="borrowing.html" aria-current="page"><span class="ico">⊞</span>Borrowing</a>
+      <a class="nav-item" href="return.html"><span class="ico">☑</span>Return</a>
+      <a class="nav-item" href="activity-logs.html"><span class="ico">◷</span>History</a>
+      <a class="nav-item" href="admin.html"><span class="ico">♢</span>Administration⌄</a>
+    </nav>
+    <div class="profile">
+      <div class="avatar">♟</div>
+      <div><strong>Solana Rodrigo</strong><small>Staff</small></div>
+      <span class="logout">⇥</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="heading">
+      <div>
+        <h1>Borrowing</h1>
+        <div class="subtitle">Manage equipment borrowing transactions.</div>
+      </div>
+      <button class="primary" onclick="openBorrowingModal()">＋ New Borrowing</button>
+    </section>
+
+    <section class="metrics" aria-label="Borrowing summary">
+      <div class="metric">
+        <div><div class="metric-label">ACTIVE TRANSACTION</div><div class="metric-value">14</div></div>
+        <div class="metric-icon">♧</div>
+      </div>
+      <div class="metric due">
+        <div><div class="metric-label">DUE TODAY</div><div class="metric-value">5</div></div>
+        <div class="metric-icon">⇥</div>
+      </div>
+      <div class="metric overdue">
+        <div><div class="metric-label">OVERDUE</div><div class="metric-value">3</div></div>
+        <div class="metric-icon">⚠</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="toolbar">
+        <div class="search-group">
+          <input id="search" class="search" type="search" placeholder="⌕   Search by borrower, equipment, or reference..." aria-label="Search borrowing records" />
+          <button class="date-button" onclick="alert('Date range filter can be connected here.')">▣ &nbsp;All Date Ranges⌄</button>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Filter borrowing records">
+          <button class="tab active" data-filter="All">All (24)</button>
+          <button class="tab" data-filter="Active">Active (14)</button>
+          <button class="tab due-tab" data-filter="Due Today">Due Today (5)</button>
+          <button class="tab overdue-tab" data-filter="Overdue">Overdue (3)</button>
+          <button class="tab" data-filter="Returned">Returned (2)</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:18%">BORROWER</th>
+              <th style="width:27%">EQUIPMENT</th>
+              <th style="width:8%">QUANTITY</th>
+              <th style="width:12%">BORROWING<br>DATE</th>
+              <th style="width:12%">EXPECTED<br>RETURN</th>
+              <th style="width:11%">STATUS</th>
+              <th style="width:12%; text-align:center">ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody id="rows">
+            <tr data-status="Active">
+              <td>Maria Santos<span class="sub">Purok 2</span></td>
+              <td class="equipment">White Monobloc Chairs (Uratex 101) &amp; 6ft Tables</td>
+              <td class="qty">44 items</td>
+              <td class="date">Nov 4, 2026</td>
+              <td class="date">Nov 7, 2026</td>
+              <td><span class="status pending">● Pending</span></td>
+              <td><div class="actions"><button class="view" onclick="viewDetails('Maria Santos')">◎ &nbsp; View<br>Details</button></div></td>
+            </tr>
+            <tr data-status="Due Today">
+              <td>Roberto Diaz<span class="sub">Purok 1</span></td>
+              <td class="equipment">Heavy-Duty Tent (Canopy 10×10)</td>
+              <td class="qty orange">2 items</td>
+              <td class="date">Nov 2, 2026</td>
+              <td class="date orange">Nov 4, 2026</td>
+              <td><span class="status due-status">● Due<br>Today</span></td>
+              <td><div class="actions"><button class="view" onclick="viewDetails('Roberto Diaz')">◎ &nbsp; View<br>Details</button></div></td>
+            </tr>
+            <tr data-status="Due Today">
+              <td>Ricardo Dalisay<span class="sub">Purok 1</span></td>
+              <td class="equipment">Portable Sound System + Wireless Mics</td>
+              <td class="qty orange">2 items</td>
+              <td class="date">Oct 20, 2026</td>
+              <td class="date orange">Nov 4, 2026</td>
+              <td><span class="status due-status">● Due<br>Today</span></td>
+              <td><div class="actions"><button class="view" onclick="viewDetails('Ricardo Dalisay')">◎ &nbsp; View<br>Details</button></div></td>
+            </tr>
+            <tr class="overdue-row" data-status="Overdue">
+              <td>Eduardo Ramos<span class="sub">Purok 3</span></td>
+              <td class="equipment">Megaphone &amp; First Aid Kit Box</td>
+              <td class="qty red">2 items</td>
+              <td class="date">Oct 28, 2026</td>
+              <td class="date red">Nov 3, 2026</td>
+              <td><span class="status overdue-status">⊗ Overdue</span></td>
+              <td><div class="actions"><button class="view" onclick="viewDetails('Eduardo Ramos')">◎ &nbsp; View<br>Details</button></div></td>
+            </tr>
+            <tr data-status="Returned">
+              <td>Elena Bautista<span class="sub">Purok 4</span></td>
+              <td class="equipment">Foldable Chairs (Steel frame)</td>
+              <td class="qty">20 items</td>
+              <td class="date">Oct 25, 2026</td>
+              <td class="date">Oct 28, 2026</td>
+              <td><span class="status returned">● Returned</span></td>
+              <td><div class="actions"><button class="view" onclick="viewDetails('Elena Bautista')">◎ &nbsp; View<br>Details</button></div></td>
+            </tr>
+            <tr data-status="Returned">
+              <td>Nenita Gomez<span class="sub">Purok 5</span></td>
+              <td class="equipment">Grass Cutter &amp; Extension Reel</td>
+              <td class="qty">1 item</td>
+              <td class="date">Oct 18, 2026</td>
+              <td class="date">Oct 21, 2026</td>
+              <td><span class="status returned">● Returned</span></td>
+              <td><div class="actions"><button class="view" onclick="viewDetails('Nenita Gomez')">◎ &nbsp; View<br>Details</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+        <div id="empty" class="empty" hidden>No borrowing records match your search.</div>
+      </div>
+      <footer class="footer">
+        <div id="count">Showing 1 to 6 of 24 active and recent borrowing entries</div>
+        <div class="pagination">
+          <button class="page" disabled>Previous</button>
+          <button class="page current">1</button>
+          <button class="page">2</button>
+          <button class="page">3</button>
+          <button class="page">Next</button>
+        </div>
+      </footer>
+    </section>
+  </main>
+
+<!-- NEW BORROWING MODAL -->
+<div class="modal-backdrop" id="borrowingModal" aria-hidden="true">
+  <section class="borrowing-modal" role="dialog" aria-modal="true"
+           aria-labelledby="modalTitle">
+    <header class="modal-header">
+      <div>
+        <div class="form-tag">TRANSACTION FORM • FORM NO. BBH-2024-10</div>
+        <h2 id="modalTitle">New Borrowing</h2>
+        <p>Fill in the required information to issue barangay equipment. All fields marked with an asterisk (<b>*</b>) are mandatory.</p>
+      </div>
+      <button class="close-modal" type="button" aria-label="Close"
+              onclick="closeBorrowingModal()">×</button>
+    </header>
+
+    <form id="borrowingForm">
+      <div class="modal-content">
+
+        <section class="form-section">
+          <div class="section-heading">
+            <h3><span class="step-number">1</span> Borrower Information</h3>
+            <span>Step 1 of 3</span>
+          </div>
+
+          <label for="borrower">Select Registered Borrower <b>*</b></label>
+          <select id="borrower" required>
+            <option value="Joan Borres" selected>Joan Borres (Purok 2)</option>
+            <option value="Maria Santos">Maria Santos (Purok 2)</option>
+            <option value="Roberto Diaz">Roberto Diaz (Purok 1)</option>
+            <option value="Ricardo Dalisay">Ricardo Dalisay (Purok 1)</option>
+            <option value="Eduardo Ramos">Eduardo Ramos (Purok 3)</option>
+            <option value="Elena Bautista">Elena Bautista (Purok 4)</option>
+            <option value="Nenita Gomez">Nenita Gomez (Purok 5)</option>
+          </select>
+
+          <div class="borrower-info">
+            <div><span>Full Name:</span><strong id="borrowerName">Joan Borres</strong></div>
+            <div><span>Contact:</span><strong id="borrowerContact">0917-555-0192</strong></div>
+            <div><span>Registered Address:</span><strong id="borrowerAddress">Purok 2, Bulacao</strong></div>
+            <div><span>Active Borrowings &amp; Status:</span><strong>0 ongoing &nbsp; <em>Eligible</em></strong></div>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <div class="section-heading">
+            <h3><span class="step-number">2</span> Equipment Selection</h3>
+            <span>Step 2 of 3</span>
+          </div>
+
+          <div id="equipmentList">
+            <div class="equipment-entry">
+              <div class="equipment-description">
+                <strong>White Monobloc Chairs (Uratex)</strong>
+                <span>Available: 140 pcs</span>
+              </div>
+              <div class="equipment-quantity">
+                <label>Qty:</label>
+                <input class="quantity-input" type="number" min="1" max="140" value="10" required>
+                <span>pcs</span>
+                <button type="button" class="remove-equipment" aria-label="Remove equipment">▤</button>
+              </div>
+            </div>
+
+            <div class="equipment-entry">
+              <div class="equipment-description">
+                <strong>Heavy-Duty Foldable Tables 6ft</strong>
+                <span>Available: 25 pcs</span>
+              </div>
+              <div class="equipment-quantity">
+                <label>Qty:</label>
+                <input class="quantity-input" type="number" min="1" max="25" value="2" required>
+                <span>pcs</span>
+                <button type="button" class="remove-equipment" aria-label="Remove equipment">▤</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="equipment-bottom">
+            <button type="button" class="add-equipment" onclick="addEquipment()">⊕ + Add Another Equipment</button>
+            <span>Total Selected Items: <strong id="totalItems">12 pcs</strong> across <strong id="equipmentTypes">2</strong> equipment types</span>
+          </div>
+        </section>
+
+        <section class="form-section borrowing-details">
+          <div class="section-heading">
+            <h3><span class="step-number">3</span> Borrowing Details</h3>
+            <span>Step 3 of 3</span>
+          </div>
+
+          <div class="form-grid">
+            <div>
+              <label for="borrowDate">Borrowing Date &amp; Time <b>*</b></label>
+              <input id="borrowDate" type="datetime-local" value="2026-11-07T08:30" required>
+            </div>
+            <div>
+              <label for="returnDate">Expected Return Date &amp; Time <b>*</b></label>
+              <input id="returnDate" type="datetime-local" value="2026-11-09T17:00" required>
+            </div>
+            <div class="full-width">
+              <label for="purpose">Purpose of Request <b>*</b></label>
+              <input id="purpose" type="text" value="Family Gathering / Community Assistance" required>
+            </div>
+            <div class="full-width">
+              <label for="notes">Additional Notes / Custody Remarks</label>
+              <textarea id="notes" rows="2">To be returned clean and properly stacked at Barangay Hall.</textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer class="modal-footer">
+        <button type="button" class="cancel-button" onclick="closeBorrowingModal()">Cancel</button>
+        <button type="submit" class="create-button">⊙ Create Borrowing</button>
+      </footer>
+    </form>
+  </section>
+</div>
+
+
+
+<!-- BORROWING DETAILS MODAL -->
+<div class="details-backdrop" id="detailsModal" aria-hidden="true">
+  <section class="details-modal" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
+    <header class="details-header">
+      <div class="details-header-icon">▤</div>
+      <div class="details-title-area">
+        <div class="details-title-line">
+          <h2 id="detailsTitle">Borrowing Details</h2>
+          <span class="transaction-id" id="detailTransactionId">TRX-2026-1107</span>
+          <span class="custody-badge" id="detailCustodyBadge">● Active Transaction (In Custody)</span>
+        </div>
+        <div class="details-subtitle">Official equipment custody transaction slip and release authorization record.</div>
+      </div>
+      <button class="details-close" type="button" aria-label="Close details" onclick="closeDetailsModal()">×</button>
+    </header>
+
+    <div class="details-body">
+      <section class="details-card">
+        <div class="details-card-heading">
+          <h3>♢ &nbsp;1. Transaction Information</h3>
+          <small>LOG SEQUENCE #0104</small>
+        </div>
+        <div class="details-grid">
+          <div class="detail-field">
+            <span>Transaction Slip ID</span>
+            <strong id="detailSlipId">TRX-2026-1107</strong>
+          </div>
+          <div class="detail-field">
+            <span>Current Custody Status</span>
+            <strong class="detail-status" id="detailStatus">● Borrowed (In Custody)</strong>
+          </div>
+          <div class="detail-field">
+            <span>Releasing Custodian</span>
+            <strong>Solana Rodrigo</strong>
+            <strong class="sub-detail">Staff</strong>
+          </div>
+          <div class="detail-field">
+            <span>Date &amp; Time Borrowed</span>
+            <strong id="detailBorrowDate">◷ November 7, 2026 • 08:30 AM</strong>
+          </div>
+          <div class="detail-field">
+            <span>Expected Return Date &amp; Time</span>
+            <strong id="detailReturnDate">▣ November 9, 2026 • 05:00 PM</strong>
+            <strong class="sub-detail" id="detailDueNote">Due in 2 days</strong>
+          </div>
+          <div class="detail-field">
+            <span>Actual Return Date</span>
+            <strong class="sub-detail" id="detailActualReturn"><i>Pending Custody Check-in</i></strong>
+          </div>
+          <div class="detail-field" style="grid-column:1/-1">
+            <span>Declared Purpose of Borrowing</span>
+            <div class="purpose-box" id="detailPurpose">Family Gathering / Community Assistance</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="details-card">
+        <div class="details-card-heading">
+          <h3>♧ &nbsp;2. Borrower Profile</h3>
+          <span class="verified-badge">☑ Verified Resident • Good Standing</span>
+        </div>
+        <div class="details-grid">
+          <div class="detail-field">
+            <span>Full Name</span>
+            <strong id="detailBorrowerName">Joan Borres</strong>
+          </div>
+          <div class="detail-field">
+            <span>Borrower ID</span>
+            <strong id="detailBorrowerId">BRG-BOR-2026-0082</strong>
+          </div>
+          <div class="detail-field">
+            <span>Contact Number</span>
+            <strong id="detailContact">☎ 0917-555-0192</strong>
+          </div>
+          <div class="detail-field">
+            <span>Residential Address</span>
+            <strong id="detailAddress">#14 Sampaguita St., Purok 2</strong>
+            <strong class="sub-detail">Barangay Bulacao</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="details-card equipment-card">
+        <div class="details-card-heading">
+          <h3>▣ &nbsp;3. Issued Equipment &amp; Quantities</h3>
+          <small><span id="detailEquipmentTypes">2</span> Equipment Lines &nbsp; • &nbsp; <b id="detailTotalReleased">12</b> Total Items Released</small>
+        </div>
+        <table class="equipment-table">
+          <thead>
+            <tr>
+              <th>ITEM &amp; SPECIFICATION</th>
+              <th>PROPERTY TAG / SKU</th>
+              <th>CATEGORY</th>
+              <th>RELEASED QTY</th>
+              <th>RELEASE CONDITION</th>
+            </tr>
+          </thead>
+          <tbody id="detailEquipmentRows">
+            <tr>
+              <td><span class="equipment-name">White Monobloc Chairs</span><span class="equipment-spec">Uratex 101 Heavy Duty (Stackable)</span></td>
+              <td>BSI-EQ-2023-001</td>
+              <td>Chairs &amp; Tables</td>
+              <td><span class="quantity-pill">10 units</span></td>
+              <td><span class="condition">Good Condition (Inspected)</span></td>
+            </tr>
+            <tr>
+              <td><span class="equipment-name">Heavy-Duty Foldable Tables</span><span class="equipment-spec">6ft White Granite Commercial Grade</span></td>
+              <td>BSI-EQ-2023-014</td>
+              <td>Chairs &amp; Tables</td>
+              <td><span class="quantity-pill">2 units</span></td>
+              <td><span class="condition">Brand New / Excellent</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <footer class="details-footer">
+      <div class="details-footer-note">▧ &nbsp;Official Custodianship Copy • Barangay Bulacao</div>
+      <div class="details-footer-actions">
+        <button class="print-button" type="button" onclick="printBorrowingDetails()">▣ &nbsp;Print Borrow Slip</button>
+        <button class="details-done" type="button" onclick="closeDetailsModal()">✓ &nbsp;Close</button>
+      </div>
+    </footer>
+  </section>
+</div>
+
+  <script>
+    const rows = [...document.querySelectorAll('#rows tr')];
+    const tabs = [...document.querySelectorAll('.tab')];
+    const search = document.getElementById('search');
+    let activeFilter = 'All';
+
+    function filterRows() {
+      const query = search.value.toLowerCase().trim();
+      let shown = 0;
+      rows.forEach(row => {
+        const matchesFilter = activeFilter === 'All' ||
+          (activeFilter === 'Active' ? row.dataset.status === 'Active' || row.dataset.status === 'Due Today' || row.dataset.status === 'Overdue' : row.dataset.status === activeFilter);
+        const matchesSearch = row.innerText.toLowerCase().includes(query);
+        row.hidden = !(matchesFilter && matchesSearch);
+        if (!row.hidden) shown++;
+      });
+      document.getElementById('empty').hidden = shown !== 0;
+      document.getElementById('count').textContent = `Showing ${shown ? 1 : 0} to ${shown} of 24 active and recent borrowing entries`;
+    }
+
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+      tabs.forEach(item => item.classList.remove('active'));
+      tab.classList.add('active');
+      activeFilter = tab.dataset.filter;
+      filterRows();
+    }));
+    search.addEventListener('input', filterRows);
+
+    const transactionRecords = {
+      "Maria Santos": {
+        id: "TRX-2026-1104", borrowerId: "BRG-BOR-2026-0041",
+        contact: "0917-555-0181", address: "#08 Sampaguita St., Purok 2",
+        borrow: "November 4, 2026 • 08:30 AM", expected: "November 7, 2026 • 05:00 PM",
+        purpose: "Barangay Meeting / Community Activity", status: "Pending Release / In Custody",
+        actual: "Pending Custody Check-in", items: [
+          ["White Monobloc Chairs", "Uratex 101 Heavy Duty (Stackable)", "BSI-EQ-2023-001", "Chairs & Tables", 40, "Good Condition (Inspected)"],
+          ["6ft Foldable Tables", "Heavy Duty Commercial Grade", "BSI-EQ-2023-014", "Chairs & Tables", 4, "Good Condition (Inspected)"]
+        ]
+      },
+      "Roberto Diaz": {
+        id: "TRX-2026-1102", borrowerId: "BRG-BOR-2026-0027",
+        contact: "0917-555-0142", address: "#21 Rizal St., Purok 1",
+        borrow: "November 2, 2026 • 09:00 AM", expected: "November 4, 2026 • 05:00 PM",
+        purpose: "Community Event / Neighborhood Gathering", status: "Due Today (In Custody)",
+        actual: "Pending Custody Check-in", items: [
+          ["Heavy-Duty Tent", "Canopy 10×10 Weather Resistant", "BSI-EQ-2023-021", "Event Equipment", 2, "Good Condition (Inspected)"]
+        ]
+      },
+      "Ricardo Dalisay": {
+        id: "TRX-2026-1020", borrowerId: "BRG-BOR-2026-0033",
+        contact: "0917-555-0163", address: "#17 Rizal St., Purok 1",
+        borrow: "October 20, 2026 • 10:00 AM", expected: "November 4, 2026 • 05:00 PM",
+        purpose: "Community Program / Public Announcement", status: "Due Today (In Custody)",
+        actual: "Pending Custody Check-in", items: [
+          ["Portable Sound System", "Amplifier with Speaker Set", "BSI-EQ-2023-032", "Audio Equipment", 1, "Good Condition (Inspected)"],
+          ["Wireless Microphones", "UHF Wireless Microphone Set", "BSI-EQ-2023-033", "Audio Equipment", 1, "Good Condition (Inspected)"]
+        ]
+      },
+      "Eduardo Ramos": {
+        id: "TRX-2026-1028", borrowerId: "BRG-BOR-2026-0056",
+        contact: "0917-555-0114", address: "#09 Mabini St., Purok 3",
+        borrow: "October 28, 2026 • 08:00 AM", expected: "November 3, 2026 • 05:00 PM",
+        purpose: "Emergency Preparedness / Community Assistance", status: "Overdue (In Custody)",
+        actual: "Not Yet Returned", items: [
+          ["Megaphone", "Portable Public Address Megaphone", "BSI-EQ-2023-041", "Communication", 1, "Good Condition (Inspected)"],
+          ["First Aid Kit Box", "Community First Aid Kit", "BSI-EQ-2023-042", "Medical Supplies", 1, "Good Condition (Inspected)"]
+        ]
+      },
+      "Elena Bautista": {
+        id: "TRX-2026-1025", borrowerId: "BRG-BOR-2026-0064",
+        contact: "0917-555-0175", address: "#31 Mabini St., Purok 4",
+        borrow: "October 25, 2026 • 08:30 AM", expected: "October 28, 2026 • 05:00 PM",
+        purpose: "Barangay Community Activity", status: "Returned / Custody Completed",
+        actual: "October 28, 2026 • 04:30 PM", items: [
+          ["Foldable Chairs", "Steel Frame Folding Chair", "BSI-EQ-2023-052", "Chairs & Tables", 20, "Returned in Good Condition"]
+        ]
+      },
+      "Nenita Gomez": {
+        id: "TRX-2026-1018", borrowerId: "BRG-BOR-2026-0071",
+        contact: "0917-555-0136", address: "#44 Mabini St., Purok 5",
+        borrow: "October 18, 2026 • 09:00 AM", expected: "October 21, 2026 • 05:00 PM",
+        purpose: "Community Maintenance / Cleaning Activity", status: "Returned / Custody Completed",
+        actual: "October 21, 2026 • 03:45 PM", items: [
+          ["Grass Cutter", "Gasoline Grass Cutter", "BSI-EQ-2023-061", "Maintenance Equipment", 1, "Returned in Good Condition"],
+          ["Extension Reel", "Heavy-Duty Extension Cable Reel", "BSI-EQ-2023-062", "Electrical Equipment", 1, "Returned in Good Condition"]
+        ]
+      }
+    };
+
+    function viewDetails(name) {
+      const row = rows.find(item => item.cells[0]?.innerText.includes(name));
+      const record = transactionRecords[name];
+      if (!row || !record) return;
+
+      const statusText = row.dataset.status === "Returned"
+        ? "● Returned (Custody Completed)"
+        : row.dataset.status === "Overdue"
+          ? "● Overdue (In Custody)"
+          : row.dataset.status === "Due Today"
+            ? "● Due Today (In Custody)"
+            : "● Borrowed (In Custody)";
+
+      document.getElementById("detailTransactionId").textContent = record.id;
+      document.getElementById("detailSlipId").textContent = record.id;
+      document.getElementById("detailStatus").textContent = statusText;
+      document.getElementById("detailBorrowDate").textContent = "◷ " + record.borrow;
+      document.getElementById("detailReturnDate").textContent = "▣ " + record.expected;
+      document.getElementById("detailActualReturn").textContent = record.actual;
+      document.getElementById("detailPurpose").textContent = record.purpose;
+      document.getElementById("detailBorrowerName").textContent = name;
+      document.getElementById("detailBorrowerId").textContent = record.borrowerId;
+      document.getElementById("detailContact").textContent = "☎ " + record.contact;
+      document.getElementById("detailAddress").textContent = record.address;
+
+      const total = record.items.reduce((sum, item) => sum + item[4], 0);
+      document.getElementById("detailEquipmentTypes").textContent = record.items.length;
+      document.getElementById("detailTotalReleased").textContent = total;
+
+      document.getElementById("detailCustodyBadge").textContent =
+        row.dataset.status === "Returned"
+          ? "● Returned Transaction"
+          : row.dataset.status === "Overdue"
+            ? "● Overdue Transaction (In Custody)"
+            : "● Active Transaction (In Custody)";
+
+      document.getElementById("detailDueNote").textContent =
+        row.dataset.status === "Overdue" ? "Return date has passed" :
+        row.dataset.status === "Returned" ? "Custody check-in completed" :
+        row.dataset.status === "Due Today" ? "Return due today" : "Scheduled return";
+
+      document.getElementById("detailEquipmentRows").innerHTML = record.items.map(item => `
+        <tr>
+          <td>
+            <span class="equipment-name">${item[0]}</span>
+            <span class="equipment-spec">${item[1]}</span>
+          </td>
+          <td>${item[2]}</td>
+          <td>${item[3]}</td>
+          <td><span class="quantity-pill">${item[4]} units</span></td>
+          <td><span class="condition">${item[5]}</span></td>
+        </tr>
+      `).join("");
+
+      const modal = document.getElementById("detailsModal");
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeDetailsModal() {
+      const modal = document.getElementById("detailsModal");
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    document.getElementById("detailsModal").addEventListener("click", function(event) {
+      if (event.target === this) closeDetailsModal();
+    });
+
+    function printBorrowingDetails() {
+      window.print();
+    }
+  
+// NEW BORROWING MODAL
+function openBorrowingModal() {
+    const modal = document.getElementById('borrowingModal');
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeBorrowingModal() {
+    const modal = document.getElementById('borrowingModal');
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
+document.getElementById('borrowingModal').addEventListener('click', function(event) {
+    if (event.target === this) closeBorrowingModal();
+});
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') { closeBorrowingModal(); closeDetailsModal(); }
+});
+
+// Update the borrower information preview when a borrower is selected.
+const borrowerDetails = {
+    'Joan Borres': ['0917-555-0192', 'Purok 2, Bulacao'],
+    'Maria Santos': ['0917-555-0181', 'Purok 2, Bulacao'],
+    'Roberto Diaz': ['0917-555-0142', 'Purok 1, Bulacao'],
+    'Ricardo Dalisay': ['0917-555-0163', 'Purok 1, Bulacao'],
+    'Eduardo Ramos': ['0917-555-0114', 'Purok 3, Bulacao'],
+    'Elena Bautista': ['0917-555-0175', 'Purok 4, Bulacao'],
+    'Nenita Gomez': ['0917-555-0136', 'Purok 5, Bulacao']
+};
+
+document.getElementById('borrower').addEventListener('change', function() {
+    const details = borrowerDetails[this.value];
+    document.getElementById('borrowerName').textContent = this.value;
+    document.getElementById('borrowerContact').textContent = details[0];
+    document.getElementById('borrowerAddress').textContent = details[1];
+});
+
+// Equipment quantity totals and remove controls.
+const equipmentList = document.getElementById('equipmentList');
+
+function updateEquipmentTotal() {
+    const entries = [...equipmentList.querySelectorAll('.equipment-entry')];
+    const total = entries.reduce((sum, entry) => {
+        return sum + Math.max(0, Number(entry.querySelector('.quantity-input').value) || 0);
+    }, 0);
+    document.getElementById('totalItems').textContent = total + ' pcs';
+    document.getElementById('equipmentTypes').textContent = entries.length;
+}
+
+equipmentList.addEventListener('input', updateEquipmentTotal);
+
+equipmentList.addEventListener('click', function(event) {
+    if (event.target.classList.contains('remove-equipment')) {
+        event.target.closest('.equipment-entry').remove();
+        updateEquipmentTotal();
+    }
+});
+
+function addEquipment() {
+    const entry = document.createElement('div');
+    entry.className = 'equipment-entry';
+    entry.innerHTML = `
+        <div class="equipment-description">
+            <strong>Additional Equipment</strong>
+            <span>Available: Check inventory</span>
+        </div>
+        <div class="equipment-quantity">
+            <label>Qty:</label>
+            <input class="quantity-input" type="number" min="1" value="1" required>
+            <span>pcs</span>
+            <button type="button" class="remove-equipment" aria-label="Remove equipment">▤</button>
+        </div>
+    `;
+    equipmentList.appendChild(entry);
+    updateEquipmentTotal();
+}
+
+// Validate and handle the form submission.
+document.getElementById('borrowingForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    if (!this.reportValidity()) return;
+
+    const borrowDate = new Date(document.getElementById('borrowDate').value);
+    const returnDate = new Date(document.getElementById('returnDate').value);
+
+    if (returnDate <= borrowDate) {
+        alert('Expected return date must be later than the borrowing date.');
+        return;
+    }
+
+    alert('Borrowing form completed! Connect this submission to your BorrowHub backend to save the transaction.');
+    closeBorrowingModal();
+});
+
+</script>
+</body>
+</html>
