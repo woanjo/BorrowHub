@@ -56,12 +56,12 @@
   var ICON = {
     eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
     pencil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>',
-    pencilSm: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>',
+    pencilSm: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0;"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>',
     box: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>'
   };
 
   /* ------------------------------------------------------------------
-     Seed Data
+     Seed Data (Maria Santos & Eduardo Ramos only)
      ------------------------------------------------------------------ */
   var HISTORY_POOL = [
     { date: 'Jan 12, 2026', items: '1 Megaphone', status: 'Returned' },
@@ -70,18 +70,6 @@
     { date: 'Jul 15, 2026', items: '1 Sound System', status: 'Returned' },
     { date: 'Sept 04, 2026', items: '30 Chairs', status: 'Returned' }
   ];
-
-  var ITEM_POOL = [
-    { name: 'Stackable Monobloc Chairs', units: 10 },
-    { name: 'Folding Catering Tables', units: 2 },
-    { name: 'Canopy (10\u00d710)', units: 1 },
-    { name: 'Portable Sound System', units: 1 },
-    { name: 'Heavy Duty Portable Megaphone', units: 1 }
-  ];
-
-  var FIRST = ['Juan', 'Rosario', 'Carlo', 'Teresita', 'Mario', 'Liza', 'Jose', 'Angelica', 'Ramon', 'Cecilia', 'Danilo', 'Marites', 'Felipe', 'Gloria', 'Arnel', 'Josefina', 'Rodel', 'Lourdes', 'Benjie', 'Imelda'];
-  var LAST = ['Reyes', 'Cruz', 'Garcia', 'Mendoza', 'Villanueva', 'Aquino', 'Castillo', 'Navarro', 'Pascual', 'Flores', 'Torres', 'Dela Cruz', 'Ramirez', 'Soriano', 'Bernardo', 'Domingo', 'Lim', 'Tan', 'Abella', 'Cabahug', 'Gonzales', 'Lapid', 'Ouano', 'Pacana'];
-  var REG_MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October'];
 
   function mkItem(name, units, dueInDays) {
     return { name: name, units: units, dueInDays: dueInDays };
@@ -94,79 +82,33 @@
   function buildSeed() {
     var list = [
       {
-        name: 'Roberto Diaz', contact: '0917-555-1234', email: 'rdiaz@gmail.com',
-        purok: 1, street: '#8 Ilang-Ilang St., Barangay Bulacao', status: 'Good Standing',
-        registered: 'January 05, 2026', completed: 3,
-        items: [mkItem('Heavy Duty Portable Megaphone', 2, 2)],
-        history: HISTORY_POOL.slice(2)
-      },
-      {
-        name: 'Maria Santos', contact: '0928-444-5678', email: 'msantos@gmail.com',
-        purok: 2, street: '#14 Sampaguita St., Barangay Bulacao', status: 'Good Standing',
-        registered: 'January 09, 2026', completed: 5,
-        items: [mkItem('Stackable Monobloc Chairs', 40, 2), mkItem('Folding Catering Tables', 4, 2)],
+        name: 'Maria Santos',
+        contact: '0928-444-5678',
+        email: 'msantos@gmail.com',
+        purok: 2,
+        street: '#14 Sampaguita St., Barangay Bulacao',
+        status: 'Good Standing',
+        registered: 'January 09, 2026',
+        completed: 5,
+        items: [
+          mkItem('Stackable Monobloc Chairs', 40, 2),
+          mkItem('Folding Catering Tables', 4, 2)
+        ],
         history: HISTORY_POOL.slice(0, 3)
       },
       {
-        name: 'Eduardo Ramos', contact: '0918-333-9876', email: '',
-        purok: 3, street: '#21 Gumamela St., Barangay Bulacao', status: 'Overdue',
-        registered: 'February 14, 2026', completed: 2,
+        name: 'Eduardo Ramos',
+        contact: '0918-333-9876',
+        email: '',
+        purok: 3,
+        street: '#21 Gumamela St., Barangay Bulacao',
+        status: 'Overdue',
+        registered: 'February 14, 2026',
+        completed: 2,
         items: [mkItem('Folding Catering Tables', 2, -3)],
-        history: HISTORY_POOL.slice(3)
-      },
-      {
-        name: 'Elena Bautista', contact: '0920-777-8899', email: 'ebautista@gmail.com',
-        purok: 4, street: '#5 Santan St., Barangay Bulacao', status: 'Good Standing',
-        registered: 'February 20, 2026', completed: 4,
-        items: [mkItem('Stackable Monobloc Chairs', 20, 5)],
-        history: HISTORY_POOL.slice(1)
-      },
-      {
-        name: 'Ricardo Dalisay', contact: '0915-888-4455', email: '',
-        purok: 1, street: '#33 Ilang-Ilang St., Barangay Bulacao', status: 'Good Standing',
-        registered: 'March 03, 2026', completed: 1,
-        items: [mkItem('Folding Catering Tables', 2, 3)],
-        history: HISTORY_POOL.slice(4)
-      },
-      {
-        name: 'Nenita Gomez', contact: '0933-222-1100', email: 'ngomez@gmail.com',
-        purok: 5, street: '#12 Rosal St., Barangay Bulacao', status: 'Good Standing',
-        registered: 'March 18, 2026', completed: 2,
-        items: [mkItem('Canopy (10\u00d710)', 1, 6)],
         history: HISTORY_POOL.slice(3)
       }
     ];
-
-    for (var i = 0; i < 136; i++) {
-      var purok = (i % 5) + 1;
-      var active = (i % 7 === 3 && i < 126);
-      var status = 'Good Standing';
-      if (i === 10 || i === 45) status = 'Overdue';
-      else if (i % 31 === 5) status = 'Restricted';
-      else if (i === 77) status = 'Suspended';
-
-      var first = FIRST[i % 20];
-      var last = LAST[(i * 7 + Math.floor(i / 20)) % 24];
-      var completed = (i * 3) % 6;
-      var items = [];
-      if (active) {
-        var base = ITEM_POOL[i % ITEM_POOL.length];
-        items.push(mkItem(base.name, base.units, status === 'Overdue' ? -(2 + (i % 3)) : 1 + (i % 6)));
-      }
-
-      list.push({
-        name: first + ' ' + last,
-        contact: '09' + pad(15 + (i * 3) % 30, 2) + '-' + pad(100 + (i * 37) % 900, 3) + '-' + pad(1000 + (i * 911) % 9000, 4),
-        email: i % 3 === 0 ? (first.charAt(0) + last).toLowerCase().replace(/\s+/g, '') + '@gmail.com' : '',
-        purok: purok,
-        street: '#' + (1 + (i * 5) % 48) + ' ' + PUROKS[purok] + ' St., Barangay Bulacao',
-        status: status,
-        registered: REG_MONTHS[i % 10] + ' ' + pad(1 + (i * 3) % 28, 2) + ', 2026',
-        completed: completed,
-        items: items,
-        history: HISTORY_POOL.slice(5 - Math.min(completed, 5))
-      });
-    }
 
     list.forEach(function (b, idx) {
       b.key = 'b' + idx;
@@ -178,7 +120,7 @@
   var borrowers = buildSeed();
   var nextSeq = 82;
   var keyCounter = borrowers.length;
-  var state = { page: 1, search: '', purok: 'All', status: 'All', selected: borrowers[1].key };
+  var state = { page: 1, search: '', purok: 'All', status: 'All', selected: borrowers[0].key };
 
   // Administration Access Restriction
 const adminWrapper = document.getElementById('adminDropdownWrapper');
