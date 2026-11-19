@@ -24,18 +24,6 @@ const staff = [
     tone: "a2"
   },
   {
-    id: "STF-2026-0010",
-    name: "Joshua Flores",
-    username: "jflores",
-    email: "j.flores@gmail.com",
-    phone: "0922-555-0188",
-    role: "Staff",
-    status: "Active",
-    created: "Aug 25, 2026",
-    initials: "JF",
-    tone: "a3"
-  },
-  {
     id: "STF-2026-0011",
     name: "Gabriela Flores",
     username: "gabflores",
@@ -47,30 +35,6 @@ const staff = [
     initials: "GF",
     tone: "a4",
     you: true
-  },
-  {
-    id: "STF-2026-0012",
-    name: "Hon. Rolando Macaraeg",
-    username: "rmacaraeg",
-    email: "r.macaraeg@gmail.com",
-    phone: "0919-555-0132",
-    role: "Staff",
-    status: "Active",
-    created: "Aug 26, 2026",
-    initials: "RM",
-    tone: "a5"
-  },
-  {
-    id: "STF-2026-0013",
-    name: "Ramon Bautista",
-    username: "rbautista",
-    email: "r.bautista@gmail.com",
-    phone: "0920-555-0145",
-    role: "Staff",
-    status: "Inactive",
-    created: "Aug 27, 2026",
-    initials: "RB",
-    tone: "a6"
   }
 ];
 

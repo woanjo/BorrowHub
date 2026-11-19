@@ -1,14 +1,4 @@
-const activities=[ {
-    initials: "MC",
-    staff:"Maria Teresa Cruz",
-    role:"Admin", 
-    avatar:"",
-    activity:"Processed",
-    category:"Returns",
-    description:'Completed return inspection for <strong>40 Monobloc Chairs &amp; 4 Tables</strong> (Maria Santos - <code>TRX-2026-0104</code>). All items in good condition.',
-    date:"Nov 7, 2026 · 04:30 PM",
-    dateGroup:"today"
-},
+const activities=[ 
 {
     initials: "DS", 
     staff:"Danilo Soriano", 
@@ -21,28 +11,6 @@ const activities=[ {
     dateGroup:"week"
 },
 {
-    initials: "MC", 
-    staff:"Maria Teresa Cruz", 
-    role:"Admin", 
-    avatar:"", 
-    activity:"Activated", 
-    category:"Staff Management", 
-    description:'Activated system account for Tanod Desk Officer <strong>Ramon Bautista</strong> (<code>@rbautista</code>).', 
-    date:"Oct 26, 2026 · 11:20 AM", 
-    dateGroup:"month"
-},
-{
-    initials: "MC", 
-    staff:"Maria Teresa Cruz", 
-    role:"Admin", 
-    avatar:"", 
-    activity:"Updated", 
-    category:"Staff Management", 
-    description:'Modified role permissions and stockroom custody privileges for <strong>Danilo Soriano</strong>.', 
-    date:"Oct 25, 2026 · 04:50 PM", 
-    dateGroup:"month"
-},
-{
     initials: "AR", 
     staff:"Angelica Reyes", 
     role:"Staff", 
@@ -51,17 +19,6 @@ const activities=[ {
     category:"Equipment", 
     description:'Decommissioned 1 damaged Grass Cutter (<code>BSI-EQ-2021-008</code>) for repair assessment.', 
     date:"Oct 25, 2026 · 02:10 PM", 
-    dateGroup:"month"
-},
-{
-    initials: "JF", 
-    staff:"Joshua Flores", 
-    role:"Staff", 
-    avatar:"gray", 
-    activity:"Processed", 
-    category:"Borrowing", 
-    description:'Approved loan request for <strong>SK Council (Mark Alcantara)</strong> for 6 Molten Basketballs &amp; 1 Scoreboard.', 
-    date:"Oct 12, 2026 · 08:45 AM", 
     dateGroup:"month"
 },
 {
@@ -76,15 +33,15 @@ const activities=[ {
     dateGroup:"month"
 },
 {
-    initials: "AR", 
-    staff:"Angelica Reyes", 
+    initials: "DS", 
+    staff:"Danilo Soriano", 
     role:"Staff", 
-    avatar:"mint", 
-    activity:"Added", 
-    category:"Borrowers", 
-    description:'Registered new resident borrower <strong>Eduardo Ramos</strong> (Purok 5, ID: <code>BRG-BOR-2026-0091</code>).', 
-    date:"Oct 4, 2026 · 10:05 AM", 
-    dateGroup:"month"
+    avatar:"sage", 
+    activity:"Updated", 
+    category:"Returns", 
+    description:'Issued return slip <code>#BBH-2026-11</code> (Purok 4) for 5 chairs and 2 tables.', 
+    date:"Nov 1, 2026 · 09:15 AM", 
+    dateGroup:"week"
 }];
 
 const rows = document.getElementById("activityRows");
