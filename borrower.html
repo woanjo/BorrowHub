@@ -3,18 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Borrower - Barangay BorrowHub</title>
+  <title>BorrowHub - Borrower</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/borrower.css" />
 </head>
 <body>
-
+  <!-- ========================================================================
+       Top Navigation Bar
+       ======================================================================== -->
   <header class="navbar-wrapper">
     <nav class="navbar" aria-label="Main Navigation">
       <!-- Left: Official Barangay Seal + Brand Name -->
-      <a href="dashboard.html" class="brand">
+      <a href="#dashboard" class="brand" data-toast="BorrowHub Home — Barangay Equipment System">
         <img src="img/brgy_logo.png" alt="Barangay Seal" class="brand-seal" />
         <span class="brand-name">BorrowHub</span>
       </a>
@@ -101,14 +103,14 @@
             </svg>
           </button>
           <div class="dropdown-menu" role="menu">
-            <button class="dropdown-item" role="menuitem" data-toast="Opened Staff & Custodian Accounts">
+            <a href="admin.html" class="dropdown-item" role="menuitem">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-              Staff &amp; Custodians
-            </button>
-            <button class="dropdown-item" role="menuitem" data-toast="Opened Barangay Audit Trail Logs">
+              Staff Management
+            </a>
+            <a href="activity-logs.html" class="dropdown-item" role="menuitem">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              System Audit Logs
-            </button>
+              Activity Logs
+            </a>
           </div>
         </div>
       </div>
@@ -144,8 +146,10 @@
         </button>
       </div>
     </nav>
+    <!-- Thin Mint Green Accent Strip -->
     <div class="navbar-accent-strip"></div>
   </header>
+
 
   <!-- ========================================================================
        Main Content Area

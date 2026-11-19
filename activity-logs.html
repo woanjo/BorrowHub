@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BorrowHub | Activity Logs</title>
+  <link rel="stylesheet" href="css/activity-logs.css">
+</head>
+<body>
+  <!-- ========================================================================
+       Top Navigation Bar
+       ======================================================================== -->
+  <header class="navbar-wrapper">
+    <nav class="navbar" aria-label="Main Navigation">
+      <!-- Left: Official Barangay Seal + Brand Name -->
+      <a href="#dashboard" class="brand" data-toast="BorrowHub Home — Barangay Equipment System">
+        <img src="img/brgy_logo.png" alt="Barangay Seal" class="brand-seal" />
+        <span class="brand-name">BorrowHub</span>
+      </a>
+
+      <!-- Center: Navigation Links -->
+      <div class="nav-links" id="navLinks">
+        <div class="nav-item">
+          <a href="dashboard.html" class="nav-btn">
+            <!-- LayoutGrid Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.2"/>
+              <rect x="14" y="3" width="7" height="7" rx="1.2"/>
+              <rect x="14" y="14" width="7" height="7" rx="1.2"/>
+              <rect x="3" y="14" width="7" height="7" rx="1.2"/>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="equipment.html" class="nav-btn">
+            <!-- Tag / Equipment Box Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/>
+              <circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>
+            </svg>
+            <span>Equipment</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="borrower.html" class="nav-btn">
+            <!-- Users Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Borrower</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="borrowing.html" class="nav-btn">
+            <!-- Clipboard / Outbox Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <path d="M12 11v6"/>
+              <path d="m9 14 3-3 3 3"/>
+            </svg>
+            <span>Borrowing</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="return.html" class="nav-btn">
+            <!-- Clipboard Check Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <path d="m9 14 2 2 4-4"/>
+            </svg>
+            <span>Return</span>
+          </a>
+        </div>
+
+        <div class="nav-item">
+          <a href="history.html" class="nav-btn">
+            <!-- History Clock Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+              <path d="M12 7v5l4 2"/>
+            </svg>
+            <span>History</span>
+          </a>
+        </div>
+
+        <div class="nav-item" id="adminDropdownWrapper">
+          <button class="nav-btn active" id="adminDropdownBtn" aria-expanded="false" aria-haspopup="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+
+            <span>Activity Logs</span>
+            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu" role="menu">
+            <a href="admin.html" class="dropdown-item" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Staff Management
+            </a>
+            <a href="admin.html" class="dropdown-item" role="menuitem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+              Administration
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: User Profile Pill + Mobile Menu Button -->
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="user-pill">
+          <div class="user-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <div class="user-info">
+            <span class="user-name">Solana Rodrigo</span>
+            <span class="user-role">Staff</span>
+          </div>
+          <button class="logout-btn" title="Sign Out" aria-label="Sign Out" data-toast="Session locked for Solana Rodrigo (Staff)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+          </button>
+        </div>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+    <!-- Thin Mint Green Accent Strip -->
+    <div class="navbar-accent-strip"></div>
+  </header>
+
+  
+    <main class="page">
+      <section class="page-heading">
+        <h1 class="page-title">Activity Logs</h1>
+        <p class="page-subtitle">Track important actions and changes made in BorrowHub.</p>
+      </section>
+
+      <section class="stats-grid">
+        <article class="stat-card">
+          <div>
+            <span class="stat-label">TOTAL ACTIVITIES</span><strong>842</strong>
+          </div><span class="stat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="18" viewBox="0 0 22 18" fill="none">
+              <path d="M7.04167 17.3333C6.44583 17.3333 5.93576 17.1212 5.51146 16.6969C5.08715 16.2726 4.875 15.7625 4.875 15.1667V11.9167H8.125V9.47917C7.49306 9.44306 6.89271 9.30312 6.32396 9.05937C5.75521 8.81563 5.23611 8.45 4.76667 7.9625V6.77083H3.52083L0 3.25C0.65 2.41944 1.45347 1.83264 2.41042 1.48958C3.36736 1.14653 4.33333 0.975 5.30833 0.975C5.79583 0.975 6.26979 1.01111 6.73021 1.08333C7.19063 1.15556 7.65556 1.29097 8.125 1.48958V0H21.125V14.0833C21.125 14.9861 20.809 15.7535 20.1771 16.3854C19.5451 17.0174 18.7778 17.3333 17.875 17.3333H7.04167V17.3333M10.2917 11.9167H16.7917V14.0833C16.7917 14.3903 16.8955 14.6476 17.1031 14.8552C17.3108 15.0628 17.5681 15.1667 17.875 15.1667C18.1819 15.1667 18.4392 15.0628 18.6469 14.8552C18.8545 14.6476 18.9583 14.3903 18.9583 14.0833V2.16667H10.2917V2.81667L16.7917 9.31667V10.8333H15.275L12.1875 7.74583L11.9708 7.9625C11.7181 8.21528 11.4517 8.44097 11.1719 8.63958C10.892 8.83819 10.5986 8.99167 10.2917 9.1V11.9167V11.9167M4.44167 4.60417H6.93333V6.93333C7.15 7.07778 7.37569 7.17708 7.61042 7.23125C7.84514 7.28542 8.08889 7.3125 8.34167 7.3125C8.75694 7.3125 9.1316 7.24931 9.46562 7.12292C9.79965 6.99653 10.1292 6.77083 10.4542 6.44583L10.6708 6.22917L9.15417 4.7125C8.63056 4.18889 8.04375 3.79618 7.39375 3.53437C6.74375 3.27257 6.04861 3.14167 5.30833 3.14167C4.94722 3.14167 4.60417 3.16875 4.27917 3.22292C3.95417 3.27708 3.62917 3.35833 3.30417 3.46667L4.44167 4.60417V4.60417M14.625 14.0833H7.04167V15.1667V15.1667V15.1667H14.7875C14.7333 15.0042 14.6927 14.8326 14.6656 14.6521C14.6385 14.4715 14.625 14.2819 14.625 14.0833V14.0833M7.04167 15.1667C7.04167 15.0042 7.04167 14.8326 7.04167 14.6521C7.04167 14.4715 7.04167 14.2819 7.04167 14.0833V14.0833C7.04167 14.2639 7.04167 14.4444 7.04167 14.625C7.04167 14.8056 7.04167 14.9861 7.04167 15.1667V15.1667V15.1667V15.1667" fill="#04432F"/>
+            </svg></span>
+        </article>
+
+        <article class="stat-card">
+          <div>
+            <span class="stat-label">TODAY'S ACTIVITIES <em class="live-pill">● Live tracking</em></span><strong>28</strong>
+          </div><span class="stat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22" fill="none">
+              <path d="M8.6125 17.7125L4.76667 13.8667L6.3375 12.2958L8.6125 14.5708L13.1625 10.0208L14.7333 11.5917L8.6125 17.7125V17.7125M2.16667 21.6667C1.57083 21.6667 1.06076 21.4545 0.636458 21.0302C0.212153 20.6059 0 20.0958 0 19.5V4.33333C0 3.7375 0.212153 3.22743 0.636458 2.80312C1.06076 2.37882 1.57083 2.16667 2.16667 2.16667H3.25V0H5.41667V2.16667H14.0833V0H16.25V2.16667H17.3333C17.9292 2.16667 18.4392 2.37882 18.8635 2.80312C19.2878 3.22743 19.5 3.7375 19.5 4.33333V19.5C19.5 20.0958 19.2878 20.6059 18.8635 21.0302C18.4392 21.4545 17.9292 21.6667 17.3333 21.6667H2.16667V21.6667M2.16667 19.5H17.3333V19.5V19.5V8.66667H2.16667V19.5V19.5V19.5V19.5M2.16667 6.5H17.3333V4.33333V4.33333V4.33333H2.16667V4.33333V4.33333V6.5V6.5M2.16667 6.5V4.33333V4.33333V4.33333V4.33333V4.33333V4.33333V6.5V6.5V6.5" fill="#04432F"/>
+            </svg>
+          </span></article>
+          
+        <article class="stat-card">
+          <div>
+            <span class="stat-label">STAFF ACTIVITIES</span><strong>6</strong>
+          </div><span class="stat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="13" viewBox="0 0 26 13" fill="none">
+              <path d="M0 13V11.2937C0 10.5174 0.397222 9.88542 1.19167 9.39792C1.98611 8.91042 3.03333 8.66667 4.33333 8.66667C4.56806 8.66667 4.79375 8.67118 5.01042 8.68021C5.22708 8.68924 5.43472 8.71181 5.63333 8.74792C5.38056 9.12708 5.19097 9.52431 5.06458 9.93958C4.93819 10.3549 4.875 10.7882 4.875 11.2396V13H0V13M6.5 13V11.2396C6.5 10.6618 6.65799 10.1337 6.97396 9.65521C7.28993 9.17674 7.73681 8.75694 8.31458 8.39583C8.89236 8.03472 9.58299 7.76389 10.3865 7.58333C11.1899 7.40278 12.0611 7.3125 13 7.3125C13.9569 7.3125 14.8372 7.40278 15.6406 7.58333C16.4441 7.76389 17.1347 8.03472 17.7125 8.39583C18.2903 8.75694 18.7326 9.17674 19.0396 9.65521C19.3465 10.1337 19.5 10.6618 19.5 11.2396V13H6.5V13M21.125 13V11.2396C21.125 10.7701 21.0663 10.3278 20.949 9.9125C20.8316 9.49722 20.6556 9.10903 20.4208 8.74792C20.6194 8.71181 20.8226 8.68924 21.0302 8.68021C21.2378 8.67118 21.45 8.66667 21.6667 8.66667C22.9667 8.66667 24.0139 8.9059 24.8083 9.38437C25.6028 9.86285 26 10.4993 26 11.2937V13H21.125V13M8.80208 10.8333H17.225V10.8333C17.0444 10.4722 16.5434 10.1562 15.7219 9.88542C14.9003 9.61458 13.9931 9.47917 13 9.47917C12.0069 9.47917 11.0997 9.61458 10.2781 9.88542C9.4566 10.1562 8.96458 10.4722 8.80208 10.8333V10.8333V10.8333M4.33333 7.58333C3.7375 7.58333 3.22743 7.37118 2.80312 6.94688C2.37882 6.52257 2.16667 6.0125 2.16667 5.41667C2.16667 4.80278 2.37882 4.28819 2.80312 3.87292C3.22743 3.45764 3.7375 3.25 4.33333 3.25C4.94722 3.25 5.46181 3.45764 5.87708 3.87292C6.29236 4.28819 6.5 4.80278 6.5 5.41667C6.5 6.0125 6.29236 6.52257 5.87708 6.94688C5.46181 7.37118 4.94722 7.58333 4.33333 7.58333V7.58333M21.6667 7.58333C21.0708 7.58333 20.5608 7.37118 20.1365 6.94688C19.7122 6.52257 19.5 6.0125 19.5 5.41667C19.5 4.80278 19.7122 4.28819 20.1365 3.87292C20.5608 3.45764 21.0708 3.25 21.6667 3.25C22.2806 3.25 22.7951 3.45764 23.2104 3.87292C23.6257 4.28819 23.8333 4.80278 23.8333 5.41667C23.8333 6.0125 23.6257 6.52257 23.2104 6.94688C22.7951 7.37118 22.2806 7.58333 21.6667 7.58333V7.58333M13 6.5C12.0972 6.5 11.3299 6.18403 10.6979 5.55208C10.066 4.92014 9.75 4.15278 9.75 3.25C9.75 2.32917 10.066 1.55729 10.6979 0.934375C11.3299 0.311458 12.0972 0 13 0C13.9208 0 14.6927 0.311458 15.3156 0.934375C15.9385 1.55729 16.25 2.32917 16.25 3.25C16.25 4.15278 15.9385 4.92014 15.3156 5.55208C14.6927 6.18403 13.9208 6.5 13 6.5V6.5M13 4.33333C13.3069 4.33333 13.5642 4.22951 13.7719 4.02187C13.9795 3.81424 14.0833 3.55694 14.0833 3.25C14.0833 2.94306 13.9795 2.68576 13.7719 2.47813C13.5642 2.27049 13.3069 2.16667 13 2.16667C12.6931 2.16667 12.4358 2.27049 12.2281 2.47813C12.0205 2.68576 11.9167 2.94306 11.9167 3.25C11.9167 3.55694 12.0205 3.81424 12.2281 4.02187C12.4358 4.22951 12.6931 4.33333 13 4.33333V4.33333M13.0271 10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333M13 3.25V3.25V3.25V3.25V3.25V3.25V3.25V3.25V3.25V3.25" fill="#04432F"/>
+            </svg>
+          </span></article>
+      </section>
+
+      <section class="filter-panel">
+        <div class="filter-top">
+          <label class="search-box">
+            <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M12.45 13.5L7.725 8.775C7.35 9.075 6.91875 9.3125 6.43125 9.4875C5.94375 9.6625 5.425 9.75 4.875 9.75C3.5125 9.75 2.35938 9.27813 1.41562 8.33438C0.471875 7.39063 0 6.2375 0 4.875C0 3.5125 0.471875 2.35938 1.41562 1.41562C2.35938 0.471875 3.5125 0 4.875 0C6.2375 0 7.39063 0.471875 8.33438 1.41562C9.27813 2.35938 9.75 3.5125 9.75 4.875C9.75 5.425 9.6625 5.94375 9.4875 6.43125C9.3125 6.91875 9.075 7.35 8.775 7.725L13.5 12.45L12.45 13.5V13.5M4.875 8.25C5.8125 8.25 6.60938 7.92188 7.26562 7.26562C7.92188 6.60938 8.25 5.8125 8.25 4.875C8.25 3.9375 7.92188 3.14062 7.26562 2.48438C6.60938 1.82812 5.8125 1.5 4.875 1.5C3.9375 1.5 3.14062 1.82812 2.48438 2.48438C1.82812 3.14062 1.5 3.9375 1.5 4.875C1.5 5.8125 1.82812 6.60938 2.48438 7.26562C3.14062 7.92188 3.9375 8.25 4.875 8.25V8.25" fill="#707973"/>
+            </svg></span>
+            <input id="searchInput" type="search" placeholder="Search by staff name, activity, or record...">
+          </label>
+
+          <label class="date-select-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="14" viewBox="0 0 12 14" fill="none">
+              <path d="M1.33333 13.3333C0.966667 13.3333 0.652778 13.2028 0.391667 12.9417C0.130556 12.6806 0 12.3667 0 12V2.66667C0 2.3 0.130556 1.98611 0.391667 1.725C0.652778 1.46389 0.966667 1.33333 1.33333 1.33333H2V0H3.33333V1.33333H8.66667V0H10V1.33333H10.6667C11.0333 1.33333 11.3472 1.46389 11.6083 1.725C11.8694 1.98611 12 2.3 12 2.66667V12C12 12.3667 11.8694 12.6806 11.6083 12.9417C11.3472 13.2028 11.0333 13.3333 10.6667 13.3333H1.33333V13.3333M1.33333 12H10.6667V12V12V5.33333H1.33333V12V12V12V12M1.33333 4H10.6667V2.66667V2.66667V2.66667H1.33333V2.66667V2.66667V4V4M1.33333 4V2.66667V2.66667V2.66667V2.66667V2.66667V2.66667V4V4V4" fill="#404944"/>
+            </svg>
+            <select id="dateFilter">
+              <option value="all">Date Range: All time</option>
+              <option value="today">Date Range: Today</option>
+              <option value="week">Date Range: This week</option>
+              <option value="month">Date Range: This month</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="tabs" id="categoryTabs">
+          <button class="tab active" data-category="All Activities">All Activities <span>842</span></button>
+          <button class="tab" data-category="Equipment">Equipment <span>194</span></button>
+          <button class="tab" data-category="Borrowers">Borrowers <span>112</span></button>
+          <button class="tab" data-category="Borrowing">Borrowing <span>320</span></button>
+          <button class="tab" data-category="Returns">Returns <span>186</span></button>
+          <button class="tab" data-category="Staff Management">Staff Management <span>30</span></button>
+        </div>
+      </section>
+      
+      <section class="table-card">
+        <div class="table-scroll"><table>
+          <thead>
+            <tr>
+              <th>STAFF NAME</th>
+              <th>ACTIVITY</th>
+              <th>MODULE</th>
+              <th>DESCRIPTION</th>
+              <th class="date-col">DATE &amp; TIME</th>
+            </tr>
+          </thead>
+          <tbody id="activityRows"></tbody>
+        </table>
+        <div class="empty-state" id="emptyState" hidden>No activities match your search.</div>
+      </div>
+
+        <footer class="table-footer"><p id="showingText"></p><div class="pagination">
+          <button class="page-btn" id="prevPage">‹ Previous</button><button class="page-number current" data-page="1">1</button>
+          <button class="page-number" data-page="2">2</button><button class="page-number" data-page="3">3</button><span>...</span>
+          <button class="page-number" data-page="106">106</button><button class="page-btn" id="nextPage">Next ›</button>
+        </div></footer>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/activity-logs.js"></script>
+</body>
+</html>
