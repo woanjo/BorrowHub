@@ -1,194 +1,98 @@
 (function () {
   'use strict';
 
-  // Dataset for Recent Borrowing Transactions across pages 1, 2, and 3
-  const transactionsPages = {
-    1: [
-      {
-        name: 'Maria Santos',
-        subtext: 'Resident • Purok 2',
-        equipment: '40 Monobloc Chairs, 4 Foldable Tables',
-        dateBorrowed: 'Nov 4, 2026',
-        dueDate: 'Nov 7, 2026',
-        dueStyle: 'normal',
-        status: 'Pending',
-        badgeType: 'green',
-        isOverdueRow: false
-      },
-      {
-        name: 'Roberto Diaz',
-        subtext: 'Barangay Council• Purok 1',
-        equipment: '2 Heavy Duty Tent (Canopy 10×10)',
-        dateBorrowed: 'Nov 2, 2026',
-        dueDate: 'Nov 04, 2026',
-        dueStyle: 'bold-dark',
-        status: 'Due Today',
-        badgeType: 'green',
-        isOverdueRow: false
-      },
-      {
-        name: 'Eduardo Ramos',
-        subtext: 'Zone 3 Homeowners • Purok 3',
-        equipment: '1 Megaphone, 1 First Aid Kit Box',
-        dateBorrowed: 'Oct 20, 2026',
-        dueDate: 'Nov 3, 2026',
-        dueStyle: 'bold-red',
-        status: 'Overdue',
-        badgeType: 'overdue',
-        isOverdueRow: true
-      },
-      {
-        name: 'Ricardo Dalisay',
-        subtext: 'Resident • Purok 1',
-        equipment: '1 Portable PA Sound System, 1 Wireless Mic',
-        dateBorrowed: 'Oct 28, 2026',
-        dueDate: 'Nov 4, 2026',
-        dueStyle: 'bold-dark',
-        status: 'Due Today',
-        badgeType: 'green',
-        isOverdueRow: false
-      },
-      {
-        name: 'Pedro Mendoza',
-        subtext: 'Resident • Purok 1',
-        equipment: '30 Monobloc Chairs, 3 Tents',
-        dateBorrowed: 'Oct 20, 10:00',
-        dueDate: 'Oct 22, 17:00',
-        dueStyle: 'normal',
-        status: 'Returned',
-        badgeType: 'returned',
-        isOverdueRow: false
-      }
-    ],
-    2: [
-      {
-        name: 'Carlos Mendoza',
-        subtext: 'SK Youth Sports Committee • Purok 1',
-        equipment: '5 Basketballs, 2 Volleyball Nets',
-        dateBorrowed: 'Oct 21, 2026',
-        dueDate: 'Oct 24, 2026',
-        dueStyle: 'bold-red',
-        status: 'Overdue',
-        badgeType: 'overdue',
-        isOverdueRow: true
-      },
-      {
-        name: 'Elena Villanueva',
-        subtext: 'Purok 4 Women’s Club • Purok 4',
-        equipment: '25 Monobloc Chairs, 2 Banquet Tables',
-        dateBorrowed: 'Nov 1, 2026',
-        dueDate: 'Nov 6, 2026',
-        dueStyle: 'normal',
-        status: 'Pending',
-        badgeType: 'green',
-        isOverdueRow: false
-      },
-      {
-        name: 'Roberto Gomez',
-        subtext: 'Purok 5 Farmers Assoc. • Purok 5',
-        equipment: '1 Water Pump & Heavy Hose Set',
-        dateBorrowed: 'Oct 22, 2026',
-        dueDate: 'Oct 24, 2026',
-        dueStyle: 'bold-red',
-        status: 'Overdue',
-        badgeType: 'overdue',
-        isOverdueRow: true
-      },
-      {
-        name: 'Liza Soberano-Cruz',
-        subtext: 'Resident • Purok 2',
-        equipment: '15 Monobloc Chairs, 1 Canopy Tent',
-        dateBorrowed: 'Oct 18, 2026',
-        dueDate: 'Oct 20, 2026',
-        dueStyle: 'normal',
-        status: 'Returned',
-        badgeType: 'returned',
-        isOverdueRow: false
-      },
-      {
-        name: 'Antonio Reyes',
-        subtext: 'Barangay Tanod Unit • Purok 3',
-        equipment: '4 Two-Way Radios, 2 Searchlights',
-        dateBorrowed: 'Nov 3, 2026',
-        dueDate: 'Nov 8, 2026',
-        dueStyle: 'normal',
-        status: 'Pending',
-        badgeType: 'green',
-        isOverdueRow: false
-      }
-    ],
-    3: [
-      {
-        name: 'Clarissa Bautista',
-        subtext: 'Daycare Center Staff • Purok 1',
-        equipment: '20 Kiddie Chairs, 4 Activity Tables',
-        dateBorrowed: 'Oct 15, 2026',
-        dueDate: 'Oct 19, 2026',
-        dueStyle: 'normal',
-        status: 'Returned',
-        badgeType: 'returned',
-        isOverdueRow: false
-      },
-      {
-        name: 'Fernando Tolentino',
-        subtext: 'Resident • Purok 6',
-        equipment: '1 Grass Cutter, 2 Wheelbarrows',
-        dateBorrowed: 'Nov 2, 2026',
-        dueDate: 'Nov 4, 2026',
-        dueStyle: 'bold-dark',
-        status: 'Due Today',
-        badgeType: 'green',
-        isOverdueRow: false
-      },
-      {
-        name: 'Marisol De Leon',
-        subtext: 'Senior Citizens Org • Purok 2',
-        equipment: '50 Monobloc Chairs, 1 PA Sound System',
-        dateBorrowed: 'Oct 12, 2026',
-        dueDate: 'Oct 14, 2026',
-        dueStyle: 'normal',
-        status: 'Returned',
-        badgeType: 'returned',
-        isOverdueRow: false
-      },
-      {
-        name: 'Jomar Aquino',
-        subtext: 'Resident • Purok 4',
-        equipment: '1 Extension Ladder (16ft)',
-        dateBorrowed: 'Nov 3, 2026',
-        dueDate: 'Nov 5, 2026',
-        dueStyle: 'normal',
-        status: 'Pending',
-        badgeType: 'green',
-        isOverdueRow: false
-      },
-      {
-        name: 'Teresa Magbanua',
-        subtext: 'Health Center • Purok 1',
-        equipment: '2 Folding Stretchers, 1 Emergency Tent',
-        dateBorrowed: 'Oct 10, 2026',
-        dueDate: 'Oct 13, 2026',
-        dueStyle: 'normal',
-        status: 'Returned',
-        badgeType: 'returned',
-        isOverdueRow: false
-      }
-    ]
-  };
+  let transactionsList = [];
+  let overdueList = [];
+  let categoryStatsList = [];
 
   let currentPage = 1;
-  const totalPages = 3;
-  const totalRecords = 142;
   const pageSize = 5;
 
   const tbody = document.getElementById('transactionsBody');
   const summaryEl = document.getElementById('paginationSummary');
   const prevBtn = document.getElementById('prevPageBtn');
   const nextBtn = document.getElementById('nextPageBtn');
-  const pageBtns = document.querySelectorAll('.page-btn[data-page]');
+  const paginationControls = document.getElementById('paginationControls');
+
+  const overdueListContainer = document.getElementById('overdueListContainer');
+  const overduePanelCount = document.getElementById('overduePanelCount');
+  const categoryAvailabilityList = document.getElementById('categoryAvailabilityList');
+
+  function renderOverdueList() {
+    if (!overdueListContainer) return;
+    if (overduePanelCount) overduePanelCount.textContent = overdueList.length;
+
+    if (overdueList.length === 0) {
+      overdueListContainer.innerHTML = `<div class="empty-panel-msg" style="padding: 16px 0; color: var(--text-muted); font-size: 13px;">No overdue borrowings found.</div>`;
+      return;
+    }
+
+    overdueListContainer.innerHTML = overdueList.map(item => `
+      <div class="overdue-item">
+        <div class="overdue-item-top">
+          <span class="borrower-name">${item.borrowerName}</span>
+          <span class="status-badge overdue"><span class="status-dot"></span>Overdue</span>
+        </div>
+        <div class="overdue-org">${item.organization || ''}</div>
+        <div class="overdue-equip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="4" rx="1"/>
+            <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/>
+            <path d="M10 12h4"/>
+          </svg>
+          <span>${item.equipment}</span>
+        </div>
+        <div class="overdue-due">${item.dueLabel}</div>
+      </div>
+    `).join('');
+  }
+
+  function renderCategoryAvailability() {
+    if (!categoryAvailabilityList) return;
+
+    if (categoryStatsList.length === 0) {
+      categoryAvailabilityList.innerHTML = `<div class="empty-panel-msg" style="padding: 16px 0; color: var(--text-muted); font-size: 13px;">No category inventory data available.</div>`;
+      return;
+    }
+
+    categoryAvailabilityList.innerHTML = categoryStatsList.map(cat => {
+      const pct = cat.total > 0 ? Math.round((cat.available / cat.total) * 10000) / 100 : 0;
+      return `
+        <div class="category-item">
+          <div class="category-meta">
+            <span class="category-name">${cat.name}</span>
+            <span class="category-stats"><strong>${cat.available} / ${cat.total} units</strong> (${pct}% available)</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width: ${pct}%;"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
 
   function renderTransactions(page) {
-    const rows = transactionsPages[page] || transactionsPages[1];
+    const totalRecords = transactionsList.length;
+    const totalPages = Math.max(1, Math.ceil(totalRecords / pageSize));
+    if (page > totalPages) page = totalPages;
+    currentPage = page;
+
+    if (totalRecords === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align:center; padding: 24px; color: var(--text-muted);">No borrowing transactions recorded yet.</td>
+        </tr>
+      `;
+      summaryEl.innerHTML = `Showing <strong>0</strong> of 0 Borrowers`;
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+      return;
+    }
+
+    const startIdx = (page - 1) * pageSize;
+    const endIdx = Math.min(startIdx + pageSize, totalRecords);
+    const rows = transactionsList.slice(startIdx, endIdx);
+
     tbody.innerHTML = rows.map(row => {
       const dueClass =
         row.dueStyle === 'bold-red'
@@ -201,7 +105,7 @@
         <tr class="${row.isOverdueRow ? 'row-overdue' : ''}">
           <td>
             <div class="td-borrower-name">${row.name}</div>
-            <div class="td-borrower-sub">${row.subtext}</div>
+            <div class="td-borrower-sub">${row.subtext || ''}</div>
           </td>
           <td class="td-equipment">${row.equipment}</td>
           <td class="td-date">${row.dateBorrowed}</td>
@@ -215,152 +119,101 @@
       `;
     }).join('');
 
-    const startIdx = (page - 1) * pageSize + 1;
-    const endIdx = page * pageSize;
-    summaryEl.innerHTML = `Showing <strong>${startIdx} - ${endIdx}</strong> of ${totalRecords} Borrowers`;
-
-    pageBtns.forEach(btn => {
-      const btnPage = Number(btn.getAttribute('data-page'));
-      btn.classList.toggle('active', btnPage === page);
-    });
-
+    summaryEl.innerHTML = `Showing <strong>${startIdx + 1} - ${endIdx}</strong> of ${totalRecords} Borrowers`;
     prevBtn.disabled = page <= 1;
     nextBtn.disabled = page >= totalPages;
   }
 
-  // Pagination event listeners
-  pageBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const targetPage = Number(btn.getAttribute('data-page'));
-      if (targetPage !== currentPage) {
-        currentPage = targetPage;
-        renderTransactions(currentPage);
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        renderTransactions(currentPage - 1);
       }
     });
-  });
+  }
 
-  prevBtn.addEventListener('click', () => {
-    if (currentPage > 1) {
-      currentPage--;
-      renderTransactions(currentPage);
-    }
-  });
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const totalPages = Math.max(1, Math.ceil(transactionsList.length / pageSize));
+      if (currentPage < totalPages) {
+        renderTransactions(currentPage + 1);
+      }
+    });
+  }
 
-  nextBtn.addEventListener('click', () => {
-    if (currentPage < totalPages) {
-      currentPage++;
-      renderTransactions(currentPage);
-    }
-  });
+  // Administration Access Restriction
+  const adminWrapper = document.getElementById('adminDropdownWrapper');
+  const adminBtn = document.getElementById('adminDropdownBtn');
+  const restrictedOverlay = document.getElementById('restrictedOverlay');
+  const closeRestricted = document.getElementById('closeRestricted');
 
-// Administration Access Restriction
-const adminWrapper = document.getElementById('adminDropdownWrapper');
-const adminBtn = document.getElementById('adminDropdownBtn');
+  const accountRole = (document.body.dataset.role || '').trim().toLowerCase();
+  const isAdmin = accountRole === 'admin';
 
-const restrictedOverlay = document.getElementById('restrictedOverlay');
-const closeRestricted = document.getElementById('closeRestricted');
-
-// Get the authenticated account role from the HTML body
-const accountRole = (
-    document.body.dataset.role || ''
-).trim().toLowerCase();
-
-// Check whether the account is an administrator
-const isAdmin = accountRole === 'admin';
-
-// Display the restriction modal
-function showRestrictedModal() {
+  function showRestrictedModal() {
     if (restrictedOverlay) {
-        restrictedOverlay.classList.remove('hidden');
+      restrictedOverlay.classList.remove('hidden');
     }
-}
+  }
 
-// Close the restriction modal
-function hideRestrictedModal() {
+  function hideRestrictedModal() {
     if (restrictedOverlay) {
-        restrictedOverlay.classList.add('hidden');
+      restrictedOverlay.classList.add('hidden');
     }
-}
+  }
 
-// Administration dropdown click
-if (adminBtn && adminWrapper) {
+  if (adminBtn && adminWrapper) {
     adminBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+      e.preventDefault();
+      e.stopPropagation();
 
-        // Staff accounts cannot access Administration
-        if (!isAdmin) {
-            adminWrapper.classList.remove('open');
-            adminBtn.setAttribute('aria-expanded', 'false');
-
-            showRestrictedModal();
-            return;
-        }
-
-        // Admin accounts can access Administration
-        const isOpen = adminWrapper.classList.toggle('open');
-
-        adminBtn.setAttribute(
-            'aria-expanded',
-            String(isOpen)
-        );
-    });
-}
-
-// Close restriction modal using the Close button
-if (closeRestricted) {
-    closeRestricted.addEventListener('click', hideRestrictedModal);
-}
-
-// Close restriction modal when clicking outside the card
-if (restrictedOverlay) {
-    restrictedOverlay.addEventListener('click', (e) => {
-        if (e.target === restrictedOverlay) {
-            hideRestrictedModal();
-        }
-    });
-}
-
-// Close Administration dropdown when clicking outside
-document.addEventListener('click', (e) => {
-    if (
-        adminWrapper &&
-        !adminWrapper.contains(e.target)
-    ) {
+      if (!isAdmin) {
         adminWrapper.classList.remove('open');
+        adminBtn.setAttribute('aria-expanded', 'false');
+        showRestrictedModal();
+        return;
+      }
 
-        if (adminBtn) {
-            adminBtn.setAttribute('aria-expanded', 'false');
-        }
+      const isOpen = adminWrapper.classList.toggle('open');
+      adminBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
+
+  if (closeRestricted) {
+    closeRestricted.addEventListener('click', hideRestrictedModal);
+  }
+
+  if (restrictedOverlay) {
+    restrictedOverlay.addEventListener('click', (e) => {
+      if (e.target === restrictedOverlay) {
+        hideRestrictedModal();
+      }
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    if (adminWrapper && !adminWrapper.contains(e.target)) {
+      adminWrapper.classList.remove('open');
+      if (adminBtn) {
+        adminBtn.setAttribute('aria-expanded', 'false');
+      }
     }
-});
+  });
 
   // Mobile menu toggle
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const navLinks = document.getElementById('navLinks');
 
-  mobileMenuBtn.addEventListener('click', () => {
-    navLinks.classList.toggle('mobile-open');
-  });
-
-  // Top navigation active tab switching & subtle feedback
-  const navButtons = document.querySelectorAll('.nav-btn[data-nav]');
-  navButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      navButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      navLinks.classList.remove('mobile-open');
-
-      const section = btn.getAttribute('data-nav');
-      if (section !== 'Dashboard') {
-        showToast(`Switched view to ${section} module`);
-      }
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('mobile-open');
     });
-  });
+  }
 
   // Toast notification helper
   const toastContainer = document.getElementById('toastContainer');
   function showToast(message) {
+    if (!toastContainer) return;
     const toast = document.createElement('div');
     toast.className = 'toast';
     toast.innerHTML = `
@@ -380,15 +233,8 @@ document.addEventListener('click', (e) => {
     }, 2600);
   }
 
-  // Attach toast notifications to interactive links and dropdown items
-  document.querySelectorAll('[data-toast]').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-      adminWrapper.classList.remove('open');
-      showToast(el.getAttribute('data-toast'));
-    });
-  });
-
-  // Initial render of Page 1
+  // Initial render
+  renderOverdueList();
+  renderCategoryAvailability();
   renderTransactions(1);
 })();
