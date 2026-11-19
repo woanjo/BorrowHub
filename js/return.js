@@ -505,8 +505,8 @@
       overallCondition: selectedProcessCondition === 'Good Condition'
         ? 'Good (Inspected & Verified)'
         : selectedProcessCondition === 'Damaged'
-        ? 'Returned with Damage'
-        : 'Incomplete Return',
+          ? 'Returned with Damage'
+          : 'Incomplete Return',
       damagedQuantity: damagedQuantity,
       missingQuantity: missingQuantity,
       notes: document.getElementById('returnNotes').value.trim() || 'No additional inspection remarks.',
@@ -537,18 +537,87 @@
     if (event.key === 'Escape' && !modalBackdrop.hidden) closeModal();
   });
 
-  const adminWrapper = document.getElementById('adminDropdownWrapper');
-  const adminButton = document.getElementById('adminDropdownBtn');
-  adminButton.addEventListener('click', function () {
-    const isOpen = adminWrapper.classList.toggle('open');
-    adminButton.setAttribute('aria-expanded', String(isOpen));
-  });
-  document.addEventListener('click', function (event) {
-    if (!adminWrapper.contains(event.target)) {
-      adminWrapper.classList.remove('open');
-      adminButton.setAttribute('aria-expanded', 'false');
+  // Administration Access Restriction
+const adminWrapper = document.getElementById('adminDropdownWrapper');
+const adminBtn = document.getElementById('adminDropdownBtn');
+
+const restrictedOverlay = document.getElementById('restrictedOverlay');
+const closeRestricted = document.getElementById('closeRestricted');
+
+// Get the authenticated account role from the HTML body
+const accountRole = (
+    document.body.dataset.role || ''
+).trim().toLowerCase();
+
+// Check whether the account is an administrator
+const isAdmin = accountRole === 'admin';
+
+// Display the restriction modal
+function showRestrictedModal() {
+    if (restrictedOverlay) {
+        restrictedOverlay.classList.remove('hidden');
     }
-  });
+}
+
+// Close the restriction modal
+function hideRestrictedModal() {
+    if (restrictedOverlay) {
+        restrictedOverlay.classList.add('hidden');
+    }
+}
+
+// Administration dropdown click
+if (adminBtn && adminWrapper) {
+    adminBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Staff accounts cannot access Administration
+        if (!isAdmin) {
+            adminWrapper.classList.remove('open');
+            adminBtn.setAttribute('aria-expanded', 'false');
+
+            showRestrictedModal();
+            return;
+        }
+
+        // Admin accounts can access Administration
+        const isOpen = adminWrapper.classList.toggle('open');
+
+        adminBtn.setAttribute(
+            'aria-expanded',
+            String(isOpen)
+        );
+    });
+}
+
+// Close restriction modal using the Close button
+if (closeRestricted) {
+    closeRestricted.addEventListener('click', hideRestrictedModal);
+}
+
+// Close restriction modal when clicking outside the card
+if (restrictedOverlay) {
+    restrictedOverlay.addEventListener('click', (e) => {
+        if (e.target === restrictedOverlay) {
+            hideRestrictedModal();
+        }
+    });
+}
+
+// Close Administration dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    if (
+        adminWrapper &&
+        !adminWrapper.contains(e.target)
+    ) {
+        adminWrapper.classList.remove('open');
+
+        if (adminBtn) {
+            adminBtn.setAttribute('aria-expanded', 'false');
+        }
+    }
+});
 
   const mobileMenuButton = document.getElementById('mobileMenuBtn');
   const navLinks = document.getElementById('navLinks');
