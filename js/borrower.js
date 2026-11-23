@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Barangay BorrowHub - Borrower Page Logic (Aligned with Equipment Style)
+   Barangay BorrowHub - Borrower Page Logic (Empty Initial Data)
    ========================================================================== */
 (function () {
   'use strict';
@@ -39,8 +39,25 @@
     return (a + b).toUpperCase() || 'BR';
   }
 
+  function addDays(d) {
+    var t = new Date();
+    t.setDate(t.getDate() + d);
+    return t;
+  }
+
+  function fmtShort(date) {
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
   function fmtFull(date) {
     return MONTHS_FULL[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+  }
+
+  function dueText(d) {
+    if (d < 0) return 'Overdue ' + (-d) + ' day' + (-d === 1 ? '' : 's');
+    if (d === 0) return 'Due today';
+    if (d === 1) return 'Due tomorrow';
+    return 'Due in ' + d + ' days';
   }
 
   function statusClass(s) {
@@ -53,177 +70,48 @@
     return (street || '').replace(/,\s*Barangay Bulacao\s*$/i, '');
   }
 
-  var ICON = {
-    eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
-    pencil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>',
-    pencilSm: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0;"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>',
-    box: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>'
-  };
-
-  /* ------------------------------------------------------------------
-     Seed Data (Maria Santos & Eduardo Ramos only)
-     ------------------------------------------------------------------ */
-  var HISTORY_POOL = [
-    { date: 'Jan 12, 2026', items: '1 Megaphone', status: 'Returned' },
-    { date: 'Mar 08, 2026', items: '2 Folding Tables', status: 'Returned' },
-    { date: 'May 20, 2026', items: '1 Canopy (10\u00d710)', status: 'Returned' },
-    { date: 'Jul 15, 2026', items: '1 Sound System', status: 'Returned' },
-    { date: 'Sept 04, 2026', items: '30 Chairs', status: 'Returned' }
-  ];
-
-  function mkItem(name, units, dueInDays) {
-    return { name: name, units: units, dueInDays: dueInDays };
-  }
-
   function totalUnits(b) {
     return (b.items || []).reduce(function (s, it) { return s + it.units; }, 0);
   }
 
-  function buildSeed() {
-    var list = [
-      {
-        name: 'Maria Santos',
-        contact: '0928-444-5678',
-        email: 'msantos@gmail.com',
-        purok: 2,
-        street: '#14 Sampaguita St., Barangay Bulacao',
-        status: 'Good Standing',
-        registered: 'January 09, 2026',
-        completed: 5,
-        items: [
-          mkItem('Stackable Monobloc Chairs', 40, 2),
-          mkItem('Folding Catering Tables', 4, 2)
-        ],
-        history: HISTORY_POOL.slice(0, 3)
-      },
-      {
-        name: 'Eduardo Ramos',
-        contact: '0918-333-9876',
-        email: '',
-        purok: 3,
-        street: '#21 Gumamela St., Barangay Bulacao',
-        status: 'Overdue',
-        registered: 'February 14, 2026',
-        completed: 2,
-        items: [mkItem('Folding Catering Tables', 2, -3)],
-        history: HISTORY_POOL.slice(3)
-      }
-    ];
-
-    list.forEach(function (b, idx) {
-      b.key = 'b' + idx;
-      b.id = 'BRG-BOR-2025-' + pad(idx + 1, 4);
-    });
-    return list;
-  }
-
-  var borrowers = buildSeed();
-  var nextSeq = 82;
-  var keyCounter = borrowers.length;
-  var state = { page: 1, search: '', purok: 'All', status: 'All', selected: borrowers[0].key };
-
-  // Administration Access Restriction
-const adminWrapper = document.getElementById('adminDropdownWrapper');
-const adminBtn = document.getElementById('adminDropdownBtn');
-
-const restrictedOverlay = document.getElementById('restrictedOverlay');
-const closeRestricted = document.getElementById('closeRestricted');
-
-// Get the authenticated account role from the HTML body
-const accountRole = (
-    document.body.dataset.role || ''
-).trim().toLowerCase();
-
-// Check whether the account is an administrator
-const isAdmin = accountRole === 'admin';
-
-// Display the restriction modal
-function showRestrictedModal() {
-    if (restrictedOverlay) {
-        restrictedOverlay.classList.remove('hidden');
-    }
-}
-
-// Close the restriction modal
-function hideRestrictedModal() {
-    if (restrictedOverlay) {
-        restrictedOverlay.classList.add('hidden');
-    }
-}
-
-// Administration dropdown click
-if (adminBtn && adminWrapper) {
-    adminBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        // Staff accounts cannot access Administration
-        if (!isAdmin) {
-            adminWrapper.classList.remove('open');
-            adminBtn.setAttribute('aria-expanded', 'false');
-
-            showRestrictedModal();
-            return;
-        }
-
-        // Admin accounts can access Administration
-        const isOpen = adminWrapper.classList.toggle('open');
-
-        adminBtn.setAttribute(
-            'aria-expanded',
-            String(isOpen)
-        );
-    });
-}
-
-// Close restriction modal using the Close button
-if (closeRestricted) {
-    closeRestricted.addEventListener('click', hideRestrictedModal);
-}
-
-// Close restriction modal when clicking outside the card
-if (restrictedOverlay) {
-    restrictedOverlay.addEventListener('click', (e) => {
-        if (e.target === restrictedOverlay) {
-            hideRestrictedModal();
-        }
-    });
-}
-
-// Close Administration dropdown when clicking outside
-document.addEventListener('click', (e) => {
-    if (
-        adminWrapper &&
-        !adminWrapper.contains(e.target)
-    ) {
-        adminWrapper.classList.remove('open');
-
-        if (adminBtn) {
-            adminBtn.setAttribute('aria-expanded', 'false');
-        }
-    }
-});
+  var ICON = {
+    eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+    pencil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>',
+    pencilSm: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;min-width:16px;max-width:16px;flex-shrink:0;"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>',
+    box: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>',
+    idcard: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="11" r="2"/><path d="M13 10h5"/><path d="M13 14h5"/></svg>',
+    chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 17v-5"/><path d="M12 17V8"/><path d="M16 17v-3"/></svg>',
+    ledger: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16v18l-3-2-3 2-2-2-2 2-3-2-3 2z"/><path d="M8 8h8"/><path d="M8 12h8"/></svg>',
+    cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+    calCheck: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>',
+    phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+    mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>',
+    shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+  };
 
   /* ------------------------------------------------------------------
-     Toast Helper
+     Empty initial state
+     ------------------------------------------------------------------ */
+  var borrowers = [];
+  var nextSeq = 1;
+  var keyCounter = 0;
+  var state = { page: 1, search: '', purok: 'All', status: 'All', selected: null };
+
+  /* ------------------------------------------------------------------
+     Toasts
      ------------------------------------------------------------------ */
   function toast(msg, type) {
     var c = $('#toastContainer');
     if (!c) return;
     var el = document.createElement('div');
     el.className = 'toast' + (type === 'error' ? ' error' : '');
-    el.innerHTML =
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0;">' +
-        '<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>' +
-      '</svg>' +
-      '<span>' + esc(msg) + '</span>';
+    el.textContent = msg;
     c.appendChild(el);
     setTimeout(function () {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(8px)';
-      el.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
-      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 220);
-    }, 2800);
+      el.classList.add('leaving');
+      setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 260);
+    }, 3200);
   }
 
   $$('[data-toast]').forEach(function (btn) {
@@ -232,6 +120,28 @@ document.addEventListener('click', (e) => {
       toast(btn.getAttribute('data-toast'));
     });
   });
+
+  /* ------------------------------------------------------------------
+     Navbar & Filter Dropdowns
+     ------------------------------------------------------------------ */
+  var adminWrap = $('#adminDropdownWrapper');
+  var adminBtn = $('#adminDropdownBtn');
+  if (adminBtn && adminWrap) {
+    adminBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var open = adminWrap.classList.toggle('open');
+      adminBtn.setAttribute('aria-expanded', String(open));
+    });
+  }
+
+  var mobileBtn = $('#mobileMenuBtn');
+  var navLinks = $('#navLinks');
+  if (mobileBtn && navLinks) {
+    mobileBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      navLinks.classList.toggle('open');
+    });
+  }
 
   function setupFilterDropdown(wrapId, key) {
     var wrap = $('#' + wrapId);
@@ -296,6 +206,12 @@ document.addEventListener('click', (e) => {
     });
   }
 
+  function avatarClass(b, idx) {
+    if (b.status === 'Overdue') return 'av-red';
+    var cycle = ['av-dark', 'av-mid', 'av-light', 'av-lighter'];
+    return cycle[idx % cycle.length];
+  }
+
   function renderKpis() {
     var totalEl = $('#kpiTotalValue');
     var activeEl = $('#kpiActiveValue');
@@ -319,22 +235,27 @@ document.addEventListener('click', (e) => {
     if (!body) return;
 
     if (!pageRows.length) {
-      body.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:36px;color:var(--text-muted);">No borrowers match your search or filters.</td></tr>';
+      var emptyMsg = borrowers.length === 0
+        ? 'No borrowers registered yet. Click "Register Borrower" to add one.'
+        : 'No borrowers match your search or filters.';
+      body.innerHTML = '<tr class="empty-row"><td colspan="6">' + esc(emptyMsg) + '</td></tr>';
     } else {
-      body.innerHTML = pageRows.map(function (b) {
+      body.innerHTML = pageRows.map(function (b, i) {
         var units = totalUnits(b);
+        var pillCls = b.status === 'Overdue' ? ' red' : (units === 0 ? ' zero' : '');
         var itemsText = units === 0 ? 'None' : units + (units === 1 ? ' item' : ' items');
-        var isSelected = b.key === state.selected ? ' selected' : '';
-        var avCls = b.status === 'Overdue' ? ' av-red' : '';
+        var cls = [];
+        if (b.status === 'Overdue') cls.push('is-overdue');
+        if (b.key === state.selected) cls.push('selected');
 
-        return '<tr data-key="' + b.key + '" class="' + isSelected + '">' +
-          '<td><div class="b-name"><span class="avatar' + avCls + '">' + esc(initials(b.name)) + '</span><span class="name-text">' + esc(b.name) + '</span></div></td>' +
+        return '<tr data-key="' + b.key + '" class="' + cls.join(' ') + '">' +
+          '<td><div class="b-name"><span class="avatar ' + avatarClass(b, start + i) + '">' + esc(initials(b.name)) + '</span><span class="name-text">' + esc(b.name) + '</span></div></td>' +
           '<td class="td-contact">' + esc(b.contact) + '</td>' +
           '<td>Purok ' + b.purok + '</td>' +
-          '<td style="text-align:center;font-weight:600;">' + esc(itemsText) + '</td>' +
-          '<td><span class="status-pill ' + statusClass(b.status) + '">' + esc(b.status) + '</span></td>' +
-          '<td style="text-align:right;"><div class="row-actions">' +
-            '<button type="button" class="icon-btn" data-action="view" aria-label="Select ' + esc(b.name) + '" title="View in side panel">' + ICON.eye + '</button>' +
+          '<td class="td-center"><span class="items-pill' + pillCls + '">' + itemsText + '</span></td>' +
+          '<td><span class="pill ' + statusClass(b.status) + '">' + esc(b.status) + '</span></td>' +
+          '<td class="td-right"><div class="row-actions">' +
+            '<button type="button" class="icon-btn" data-action="view" aria-label="View ' + esc(b.name) + '" title="View details">' + ICON.eye + '</button>' +
             '<button type="button" class="icon-btn" data-action="edit" aria-label="Edit ' + esc(b.name) + '" title="Edit borrower">' + ICON.pencil + '</button>' +
           '</div></td>' +
         '</tr>';
@@ -356,7 +277,7 @@ document.addEventListener('click', (e) => {
     var startPage = Math.max(1, Math.min(state.page - 1, totalPages - 2));
     var endPage = Math.min(totalPages, startPage + 2);
 
-    var html = '<button type="button" class="page-btn" data-page="' + (state.page - 1) + '"' + (state.page === 1 ? ' disabled' : '') + '>Prev</button>';
+    var html = '<button type="button" class="page-btn" data-page="' + (state.page - 1) + '"' + (state.page === 1 ? ' disabled' : '') + '>Previous</button>';
     for (var p = startPage; p <= endPage; p++) {
       html += '<button type="button" class="page-btn' + (p === state.page ? ' active' : '') + '" data-page="' + p + '">' + p + '</button>';
     }
@@ -383,9 +304,11 @@ document.addEventListener('click', (e) => {
       var actionBtn = e.target.closest('[data-action]');
       selectBorrower(key);
 
-      if (actionBtn && actionBtn.getAttribute('data-action') === 'edit') {
+      if (actionBtn) {
         var b = findByKey(key);
-        if (b) openEdit(b);
+        if (!b) return;
+        if (actionBtn.getAttribute('data-action') === 'view') openDetails(b);
+        else openEdit(b);
       }
     });
   }
@@ -406,47 +329,60 @@ document.addEventListener('click', (e) => {
   }
 
   function renderDetailPanel() {
-    var b = findByKey(state.selected);
     var panel = $('#detailPanel');
     if (!panel) return;
 
+    var b = findByKey(state.selected);
     if (!b) {
-      panel.innerHTML = '<div style="text-align:center;color:var(--text-muted);padding:24px;">Select a borrower to view borrowing details.</div>';
+      panel.innerHTML = '<div class="held-empty">No borrower selected.</div>';
       return;
     }
 
     var units = totalUnits(b);
+    var minDue = b.items.length ? Math.min.apply(null, b.items.map(function (it) { return it.dueInDays; })) : null;
+    var dueLabel, dueCls = '';
+    if (minDue === null) { dueLabel = 'No active loans'; dueCls = ' muted'; }
+    else if (minDue < 0) { dueLabel = 'Overdue'; dueCls = ' red'; }
+    else if (minDue <= 2) { dueLabel = 'Due Soon'; }
+    else { dueLabel = 'On Schedule'; dueCls = ' muted'; }
+
     var itemsHtml = b.items.length
       ? b.items.map(function (it) {
           var overdue = it.dueInDays < 0;
           return '<div class="held-item">' +
             '<div class="held-icon">' + ICON.box + '</div>' +
-            '<div class="held-text">' +
-              '<div class="held-name">' + esc(it.name) + '</div>' +
-              '<div class="held-units">' + it.units + (it.units === 1 ? ' Unit' : ' Units') + (overdue ? ' \u2022 Overdue' : '') + '</div>' +
-            '</div>' +
-            '<span class="status-pill ' + (overdue ? 'overdue' : 'good') + '">' + (overdue ? 'Overdue' : 'Active') + '</span>' +
+            '<div class="held-text"><div class="held-name">' + esc(it.name) + '</div><div class="held-units">' + it.units + (it.units === 1 ? ' Unit' : ' Units') + '</div></div>' +
+            '<span class="held-tag' + (overdue ? ' overdue' : '') + '">' + (overdue ? 'Overdue' : 'Active') + '</span>' +
           '</div>';
         }).join('')
-      : '<div style="background:#f6faf8;border-radius:8px;padding:14px;text-align:center;color:var(--text-muted);font-size:12.5px;">No items currently borrowed.</div>';
+      : '<div class="held-empty">No items currently borrowed.</div>';
+
+    var recent = b.history.slice(-3);
+    var historyHtml = recent.length
+      ? '<div class="history-grid">' +
+          '<div class="hh">DATE</div><div class="hh">ITEMS BORROWED</div><div class="hh">STATUS</div>' +
+          recent.map(function (h) {
+            return '<div class="hc date">' + esc(h.date) + '</div><div class="hc items">' + esc(h.items) + '</div><div class="hc status">' + esc(h.status) + '</div>';
+          }).join('') +
+        '</div>'
+      : '<div class="history-empty">No borrowing history yet.</div>';
 
     panel.innerHTML =
       '<div class="dp-head">' +
         '<div class="dp-avatar">' + esc(initials(b.name)) + '</div>' +
-        '<div class="dp-head-text">' +
-          '<div class="dp-name">' + esc(b.name) + '</div>' +
-          '<div class="dp-role">' + esc(b.id) + ' &bull; Resident Borrower</div>' +
-        '</div>' +
-        '<span class="status-pill ' + statusClass(b.status) + '">' + esc(b.status) + '</span>' +
+        '<div class="dp-head-text"><div class="dp-name">' + esc(b.name) + '</div><div class="dp-role">' + esc(b.id) + ' &bull; Resident Borrower</div></div>' +
+        '<span class="dp-status ' + statusClass(b.status) + '">' + esc(b.status) + '</span>' +
       '</div>' +
       '<div class="dp-info-grid">' +
-        '<div><div class="dp-info-label">Contact</div><div class="dp-info-value">' + esc(b.contact) + '</div></div>' +
+        '<div><div class="dp-info-label">Contact Number</div><div class="dp-info-value">' + esc(b.contact) + '</div></div>' +
         '<div><div class="dp-info-label">Address</div><div class="dp-info-value">Purok ' + b.purok + ', ' + esc(streetShort(b.street)) + '</div></div>' +
-        '<div><div class="dp-info-label">Active Items</div><div class="dp-info-value">' + units + (units === 1 ? ' item' : ' items') + '</div></div>' +
-        '<div><div class="dp-info-label">Completed</div><div class="dp-info-value">' + b.completed + ' returned</div></div>' +
+        '<div><div class="dp-info-label">Active Borrowings</div><div class="dp-info-value">' + units + (units === 1 ? ' item' : ' items') + '</div></div>' +
+        '<div><div class="dp-info-label">Completed Borrowings</div><div class="dp-info-value">' + b.completed + (b.completed === 1 ? ' item' : ' items') + '</div></div>' +
       '</div>' +
-      '<div class="dp-section-head"><span>ACTIVE ITEMS HELD</span><span>' + b.items.length + ' loan(s)</span></div>' +
+      '<div class="dp-section-head"><span>ACTIVE ITEMS HELD</span><span class="aside' + dueCls + '">' + dueLabel + '</span></div>' +
       itemsHtml +
+      '<div class="dp-section-head"><span>RECENT BORROWING HISTORY</span><span class="aside muted">' + b.completed + ' Total</span></div>' +
+      '<div class="history-box">' + historyHtml + '</div>' +
       '<button type="button" class="btn-edit-borrower" id="panelEditBtn">' + ICON.pencilSm + '<span>Edit Borrower</span></button>';
 
     var editBtn = $('#panelEditBtn');
@@ -456,41 +392,39 @@ document.addEventListener('click', (e) => {
   }
 
   /* ------------------------------------------------------------------
-     Modal Open / Close & Forms
+     Modals & Forms
      ------------------------------------------------------------------ */
   function openModal(id) {
     var m = $('#' + id);
     if (!m) return;
     m.classList.add('open');
-    document.body.classList.add('modal-open');
+    document.body.style.overflow = 'hidden';
   }
 
   function closeModal(id) {
     var m = $('#' + id);
     if (!m) return;
     m.classList.remove('open');
-    if (!$('.modal-backdrop.open')) {
-      document.body.classList.remove('modal-open');
-    }
+    if (!$('.modal-backdrop.open')) document.body.style.overflow = '';
   }
 
   $$('[data-close-modal]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      closeModal(btn.getAttribute('data-close-modal'));
-    });
+    btn.addEventListener('click', function () { closeModal(btn.getAttribute('data-close-modal')); });
   });
 
   $$('.modal-backdrop').forEach(function (bd) {
-    bd.addEventListener('mousedown', function (e) {
-      if (e.target === bd) closeModal(bd.id);
-    });
+    bd.addEventListener('mousedown', function (e) { if (e.target === bd) closeModal(bd.id); });
   });
 
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') {
-      $$('.modal-backdrop.open').forEach(function (m) { closeModal(m.id); });
-    }
+    if (e.key === 'Escape') $$('.modal-backdrop.open').forEach(function (m) { closeModal(m.id); });
   });
+
+  var PHONE_RE = /^09\d{2}-?\d{3}-?\d{4}$/;
+  function normalizePhone(v) {
+    var d = v.replace(/\D/g, '');
+    return d.length >= 11 ? d.slice(0, 4) + '-' + d.slice(4, 7) + '-' + d.slice(7, 11) : v.trim();
+  }
 
   function nextId() {
     return 'BRG-BOR-2026-' + pad(nextSeq, 4);
@@ -501,14 +435,12 @@ document.addEventListener('click', (e) => {
     openRegBtn.addEventListener('click', function () {
       var form = $('#registerForm');
       if (form) form.reset();
-      var idInput = $('#regId');
-      if (idInput) idInput.value = nextId();
-      var purokInput = $('#regPurok');
-      if (purokInput) purokInput.value = '2';
+      if ($('#regId')) $('#regId').value = nextId();
+      if ($('#regPurok')) $('#regPurok').value = '2';
+      if ($('#regCertify')) $('#regCertify').checked = true;
       openModal('registerModalBackdrop');
       setTimeout(function () {
-        var nameInput = $('#regName');
-        if (nameInput) nameInput.focus();
+        if ($('#regName')) $('#regName').focus();
       }, 60);
     });
   }
@@ -522,9 +454,12 @@ document.addEventListener('click', (e) => {
       var emailVal = ($('#regEmail') && $('#regEmail').value || '').trim();
       var streetVal = ($('#regStreet') && $('#regStreet').value || '').trim();
       var purokVal = parseInt(($('#regPurok') && $('#regPurok').value) || '2', 10);
+      var statusVal = ($('#regStatus') && $('#regStatus').value) || 'Good Standing';
+      var proofVal = ($('#regProof') && $('#regProof').value) || 'Barangay ID';
+      var certifyEl = $('#regCertify');
 
-      if (!nameVal || !contactVal || !streetVal) {
-        toast('Please fill in all required borrower fields.', 'error');
+      if (!nameVal || !PHONE_RE.test(contactVal) || !streetVal || (certifyEl && !certifyEl.checked)) {
+        toast('Please enter a valid name, contact number (09XX-XXX-XXXX), and address.', 'error');
         return;
       }
 
@@ -532,11 +467,12 @@ document.addEventListener('click', (e) => {
         key: 'b' + (keyCounter++),
         id: nextId(),
         name: nameVal,
-        contact: contactVal,
+        contact: normalizePhone(contactVal),
         email: emailVal,
         purok: purokVal,
         street: streetVal,
-        status: 'Good Standing',
+        status: statusVal,
+        proof: proofVal,
         registered: fmtFull(new Date()),
         completed: 0,
         items: [],
@@ -561,10 +497,29 @@ document.addEventListener('click', (e) => {
 
   function openEdit(b) {
     if ($('#editBorrowerKey')) $('#editBorrowerKey').value = b.key;
+    if ($('#editHeaderId')) $('#editHeaderId').textContent = b.id;
     if ($('#editName')) $('#editName').value = b.name;
+    if ($('#editId')) $('#editId').value = b.id;
     if ($('#editContact')) $('#editContact').value = b.contact;
+    if ($('#editEmail')) $('#editEmail').value = b.email || '';
+    if ($('#editStreet')) $('#editStreet').value = b.street || '';
     if ($('#editPurok')) $('#editPurok').value = String(b.purok);
     if ($('#editStatus')) $('#editStatus').value = b.status;
+
+    var units = totalUnits(b);
+    if ($('#editCustodyTag') && $('#editCustodyText') && $('#editCustodyDue')) {
+      if (b.items.length) {
+        var minDue = Math.min.apply(null, b.items.map(function (it) { return it.dueInDays; }));
+        $('#editCustodyTag').textContent = minDue < 0 ? 'Overdue' : 'In Custody';
+        $('#editCustodyText').textContent = b.items.length + ' Active Borrowed (' + units + ' items held)';
+        $('#editCustodyDue').textContent = dueText(minDue);
+      } else {
+        $('#editCustodyTag').textContent = 'Clear';
+        $('#editCustodyText').textContent = 'No active borrowings';
+        $('#editCustodyDue').textContent = '';
+      }
+    }
+
     openModal('editModalBackdrop');
   }
 
@@ -578,16 +533,20 @@ document.addEventListener('click', (e) => {
 
       var nameVal = ($('#editName') && $('#editName').value || '').trim();
       var contactVal = ($('#editContact') && $('#editContact').value || '').trim();
+      var emailVal = ($('#editEmail') && $('#editEmail').value || '').trim();
+      var streetVal = ($('#editStreet') && $('#editStreet').value || '').trim();
       var purokVal = parseInt(($('#editPurok') && $('#editPurok').value) || String(b.purok), 10);
       var statusVal = ($('#editStatus') && $('#editStatus').value) || b.status;
 
-      if (!nameVal || !contactVal) {
-        toast('Name and contact number are required.', 'error');
+      if (!nameVal || !PHONE_RE.test(contactVal)) {
+        toast('Please enter a valid name and contact number.', 'error');
         return;
       }
 
       b.name = nameVal;
-      b.contact = contactVal;
+      b.contact = normalizePhone(contactVal);
+      b.email = emailVal;
+      if (streetVal) b.street = streetVal;
       b.purok = purokVal;
       b.status = statusVal;
 
@@ -596,6 +555,61 @@ document.addEventListener('click', (e) => {
       renderDetailPanel();
       toast('Updated record for ' + b.name);
     });
+  }
+
+  function openDetails(b) {
+    var bodyEl = $('#detailsBody');
+    if (!bodyEl) {
+      openEdit(b);
+      return;
+    }
+
+    var units = totalUnits(b);
+    var overdueCount = b.items.filter(function (it) { return it.dueInDays < 0; }).length;
+    var minDue = b.items.length ? Math.min.apply(null, b.items.map(function (it) { return it.dueInDays; })) : null;
+    var sCls = statusClass(b.status);
+
+    if ($('#detHeaderId')) $('#detHeaderId').textContent = b.id;
+    if ($('#detVerifiedChip')) {
+      $('#detVerifiedChip').innerHTML = ICON.check + ' Verified Resident &bull; ' + esc(b.status);
+    }
+
+    var standingText = b.status === 'Good Standing' ? 'Good Standing (Eligible to Borrow)' :
+      b.status === 'Overdue' ? 'Overdue (Unreturned Items)' :
+      b.status === 'Restricted' ? 'Restricted (Not Eligible)' : 'Suspended (Pending Review)';
+
+    var outstandingSub = minDue === null ? 'No pending returns' :
+      (minDue < 0 ? dueText(minDue) : 'Due ' + fmtShort(addDays(minDue)));
+
+    bodyEl.innerHTML =
+      '<div class="det-section">' +
+        '<div class="det-section-title">' + ICON.idcard + ' Borrower Profile</div>' +
+        '<div class="profile-grid">' +
+          '<div class="profile-person">' +
+            '<div class="profile-photo">' + esc(initials(b.name)) + '</div>' +
+            '<div><div class="p-label">Full Legal Name</div><div class="p-value">' + esc(b.name) + '</div>' +
+            '<span class="p-standing ' + (sCls === 'good' ? '' : sCls) + '">' + esc(standingText) + '</span></div>' +
+          '</div>' +
+          '<div>' +
+            '<div class="p-block"><div class="p-label">Residential Address</div><div class="p-value normal">' + esc(streetShort(b.street)) + ', Purok ' + b.purok + '</div></div>' +
+            '<div class="p-registered">' + ICON.cal + ' <span>Registered: <strong>' + esc(b.registered) + '</strong></span></div>' +
+          '</div>' +
+          '<div>' +
+            '<div class="p-block"><div class="p-label">Contact Number</div><div class="p-value p-inline">' + ICON.phone + esc(b.contact) + '</div></div>' +
+            '<div class="p-block"><div class="p-label">Email Address</div><div class="p-value normal p-inline">' + ICON.mail + (b.email ? esc(b.email) : 'Not provided') + '</div></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="det-heading">' + ICON.chart + ' Borrowing Summary</div>' +
+      '<div class="summary-grid">' +
+        '<div class="summary-box"><div class="s-label">Total Borrowings</div><div class="s-num">' + (b.items.length + b.completed) + '</div></div>' +
+        '<div class="summary-box"><div class="s-label">Currently Borrowed</div><div class="s-num">' + units + '<small>items</small></div></div>' +
+        '<div class="summary-box"><div class="s-label">Completed</div><div class="s-num">' + b.completed + '</div></div>' +
+        '<div class="summary-box shade"><div class="s-label">Outstanding</div><div class="s-num' + (overdueCount ? ' red' : '') + '">' + overdueCount + '<small>overdue</small></div><div class="s-sub">' + esc(outstandingSub) + '</div></div>' +
+      '</div>' +
+      '<div class="custodian-strip">' + ICON.shield + ' Recorded Custodian: Solana Rodrigo (Barangay Property Officer)</div>';
+
+    openModal('detailsModalBackdrop');
   }
 
   renderList();
