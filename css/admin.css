@@ -717,12 +717,12 @@ tbody tr:hover {
 
 .icon-close {
     position: absolute;
-    right: 25px;
-    top: 25px;
+    right: 40px;
+    top: 30px;
     border: 0;
     background: transparent;
     color: #506a59;
-    font-size: 20px;
+    font-size: 16px;
     cursor: pointer;
     z-index: 2;
 }

@@ -133,7 +133,7 @@
             </svg>
           </div>
           <div class="user-info">
-            <span class="user-name">Gabriela Flores</span>
+            <span class="user-name">--</span>
             <span class="user-role">Admin</span>
           </div>
           <button class="logout-btn" title="Sign Out" aria-label="Sign Out" data-toast="Session locked for Solana Rodrigo (Staff)">
@@ -177,7 +177,7 @@
     <section class="stats">
       <article class="stat-card">
         <div><label>TOTAL STAFF</label>
-          <strong id="totalCount">3</strong>
+          <strong id="totalCount">0</strong>
           <small>officials</small></div>
           <span class="stat-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="13" viewBox="0 0 26 13" fill="none">
@@ -188,7 +188,7 @@
       <article class="stat-card">
         <div><label>ACTIVE STAFF 
           <span class="dot green"></span></label>
-          <strong id="activeCount">3</strong></div>
+          <strong id="activeCount">0</strong></div>
           <span class="stat-icon active">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 18 22" fill="none">
               <path d="M7.52917 14.6792L13.65 8.55833L12.1062 7.01458L7.52917 11.5917L5.25417 9.31667L3.71042 10.8604L7.52917 14.6792V14.6792M8.66667 21.6667C6.15694 21.0347 4.08507 19.5948 2.45104 17.3469C0.817014 15.099 0 12.6028 0 9.85833V3.25L8.66667 0L17.3333 3.25V9.85833C17.3333 12.6028 16.5163 15.099 14.8823 17.3469C13.2483 19.5948 11.1764 21.0347 8.66667 21.6667V21.6667M8.66667 19.3917C10.5444 18.7958 12.0972 17.6042 13.325 15.8167C14.5528 14.0292 15.1667 12.0431 15.1667 9.85833V4.73958L8.66667 2.30208L2.16667 4.73958V9.85833C2.16667 12.0431 2.78056 14.0292 4.00833 15.8167C5.23611 17.6042 6.78889 18.7958 8.66667 19.3917V19.3917M8.66667 10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333V10.8333" fill="#4E6B55"/>
@@ -238,7 +238,7 @@
         </table>
       </div>
       <footer class="table-footer">
-        <span id="showingText">Showing <b>0</b> of <b>3</b> staff accounts</span>
+        <span id="showingText">Showing <b>0</b> of <b>0</b> staff accounts</span>
         <div class="pagination">
           <button disabled>‹ Previous</button>
           <button class="current-page">1</button>
@@ -250,7 +250,11 @@
 
   <div class="overlay hidden" id="modalOverlay">
     <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <button class="icon-close" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      <button class="icon-close" type="button" data-close aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
       <div id="modalContent"></div>
     </section>
   </div>
