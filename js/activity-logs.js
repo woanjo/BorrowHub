@@ -1,4 +1,4 @@
-const activities=[ 
+/*const activities=[ 
 {
     initials: "DS", 
     staff:"Danilo Soriano", 
@@ -42,7 +42,7 @@ const activities=[
     description:'Issued return slip <code>#BBH-2026-11</code> (Purok 4) for 5 chairs and 2 tables.', 
     date:"Nov 1, 2026 · 09:15 AM", 
     dateGroup:"week"
-}];
+}];*/
 
 const rows = document.getElementById("activityRows");
 const searchInput = document.getElementById("searchInput");
