@@ -358,7 +358,7 @@ a {
     color: white;
     padding: 13px 20px;
     border-radius: 5px;
-    font: 600 14px Inter;
+    font: 600 12px Inter;
     cursor: pointer;
     box-shadow: 0 2px 4px #123b2920;
 }
@@ -684,7 +684,7 @@ tbody tr:hover {
     backdrop-filter: blur(4px);
     display: grid;
     place-items: center;
-    padding: 20px;
+    padding: 84px 20px 20px; /* leaves room for the sticky navbar */
     z-index: 20;
 }
 
@@ -697,10 +697,22 @@ tbody tr:hover {
     background: #fff;
     border-radius: 17px;
     width: min(760px, 96vw);
-    max-height: 92vh;
-    overflow: auto;
+    max-height: calc(100vh - 104px);
+    max-height: calc(100dvh - 104px);
+    overflow: hidden;
     box-shadow: 0 20px 55px #102d1e40;
-    padding: 25px 26px 18px;
+    padding: 15px 26px 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Scrollable modal content (works for every modal) */
+#modalContent {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 6px;
 }
 
 .icon-close {
@@ -889,7 +901,7 @@ tbody tr:hover {
     display: block;
     font-weight: 650;
     font-size: 12px;
-    margin-bottom: 7px;
+    margin-bottom: 5px;
 }
 
 .field input,
@@ -900,7 +912,7 @@ tbody tr:hover {
     border-radius: 5px;
     background: #e8f6ed;
     padding: 0 13px;
-    font: 13px Inter;
+    font: 11px Inter;
     color: #24382c;
     outline: 1px solid transparent;
 }
