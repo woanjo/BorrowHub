@@ -1,42 +1,4 @@
-const staff = [
-  {
-    id: "STF-2026-0008",
-    name: "Danilo Soriano",
-    username: "dsoriano",
-    email: "d.soriano@gmail.com",
-    phone: "0921-884-3329",
-    role: "Staff",
-    status: "Active",
-    created: "Aug 24, 2026",
-    initials: "DS",
-    tone: ""
-  },
-  {
-    id: "STF-2026-0009",
-    name: "Angelica Reyes",
-    username: "areyes",
-    email: "a.reyes@gmail.com",
-    phone: "0917-555-0123",
-    role: "Staff",
-    status: "Active",
-    created: "Aug 24, 2026",
-    initials: "AR",
-    tone: "a2"
-  },
-  {
-    id: "STF-2026-0011",
-    name: "Gabriela Flores",
-    username: "gabflores",
-    email: "gab.flores@gmail.com",
-    phone: "0918-555-0111",
-    role: "Admin",
-    status: "Active",
-    created: "Aug 25, 2026",
-    initials: "GF",
-    tone: "a4",
-    you: true
-  }
-];
+const staff = [];
 
 // Administration dropdown toggle
 const adminWrapper = document.getElementById('adminDropdownWrapper');
