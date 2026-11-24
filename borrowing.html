@@ -332,9 +332,9 @@
       <div class="details-title-area">
         <div class="details-title-line">
           <h2 id="detailsTitle">Borrowing Details</h2>
-          <span class="custody-badge" id="detailCustodyBadge">● Active</span>
+          <span class="custody-badge transaction-status-active" id="detailCustodyBadge">● Active</span>
         </div>
-        <div class="details-subtitle">Official equipment custody transaction slip and release authorization record.</div>
+        <div class="details-subtitle">Borrower, custody status, and issued equipment.</div>
       </div>
       <button class="details-close" type="button" aria-label="Close details" onclick="closeDetailsModal()">×</button>
     </header>
@@ -364,16 +364,16 @@
           </div>
           <div class="detail-field">
             <span>Current Custody Status</span>
-            <strong class="detail-status" id="detailStatus">● Borrowed (In Custody)</strong>
+            <strong class="detail-status transaction-status-active" id="detailStatus">● Borrowed (In Custody)</strong>
           </div>
           <div class="detail-field">
             <span>Actual Return Date</span>
-            <strong class="sub-detail" id="detailActualReturn"><i>Pending Custody Check-in</i></strong>
+            <strong class="sub-detail" id="detailActualReturn"><i>Pending Staff Check-In</i></strong>
           </div>
           <div class="detail-field">
             <span>Expected Return Date &amp; Time</span>
             <strong class="date-value return-date-value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/><path d="m9 16 2 2 4-4"/></svg><span id="detailReturnDate">November 9, 2026 • 05:00 PM</span></strong>
-            <strong class="sub-detail return-due-note" id="detailDueNote">Due in 2 days</strong>
+            <strong class="sub-detail return-due-note transaction-status-active" id="detailDueNote">Due in 2 days</strong>
           </div>
           <div class="detail-field">
             <span>Date &amp; Time Borrowed</span>
@@ -452,7 +452,7 @@
         id: "TRX-2026-1104", contact: "0917-555-0181",
         borrow: "November 4, 2026 • 08:30 AM", expected: "November 7, 2026 • 05:00 PM",
         purpose: "Barangay Meeting / Community Activity", status: "Pending Release / In Custody",
-        actual: "Pending Custody Check-in", items: [
+        actual: "Pending Staff Check-In", items: [
           ["White Monobloc Chairs", "Uratex 101 Heavy Duty (Stackable)", "BSI-EQ-2023-001", "Chairs & Tables", 40, "Good Condition (Inspected)"],
           ["Heavy-Duty Foldable Tables", "6ft White Granite Commercial Grade", "BSI-EQ-2023-014", "Chairs & Tables", 4, "Good Condition (Inspected)"]
         ]
@@ -461,7 +461,7 @@
         id: "TRX-2026-1102", contact: "0917-555-0142",
         borrow: "November 2, 2026 • 09:00 AM", expected: "November 4, 2026 • 05:00 PM",
         purpose: "Community Event / Neighborhood Gathering", status: "Due Today (In Custody)",
-        actual: "Pending Custody Check-in", items: [
+        actual: "Pending Staff Check-In", items: [
           ["Heavy-Duty Tent", "Canopy 10×10 Weather Resistant", "BSI-EQ-2023-021", "Event Equipment", 2, "Good Condition (Inspected)"]
         ]
       },
@@ -469,7 +469,7 @@
         id: "TRX-2026-1020", contact: "0917-555-0163",
         borrow: "October 20, 2026 • 10:00 AM", expected: "November 4, 2026 • 05:00 PM",
         purpose: "Community Program / Public Announcement", status: "Due Today (In Custody)",
-        actual: "Pending Custody Check-in", items: [
+        actual: "Pending Staff Check-In", items: [
           ["Portable Sound System", "Amplifier with Speaker Set", "BSI-EQ-2023-032", "Audio Equipment", 1, "Good Condition (Inspected)"],
           ["Wireless Microphones", "UHF Wireless Microphone Set", "BSI-EQ-2023-033", "Audio Equipment", 1, "Good Condition (Inspected)"]
         ]
@@ -478,7 +478,7 @@
         id: "TRX-2026-1028", contact: "0917-555-0114",
         borrow: "October 28, 2026 • 08:00 AM", expected: "November 3, 2026 • 05:00 PM",
         purpose: "Emergency Preparedness / Community Assistance", status: "Overdue (In Custody)",
-        actual: "Not Yet Returned", items: [
+        actual: "Pending Staff Check-In", items: [
           ["Megaphone", "Portable Public Address Megaphone", "BSI-EQ-2023-041", "Communication", 1, "Good Condition (Inspected)"],
           ["First Aid Kit Box", "Community First Aid Kit", "BSI-EQ-2023-042", "Medical Supplies", 1, "Good Condition (Inspected)"]
         ]
@@ -556,16 +556,36 @@
           : row.dataset.status === "Due Today"
             ? "● Due Today (In Custody)"
             : "● Borrowed (In Custody)";
+      const transactionStatusClass = row.dataset.status === "Returned"
+        ? "transaction-status-returned"
+        : row.dataset.status === "Overdue"
+          ? "transaction-status-overdue"
+          : row.dataset.status === "Due Today"
+            ? "transaction-status-due"
+            : "transaction-status-active";
+      const transactionStatusClasses = [
+        "transaction-status-active",
+        "transaction-status-due",
+        "transaction-status-overdue",
+        "transaction-status-returned"
+      ];
 
       document.getElementById("detailSlipId").textContent = record.id;
-      document.getElementById("detailStatus").textContent = statusText;
+      const detailStatus = document.getElementById("detailStatus");
+      detailStatus.textContent = statusText;
+      const detailDueNote = document.getElementById("detailDueNote");
+      const detailCustodyBadge = document.getElementById("detailCustodyBadge");
+      [detailStatus, detailDueNote, detailCustodyBadge].forEach(element => {
+        element.classList.remove(...transactionStatusClasses);
+        element.classList.add(transactionStatusClass);
+      });
       document.getElementById("detailBorrowerName").textContent = name;
       document.getElementById("detailContact").textContent = record.contact;
       document.getElementById("detailBorrowDate").textContent = record.borrow;
       document.getElementById("detailReturnDate").textContent = record.expected;
       document.getElementById("detailActualReturn").textContent = record.actual;
       document.getElementById("detailPurpose").textContent = record.purpose;
-      document.getElementById("detailDueNote").textContent =
+      detailDueNote.textContent =
         row.dataset.status === "Overdue" ? "Return date has passed" :
         row.dataset.status === "Returned" ? "Custody check-in completed" :
         row.dataset.status === "Due Today" ? "Return due today" : "Due in 2 days";
@@ -575,11 +595,13 @@
       document.getElementById("detailTotalReleased").textContent =
         record.items.reduce((sum, item) => sum + item[4], 0);
 
-      document.getElementById("detailCustodyBadge").textContent =
+      detailCustodyBadge.textContent =
         row.dataset.status === "Returned"
-          ? "● Returned Transaction"
+          ? "● Returned"
           : row.dataset.status === "Overdue"
-            ? "● Overdue Transaction (In Custody)"
+            ? "● Overdue"
+            : row.dataset.status === "Due Today"
+              ? "● Due Today"
             : "● Active";
 
       const modal = document.getElementById("detailsModal");

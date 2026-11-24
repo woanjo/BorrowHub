@@ -584,6 +584,21 @@
     padding: 3px 7px;
     font-size: 10px;
 }
+.custody-badge.transaction-status-due,
+.detail-status.transaction-status-due {
+    background: #fff1c6;
+    color: #a66a00;
+}
+.custody-badge.transaction-status-overdue,
+.detail-status.transaction-status-overdue {
+    background: #ffdedd;
+    color: #c51d20;
+}
+.custody-badge.transaction-status-returned,
+.detail-status.transaction-status-returned {
+    background: #edf2ef;
+    color: #52675b;
+}
 .details-subtitle {
     margin-top: 2px;
     color: #627a6b;
@@ -742,13 +757,34 @@
     font-size: 10px;
     line-height: 1.3;
 }
+.detail-field strong.return-due-note.transaction-status-due {
+    background: #fff1c6;
+    color: #a66a00;
+}
+.detail-field strong.return-due-note.transaction-status-overdue {
+    background: #ffdedd;
+    color: #c51d20;
+}
+.detail-field strong.return-due-note.transaction-status-returned {
+    background: #edf2ef;
+    color: #52675b;
+}
 .detail-status {
-    color: #07543d !important;
+    display: inline-flex !important;
+    width: fit-content;
+    align-items: center;
+    padding: 3px 7px;
+    border-radius: 9999px;
+    background: #d8efdd;
+    color: #326b48;
+    font-size: 11px !important;
+    font-weight: 600 !important;
 }
 .purpose-box {
-    background: #e8f7ed;
+    background: #f5f8f6;
     padding: 7px 8px;
-    border-radius: 6px;
+    border-left: 3px solid #d5e8dc;
+    border-radius: 0 6px 6px 0;
     font-size: 12px;
     color: #1d3428;
 }
