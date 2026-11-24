@@ -1,48 +1,4 @@
-/*const activities=[ 
-{
-    initials: "DS", 
-    staff:"Danilo Soriano", 
-    role:"Staff", 
-    avatar:"sage", 
-    activity:"Added", 
-    category:"Borrowing", 
-    description:'Issued loan slip <code>#BBH-2026-10</code> to <strong>Roberto Diaz</strong> (Purok 4) for 2 sets Heavy-Duty Canopy Tent 10×10ft.', 
-    date:"Nov 2, 2026 · 02:15 PM", 
-    dateGroup:"week"
-},
-{
-    initials: "AR", 
-    staff:"Angelica Reyes", 
-    role:"Staff", 
-    avatar:"mint", 
-    activity:"Deactivated", 
-    category:"Equipment", 
-    description:'Decommissioned 1 damaged Grass Cutter (<code>BSI-EQ-2021-008</code>) for repair assessment.', 
-    date:"Oct 25, 2026 · 02:10 PM", 
-    dateGroup:"month"
-},
-{
-    initials: "DS", 
-    staff:"Danilo Soriano", 
-    role:"Staff", 
-    avatar:"sage", 
-    activity:"Updated", 
-    category:"Equipment", 
-    description:'Updated condition and bay location for <strong>Gasoline Generator 3500W</strong> (Property Tag: <code>BSI-EQ-2022-045</code>) to <strong>Available</strong>.', 
-    date:"Oct 5, 2026 · 09:18 AM", 
-    dateGroup:"month"
-},
-{
-    initials: "DS", 
-    staff:"Danilo Soriano", 
-    role:"Staff", 
-    avatar:"sage", 
-    activity:"Updated", 
-    category:"Returns", 
-    description:'Issued return slip <code>#BBH-2026-11</code> (Purok 4) for 5 chairs and 2 tables.', 
-    date:"Nov 1, 2026 · 09:15 AM", 
-    dateGroup:"week"
-}];*/
+const activities=[];
 
 const rows = document.getElementById("activityRows");
 const searchInput = document.getElementById("searchInput");
