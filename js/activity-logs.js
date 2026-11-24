@@ -35,7 +35,7 @@ function renderRows() {
 
   document.getElementById("emptyState").hidden = visible.length > 0;
   document.getElementById("showingText").innerHTML =
-    `Showing <strong>${visible.length}</strong> of <strong>${filtered.length === activities.length ? 842 : filtered.length}</strong> activities`;
+    `Showing <strong>${visible.length}</strong> of <strong>${filtered.length === activities.length ? 0 : filtered.length}</strong> activities`;
   const pages = Math.max(1, Math.ceil(filtered.length / pageSize));
   document.getElementById("prevPage").disabled = currentPage <= 1;
   document.getElementById("nextPage").disabled = currentPage >= pages;
