@@ -895,17 +895,26 @@ a {
 
 /* ==========================================================================
    FIXED MODAL OVERLAY & BACKDROP BLUR
+   Positioned completely below the navbar
    ========================================================================== */
+
 .modal-backdrop {
   position: fixed;
-  inset: 0;
+  top: 50px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
   background: rgba(15, 35, 25, 0.45);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
+
   z-index: 1000;
+
   display: none;
   align-items: center;
   justify-content: center;
+
   padding: 20px;
   overflow-y: auto;
 }
@@ -915,13 +924,15 @@ a {
   animation: backdropFadeIn 0.18s ease-out;
 }
 
+/* Modal panel */
 .modal-dialog {
   background-color: #ffffff;
   border-radius: 16px;
   box-shadow: var(--shadow-modal);
   width: 100%;
   max-width: 560px;
-  overflow: hidden;
+  max-height: calc(100vh - 136px);
+  overflow-y: auto;
   border: 1px solid rgba(19, 78, 49, 0.08);
   animation: modalScaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   margin: auto;
