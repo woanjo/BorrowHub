@@ -1150,6 +1150,7 @@ a {
   font-weight: 600;
   color: var(--text-main);
   outline: none;
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
