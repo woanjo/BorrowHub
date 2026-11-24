@@ -626,36 +626,16 @@ $("modalOverlay").addEventListener("click", e => {
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") {
     closeModal();
-    $("restrictedOverlay").classList.add("hidden");
-    $("roleMenu").classList.add("hidden");
   }
 });
 
-$("administrationBtn").onclick = () => {
-  if (currentRole !== "Admin") {
-    $("restrictedOverlay").classList.remove("hidden");
-  } else {
-    toast("You are viewing Administration.");
-  }
-};
+const mobileMenuBtn = $("mobileMenuBtn");
+const navLinks = $("navLinks");
 
-$("closeRestricted").onclick = () =>
-  $("restrictedOverlay").classList.add("hidden");
-
-$("profileButton").onclick = () =>
-  $("roleMenu").classList.toggle("hidden");
-
-document.querySelectorAll(".role-menu button").forEach(b =>
-  b.onclick = () => {
-    currentRole = b.dataset.role;
-    $("currentRole").textContent = currentRole;
-
-    $("currentUser").textContent =
-      currentRole === "Admin" ? "Gabriela Flores" : "Solana Rodrigo";
-
-    $("roleMenu").classList.add("hidden");
-    toast(`Preview role changed to ${currentRole}.`);
-  }
-);
+if (mobileMenuBtn && navLinks) {
+  mobileMenuBtn.addEventListener("click", () => {
+    navLinks.classList.toggle("open");
+  });
+}
 
 render();

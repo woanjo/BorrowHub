@@ -124,7 +124,13 @@ document.querySelectorAll(".page-number").forEach(btn => btn.addEventListener("c
   currentPage = Number(btn.dataset.page); renderRows();
 }));
 
-document.getElementById("menuToggle").addEventListener("click", () =>
-  document.getElementById("mainNav").classList.toggle("open"));
+const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+const navLinks = document.getElementById("navLinks");
+
+if (mobileMenuBtn && navLinks) {
+  mobileMenuBtn.addEventListener("click", () => {
+    navLinks.classList.toggle("open");
+  });
+}
 
 renderRows();
