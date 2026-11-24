@@ -1,6 +1,7 @@
 /* ==========================================================================
    Barangay BorrowHub - Borrower Page (Matched to Equipment Theme)
    ========================================================================== */
+
 :root {
   --bg-page: #eef7f2;
   --bg-surface: #ffffff;
@@ -39,6 +40,7 @@
 /* ==========================================================================
    Base & Reset
    ========================================================================== */
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -79,12 +81,13 @@ a {
 /* ==========================================================================
    Top Navigation Bar
    ========================================================================== */
+
 .navbar-wrapper {
   background-color: var(--bg-surface);
   border-bottom: 1px solid var(--border-subtle);
   position: sticky;
   top: 0;
-  z-index: 40;
+  z-index: 1101;
 }
 
 .navbar {
@@ -303,6 +306,7 @@ a {
 /* ==========================================================================
    Main Content Layout
    ========================================================================== */
+
 .main-container {
   max-width: 1380px;
   margin: 0 auto;
@@ -365,6 +369,7 @@ a {
 /* ==========================================================================
    3 KPI Summary Cards Row
    ========================================================================== */
+
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -464,6 +469,7 @@ a {
 /* ==========================================================================
    Filter Bar Card
    ========================================================================== */
+
 .filter-bar-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
@@ -599,6 +605,7 @@ a {
 /* ==========================================================================
    Content Grid Layout
    ========================================================================== */
+
 .content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 380px;
@@ -607,6 +614,7 @@ a {
 }
 
 /* List Card */
+
 .list-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
@@ -794,6 +802,7 @@ a {
 }
 
 /* Footer & Pagination */
+
 .list-card-footer {
   background-color: #f8fcfa;
   border-top: 1px solid var(--border-subtle);
@@ -840,6 +849,7 @@ a {
 /* ==========================================================================
    Detail Panel Aside
    ========================================================================== */
+
 .detail-panel {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
@@ -998,6 +1008,7 @@ a {
 /* ==========================================================================
    Modals (Matched to Equipment Dialog Standards)
    ========================================================================== */
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1074,7 +1085,8 @@ a {
   margin-bottom: 3px;
 }
 
-.modal-chip, .modal-id-chip {
+.modal-chip,
+.modal-id-chip {
   background-color: var(--bg-mint-soft);
   color: var(--primary-green);
   font-size: 11px;
@@ -1221,6 +1233,10 @@ a {
   display: none !important;
 }
 
+/* ==========================================================================
+   Restricted Overlay
+   ========================================================================== */
+
 .restricted-overlay {
   position: fixed;
   inset: 0;
@@ -1303,6 +1319,7 @@ a {
 /* ==========================================================================
    Toast Notifications
    ========================================================================== */
+
 .toast-container {
   position: fixed;
   bottom: 22px;
@@ -1329,28 +1346,53 @@ a {
   animation: toastSlideIn 0.22s ease-out;
 }
 
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+
 @keyframes backdropFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes modalScaleIn {
-  from { opacity: 0; transform: scale(0.96) translateY(8px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 @keyframes toastSlideIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ==========================================================================
    Responsive Breakpoints
    ========================================================================== */
+
 @media (max-width: 1200px) {
   .content-grid {
     grid-template-columns: 1fr;
   }
+
   .detail-panel {
     position: static;
   }
@@ -1360,9 +1402,11 @@ a {
   .kpi-grid {
     grid-template-columns: 1fr;
   }
+
   .form-row-2col {
     grid-template-columns: 1fr;
   }
+
   .main-container {
     padding: 20px 16px 36px;
   }

@@ -83,7 +83,7 @@ a {
   border-bottom: 1px solid var(--border-subtle);
   position: sticky;
   top: 0;
-  z-index: 40;
+  z-index: 1101;
 }
 
 .navbar {
