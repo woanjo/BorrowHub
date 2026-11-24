@@ -17,18 +17,46 @@
       <div class="brand">BorrowHub</div>
     </div>
     <nav class="nav" aria-label="Main navigation">
-      <a class="nav-item" href="dashboard.html"><span class="ico">▦</span>Dashboard</a>
-      <a class="nav-item" href="equipment.html"><span class="ico">⚒</span>Equipment</a>
-      <a class="nav-item" href="borrower.html"><span class="ico">♧</span>Borrower</a>
-      <a class="nav-item active" href="borrowing.html" aria-current="page"><span class="ico">⊞</span>Borrowing</a>
-      <a class="nav-item" href="return.html"><span class="ico">☑</span>Return</a>
-      <a class="nav-item" href="activity-logs.html"><span class="ico">◷</span>History</a>
-      <a class="nav-item" href="admin.html"><span class="ico">♢</span>Administration⌄</a>
+      <a class="nav-item" href="dashboard.html">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-item" href="equipment.html">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/></svg>
+        <span>Equipment</span>
+      </a>
+      <a class="nav-item" href="borrower.html">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Borrower</span>
+      </a>
+      <a class="nav-item active" href="borrowing.html" aria-current="page">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11v6"/><path d="m9 14 3-3 3 3"/></svg>
+        <span>Borrowing</span>
+      </a>
+      <a class="nav-item" href="return.html">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+        <span>Return</span>
+      </a>
+      <a class="nav-item" href="activity-logs.html">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+        <span>History</span>
+      </a>
+      <div class="nav-item admin-nav" id="adminNav">
+        <button class="nav-item-button" id="adminNavButton" type="button" aria-expanded="false">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+          <span>Administration</span>
+          <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="admin-dropdown">
+          <a href="admin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Staff Management</a>
+          <a href="activity-logs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Activity Logs</a>
+        </div>
+      </div>
     </nav>
     <div class="profile">
-      <div class="avatar">♟</div>
+      <div class="avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
       <div><strong>Solana Rodrigo</strong><small>Staff</small></div>
-      <span class="logout">⇥</span>
+      <button class="logout" type="button" aria-label="Sign Out" title="Sign Out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
     </div>
   </header>
   <div class="navbar-accent-strip" aria-hidden="true"></div>
@@ -39,29 +67,39 @@
         <h1>Borrowing</h1>
         <div class="subtitle">Manage equipment borrowing transactions.</div>
       </div>
-      <button class="primary" onclick="openBorrowingModal()">＋ New Borrowing</button>
+      <button class="primary" type="button" onclick="openBorrowingModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>New Borrowing</span>
+      </button>
     </section>
 
     <section class="metrics" aria-label="Borrowing summary">
       <div class="metric">
         <div><div class="metric-label">ACTIVE TRANSACTION</div><div class="metric-value">14</div></div>
-        <div class="metric-icon">♧</div>
+        <div class="metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
       </div>
       <div class="metric due">
         <div><div class="metric-label">DUE TODAY</div><div class="metric-value">5</div></div>
-        <div class="metric-icon">⇥</div>
+        <div class="metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
       </div>
       <div class="metric overdue">
         <div><div class="metric-label">OVERDUE</div><div class="metric-value">3</div></div>
-        <div class="metric-icon">⚠</div>
+        <div class="metric-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
       </div>
     </section>
 
     <section class="panel">
       <div class="toolbar">
         <div class="search-group">
-          <input id="search" class="search" type="search" placeholder="⌕   Search by borrower, equipment, or reference..." aria-label="Search borrowing records" />
-          <button class="date-button" onclick="alert('Date range filter can be connected here.')">▣ &nbsp;All Date Ranges⌄</button>
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.2" y1="16.2" x2="21" y2="21"/></svg>
+            <input id="search" class="search" type="search" placeholder="Search by borrower, equipment, or reference..." aria-label="Search borrowing records" />
+          </div>
+          <button class="date-button" type="button" onclick="alert('Date range filter can be connected here.')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>All Date Ranges</span>
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
         </div>
         <div class="tabs" role="tablist" aria-label="Filter borrowing records">
           <button class="tab active" data-filter="All">All (24)</button>
@@ -93,7 +131,7 @@
               <td class="date">Nov 4, 2026</td>
               <td class="date">Nov 7, 2026</td>
               <td><span class="status pending">● Pending</span></td>
-              <td><div class="actions"><button class="view" onclick="viewDetails('Maria Santos')">◎ &nbsp; View<br>Details</button></div></td>
+              <td><div class="actions"><button class="view" type="button" onclick="viewDetails('Maria Santos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View<br>Details</span></button></div></td>
             </tr>
             <tr data-status="Due Today">
               <td>Roberto Diaz<span class="sub">Purok 1</span></td>
@@ -102,7 +140,7 @@
               <td class="date">Nov 2, 2026</td>
               <td class="date orange">Nov 4, 2026</td>
               <td><span class="status due-status">● Due<br>Today</span></td>
-              <td><div class="actions"><button class="view" onclick="viewDetails('Roberto Diaz')">◎ &nbsp; View<br>Details</button></div></td>
+              <td><div class="actions"><button class="view" type="button" onclick="viewDetails('Roberto Diaz')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View<br>Details</span></button></div></td>
             </tr>
             <tr data-status="Due Today">
               <td>Ricardo Dalisay<span class="sub">Purok 1</span></td>
@@ -111,7 +149,7 @@
               <td class="date">Oct 20, 2026</td>
               <td class="date orange">Nov 4, 2026</td>
               <td><span class="status due-status">● Due<br>Today</span></td>
-              <td><div class="actions"><button class="view" onclick="viewDetails('Ricardo Dalisay')">◎ &nbsp; View<br>Details</button></div></td>
+              <td><div class="actions"><button class="view" type="button" onclick="viewDetails('Ricardo Dalisay')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View<br>Details</span></button></div></td>
             </tr>
             <tr class="overdue-row" data-status="Overdue">
               <td>Eduardo Ramos<span class="sub">Purok 3</span></td>
@@ -120,7 +158,7 @@
               <td class="date">Oct 28, 2026</td>
               <td class="date red">Nov 3, 2026</td>
               <td><span class="status overdue-status">⊗ Overdue</span></td>
-              <td><div class="actions"><button class="view" onclick="viewDetails('Eduardo Ramos')">◎ &nbsp; View<br>Details</button></div></td>
+              <td><div class="actions"><button class="view" type="button" onclick="viewDetails('Eduardo Ramos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View<br>Details</span></button></div></td>
             </tr>
             <tr data-status="Returned">
               <td>Elena Bautista<span class="sub">Purok 4</span></td>
@@ -129,7 +167,7 @@
               <td class="date">Oct 25, 2026</td>
               <td class="date">Oct 28, 2026</td>
               <td><span class="status returned">● Returned</span></td>
-              <td><div class="actions"><button class="view" onclick="viewDetails('Elena Bautista')">◎ &nbsp; View<br>Details</button></div></td>
+              <td><div class="actions"><button class="view" type="button" onclick="viewDetails('Elena Bautista')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View<br>Details</span></button></div></td>
             </tr>
             <tr data-status="Returned">
               <td>Nenita Gomez<span class="sub">Purok 5</span></td>
@@ -138,7 +176,7 @@
               <td class="date">Oct 18, 2026</td>
               <td class="date">Oct 21, 2026</td>
               <td><span class="status returned">● Returned</span></td>
-              <td><div class="actions"><button class="view" onclick="viewDetails('Nenita Gomez')">◎ &nbsp; View<br>Details</button></div></td>
+              <td><div class="actions"><button class="view" type="button" onclick="viewDetails('Nenita Gomez')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span>View<br>Details</span></button></div></td>
             </tr>
           </tbody>
         </table>
@@ -215,7 +253,7 @@
                 <label>Qty:</label>
                 <input class="quantity-input" type="number" min="1" max="140" value="10" required>
                 <span>pcs</span>
-                <button type="button" class="remove-equipment" aria-label="Remove equipment">▤</button>
+                <button type="button" class="remove-equipment" aria-label="Remove equipment"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V3h6v3"/><line x1="10" y1="11" x2="10" y2="16"/><line x1="14" y1="11" x2="14" y2="16"/></svg></button>
               </div>
             </div>
 
@@ -228,13 +266,13 @@
                 <label>Qty:</label>
                 <input class="quantity-input" type="number" min="1" max="25" value="2" required>
                 <span>pcs</span>
-                <button type="button" class="remove-equipment" aria-label="Remove equipment">▤</button>
+                <button type="button" class="remove-equipment" aria-label="Remove equipment"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V3h6v3"/><line x1="10" y1="11" x2="10" y2="16"/><line x1="14" y1="11" x2="14" y2="16"/></svg></button>
               </div>
             </div>
           </div>
 
           <div class="equipment-bottom">
-            <button type="button" class="add-equipment" onclick="addEquipment()">⊕ + Add Another Equipment</button>
+            <button type="button" class="add-equipment" onclick="addEquipment()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span>Add Another Equipment</span></button>
             <span>Total Selected Items: <strong id="totalItems">12 pcs</strong> across <strong id="equipmentTypes">2</strong> equipment types</span>
           </div>
         </section>
@@ -268,7 +306,7 @@
 
       <footer class="modal-footer">
         <button type="button" class="cancel-button" onclick="closeBorrowingModal()">Cancel</button>
-        <button type="submit" class="create-button">⊙ Create Borrowing</button>
+        <button type="submit" class="create-button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14H4V6a2 2 0 0 1 2-2h2"/><polyline points="8 12 11 15 16 9"/></svg><span>Create Borrowing</span></button>
       </footer>
     </form>
   </section>
@@ -280,7 +318,7 @@
 <div class="details-backdrop" id="detailsModal" aria-hidden="true">
   <section class="details-modal" role="dialog" aria-modal="true" aria-labelledby="detailsTitle">
     <header class="details-header">
-      <div class="details-header-icon">▤</div>
+      <div class="details-header-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14H4V6a2 2 0 0 1 2-2h2"/><path d="M8 12h8M8 16h8"/></svg></div>
       <div class="details-title-area">
         <div class="details-title-line">
           <h2 id="detailsTitle">Borrowing Details</h2>
@@ -295,7 +333,7 @@
     <div class="details-body">
       <section class="details-card">
         <div class="details-card-heading">
-          <h3>♢ &nbsp;1. Transaction Information</h3>
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16h16V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>1. Transaction Information</h3>
           <small>LOG SEQUENCE #0104</small>
         </div>
         <div class="details-grid">
@@ -314,11 +352,11 @@
           </div>
           <div class="detail-field">
             <span>Date &amp; Time Borrowed</span>
-            <strong id="detailBorrowDate">◷ November 7, 2026 • 08:30 AM</strong>
+            <strong id="detailBorrowDate">November 7, 2026 • 08:30 AM</strong>
           </div>
           <div class="detail-field">
             <span>Expected Return Date &amp; Time</span>
-            <strong id="detailReturnDate">▣ November 9, 2026 • 05:00 PM</strong>
+            <strong id="detailReturnDate">November 9, 2026 • 05:00 PM</strong>
             <strong class="sub-detail" id="detailDueNote">Due in 2 days</strong>
           </div>
           <div class="detail-field">
@@ -332,37 +370,43 @@
         </div>
       </section>
 
-      <section class="details-card">
-        <div class="details-card-heading">
-          <h3>♧ &nbsp;2. Borrower Profile</h3>
-          <span class="verified-badge">☑ Verified Resident • Good Standing</span>
-        </div>
+      <details class="details-card collapsible-card" id="borrowerProfileDetails">
+        <summary class="details-card-heading collapsible-heading">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>2. Borrower Profile</h3>
+          <span class="collapsible-heading-meta">
+            <span class="verified-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="8 12 11 15 16 9"/></svg>Verified Resident • Good Standing</span>
+            <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </span>
+        </summary>
         <div class="details-grid">
           <div class="detail-field">
             <span>Full Name</span>
-            <strong id="detailBorrowerName">Joan Borres</strong>
+            <strong id="detailBorrowerName"></strong>
           </div>
           <div class="detail-field">
             <span>Borrower ID</span>
-            <strong id="detailBorrowerId">BRG-BOR-2026-0082</strong>
+            <strong id="detailBorrowerId"></strong>
           </div>
           <div class="detail-field">
             <span>Contact Number</span>
-            <strong id="detailContact">☎ 0917-555-0192</strong>
+            <strong id="detailContact"></strong>
           </div>
           <div class="detail-field">
             <span>Residential Address</span>
-            <strong id="detailAddress">#14 Sampaguita St., Purok 2</strong>
+            <strong id="detailAddress"></strong>
             <strong class="sub-detail">Barangay Bulacao</strong>
           </div>
         </div>
-      </section>
+      </details>
 
-      <section class="details-card equipment-card">
-        <div class="details-card-heading">
-          <h3>▣ &nbsp;3. Issued Equipment &amp; Quantities</h3>
-          <small><span id="detailEquipmentTypes">2</span> Equipment Lines &nbsp; • &nbsp; <b id="detailTotalReleased">12</b> Total Items Released</small>
-        </div>
+      <details class="details-card collapsible-card equipment-card" id="equipmentDetails">
+        <summary class="details-card-heading collapsible-heading">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>3. Issued Equipment &amp; Quantities</h3>
+          <span class="collapsible-heading-meta">
+            <small><span id="detailEquipmentTypes">—</span> Equipment Lines &nbsp; • &nbsp; <b id="detailTotalReleased">—</b> Total Items Released</small>
+            <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </span>
+        </summary>
         <table class="equipment-table">
           <thead>
             <tr>
@@ -373,31 +417,16 @@
               <th>RELEASE CONDITION</th>
             </tr>
           </thead>
-          <tbody id="detailEquipmentRows">
-            <tr>
-              <td><span class="equipment-name">White Monobloc Chairs</span><span class="equipment-spec">Uratex 101 Heavy Duty (Stackable)</span></td>
-              <td>BSI-EQ-2023-001</td>
-              <td>Chairs &amp; Tables</td>
-              <td><span class="quantity-pill">10 units</span></td>
-              <td><span class="condition">Good Condition (Inspected)</span></td>
-            </tr>
-            <tr>
-              <td><span class="equipment-name">Heavy-Duty Foldable Tables</span><span class="equipment-spec">6ft White Granite Commercial Grade</span></td>
-              <td>BSI-EQ-2023-014</td>
-              <td>Chairs &amp; Tables</td>
-              <td><span class="quantity-pill">2 units</span></td>
-              <td><span class="condition">Brand New / Excellent</span></td>
-            </tr>
-          </tbody>
+          <tbody id="detailEquipmentRows"></tbody>
         </table>
-      </section>
+      </details>
     </div>
 
     <footer class="details-footer">
-      <div class="details-footer-note">▧ &nbsp;Official Custodianship Copy • Barangay Bulacao</div>
+      <div class="details-footer-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16h16V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>Official Custodianship Copy • Barangay Bulacao</div>
       <div class="details-footer-actions">
-        <button class="print-button" type="button" onclick="printBorrowingDetails()">▣ &nbsp;Print Borrow Slip</button>
-        <button class="details-done" type="button" onclick="closeDetailsModal()">✓ &nbsp;Close</button>
+        <button class="print-button" type="button" onclick="printBorrowingDetails()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg><span>Print Borrow Slip</span></button>
+        <button class="details-done" type="button" onclick="closeDetailsModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Close</span></button>
       </div>
     </footer>
   </section>
@@ -492,6 +521,43 @@
       }
     };
 
+    const borrowerProfileDetails = document.getElementById("borrowerProfileDetails");
+    const equipmentDetails = document.getElementById("equipmentDetails");
+    let activeDetailsRecord = null;
+    let activeDetailsName = "";
+
+    function renderBorrowerProfile() {
+      if (!activeDetailsRecord) return;
+      document.getElementById("detailBorrowerName").textContent = activeDetailsName;
+      document.getElementById("detailBorrowerId").textContent = activeDetailsRecord.borrowerId;
+      document.getElementById("detailContact").textContent = activeDetailsRecord.contact;
+      document.getElementById("detailAddress").textContent = activeDetailsRecord.address;
+    }
+
+    function renderIssuedEquipment() {
+      if (!activeDetailsRecord) return;
+      const { items } = activeDetailsRecord;
+      document.getElementById("detailEquipmentRows").innerHTML = items.map(item => `
+        <tr>
+          <td>
+            <span class="equipment-name">${item[0]}</span>
+            <span class="equipment-spec">${item[1]}</span>
+          </td>
+          <td>${item[2]}</td>
+          <td>${item[3]}</td>
+          <td><span class="quantity-pill">${item[4]} units</span></td>
+          <td><span class="condition">${item[5]}</span></td>
+        </tr>
+      `).join("");
+    }
+
+    borrowerProfileDetails.addEventListener("toggle", () => {
+      if (borrowerProfileDetails.open) renderBorrowerProfile();
+    });
+    equipmentDetails.addEventListener("toggle", () => {
+      if (equipmentDetails.open) renderIssuedEquipment();
+    });
+
     function viewDetails(name) {
       const row = rows.find(item => item.cells[0]?.innerText.includes(name));
       const record = transactionRecords[name];
@@ -508,18 +574,17 @@
       document.getElementById("detailTransactionId").textContent = record.id;
       document.getElementById("detailSlipId").textContent = record.id;
       document.getElementById("detailStatus").textContent = statusText;
-      document.getElementById("detailBorrowDate").textContent = "◷ " + record.borrow;
-      document.getElementById("detailReturnDate").textContent = "▣ " + record.expected;
+      document.getElementById("detailBorrowDate").textContent = record.borrow;
+      document.getElementById("detailReturnDate").textContent = record.expected;
       document.getElementById("detailActualReturn").textContent = record.actual;
       document.getElementById("detailPurpose").textContent = record.purpose;
-      document.getElementById("detailBorrowerName").textContent = name;
-      document.getElementById("detailBorrowerId").textContent = record.borrowerId;
-      document.getElementById("detailContact").textContent = "☎ " + record.contact;
-      document.getElementById("detailAddress").textContent = record.address;
-
-      const total = record.items.reduce((sum, item) => sum + item[4], 0);
+      activeDetailsRecord = record;
+      activeDetailsName = name;
+      borrowerProfileDetails.open = false;
+      equipmentDetails.open = false;
       document.getElementById("detailEquipmentTypes").textContent = record.items.length;
-      document.getElementById("detailTotalReleased").textContent = total;
+      document.getElementById("detailTotalReleased").textContent =
+        record.items.reduce((sum, item) => sum + item[4], 0);
 
       document.getElementById("detailCustodyBadge").textContent =
         row.dataset.status === "Returned"
@@ -533,19 +598,6 @@
         row.dataset.status === "Returned" ? "Custody check-in completed" :
         row.dataset.status === "Due Today" ? "Return due today" : "Scheduled return";
 
-      document.getElementById("detailEquipmentRows").innerHTML = record.items.map(item => `
-        <tr>
-          <td>
-            <span class="equipment-name">${item[0]}</span>
-            <span class="equipment-spec">${item[1]}</span>
-          </td>
-          <td>${item[2]}</td>
-          <td>${item[3]}</td>
-          <td><span class="quantity-pill">${item[4]} units</span></td>
-          <td><span class="condition">${item[5]}</span></td>
-        </tr>
-      `).join("");
-
       const modal = document.getElementById("detailsModal");
       modal.classList.add("show");
       modal.setAttribute("aria-hidden", "false");
@@ -557,6 +609,17 @@
       modal.classList.remove("show");
       modal.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
+      activeDetailsRecord = null;
+      activeDetailsName = "";
+      borrowerProfileDetails.open = false;
+      equipmentDetails.open = false;
+      document.getElementById("detailBorrowerName").textContent = "";
+      document.getElementById("detailBorrowerId").textContent = "";
+      document.getElementById("detailContact").textContent = "";
+      document.getElementById("detailAddress").textContent = "";
+      document.getElementById("detailEquipmentTypes").textContent = "—";
+      document.getElementById("detailTotalReleased").textContent = "—";
+      document.getElementById("detailEquipmentRows").innerHTML = "";
     }
 
     document.getElementById("detailsModal").addEventListener("click", function(event) {
@@ -564,6 +627,10 @@
     });
 
     function printBorrowingDetails() {
+      borrowerProfileDetails.open = true;
+      equipmentDetails.open = true;
+      renderBorrowerProfile();
+      renderIssuedEquipment();
       window.print();
     }
   
@@ -588,6 +655,20 @@ document.getElementById('borrowingModal').addEventListener('click', function(eve
 
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape') { closeBorrowingModal(); closeDetailsModal(); }
+});
+
+const adminNav = document.getElementById('adminNav');
+const adminNavButton = document.getElementById('adminNavButton');
+adminNavButton.addEventListener('click', function(event) {
+    event.stopPropagation();
+    const isOpen = adminNav.classList.toggle('open');
+    adminNavButton.setAttribute('aria-expanded', String(isOpen));
+});
+document.addEventListener('click', function(event) {
+    if (!adminNav.contains(event.target)) {
+        adminNav.classList.remove('open');
+        adminNavButton.setAttribute('aria-expanded', 'false');
+    }
 });
 
 // Update the borrower information preview when a borrower is selected.
@@ -641,7 +722,7 @@ function addEquipment() {
             <label>Qty:</label>
             <input class="quantity-input" type="number" min="1" value="1" required>
             <span>pcs</span>
-            <button type="button" class="remove-equipment" aria-label="Remove equipment">▤</button>
+            <button type="button" class="remove-equipment" aria-label="Remove equipment"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V3h6v3"/><line x1="10" y1="11" x2="10" y2="16"/><line x1="14" y1="11" x2="14" y2="16"/></svg></button>
         </div>
     `;
     equipmentList.appendChild(entry);
