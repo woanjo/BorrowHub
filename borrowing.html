@@ -93,7 +93,7 @@
         <div class="search-group">
           <div class="search-wrap">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.2" y1="16.2" x2="21" y2="21"/></svg>
-            <input id="search" class="search" type="search" placeholder="Search by borrower, equipment, or reference..." aria-label="Search borrowing records" />
+            <input id="search" class="search" type="search" placeholder="Search borrower, equipment, or reference" aria-label="Search borrowing records" />
           </div>
           <button class="date-button" type="button" onclick="alert('Date range filter can be connected here.')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -286,11 +286,17 @@
           <div class="form-grid">
             <div>
               <label for="borrowDate">Borrowing Date &amp; Time <b>*</b></label>
-              <input id="borrowDate" type="datetime-local" value="2026-11-07T08:30" required>
+              <div class="date-time-control">
+                <input id="borrowDate" type="datetime-local" value="2026-11-07T08:30" required>
+                <span class="date-time-display" aria-hidden="true"></span>
+              </div>
             </div>
             <div>
               <label for="returnDate">Expected Return Date &amp; Time <b>*</b></label>
-              <input id="returnDate" type="datetime-local" value="2026-11-09T17:00" required>
+              <div class="date-time-control">
+                <input id="returnDate" type="datetime-local" value="2026-11-09T17:00" required>
+                <span class="date-time-display" aria-hidden="true"></span>
+              </div>
             </div>
             <div class="full-width">
               <label for="purpose">Purpose of Request <b>*</b></label>
@@ -336,7 +342,7 @@
           <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16h16V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>1. Transaction Information</h3>
           <small>LOG SEQUENCE #0104</small>
         </div>
-        <div class="details-grid">
+        <div class="details-grid transaction-info-grid">
           <div class="detail-field">
             <span>Transaction Slip ID</span>
             <strong id="detailSlipId">TRX-2026-1107</strong>
@@ -348,16 +354,15 @@
           <div class="detail-field">
             <span>Releasing Custodian</span>
             <strong>Solana Rodrigo</strong>
-            <strong class="sub-detail">Staff</strong>
           </div>
           <div class="detail-field">
             <span>Date &amp; Time Borrowed</span>
-            <strong id="detailBorrowDate">November 7, 2026 • 08:30 AM</strong>
+            <strong class="date-value borrowed-date-value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="detailBorrowDate">November 7, 2026 • 08:30 AM</span></strong>
           </div>
           <div class="detail-field">
             <span>Expected Return Date &amp; Time</span>
-            <strong id="detailReturnDate">November 9, 2026 • 05:00 PM</strong>
-            <strong class="sub-detail" id="detailDueNote">Due in 2 days</strong>
+            <strong class="date-value return-date-value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/><path d="m9 16 2 2 4-4"/></svg><span id="detailReturnDate">November 9, 2026 • 05:00 PM</span></strong>
+            <strong class="sub-detail return-due-note" id="detailDueNote">Due in 2 days</strong>
           </div>
           <div class="detail-field">
             <span>Actual Return Date</span>
@@ -378,7 +383,7 @@
             <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
           </span>
         </summary>
-        <div class="details-grid">
+        <div class="details-grid borrower-profile-grid">
           <div class="detail-field">
             <span>Full Name</span>
             <strong id="detailBorrowerName"></strong>
@@ -389,7 +394,7 @@
           </div>
           <div class="detail-field">
             <span>Contact Number</span>
-            <strong id="detailContact"></strong>
+            <strong class="contact-value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5 9 3l2 5-2 1.5a14 14 0 0 0 5.5 5.5L16 13l5 2-.5 2.5a2 2 0 0 1-2.2 1.6A16 16 0 0 1 4.9 6a2 2 0 0 1 1.6-2.5Z"/></svg><span id="detailContact"></span></strong>
           </div>
           <div class="detail-field">
             <span>Residential Address</span>
@@ -401,9 +406,9 @@
 
       <details class="details-card collapsible-card equipment-card" id="equipmentDetails">
         <summary class="details-card-heading collapsible-heading">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>3. Issued Equipment &amp; Quantities</h3>
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m21 8-9-5-9 5 9 5 9-5Z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>3. Issued Equipment &amp; Quantities</h3>
           <span class="collapsible-heading-meta">
-            <small><span id="detailEquipmentTypes">—</span> Equipment Lines &nbsp; • &nbsp; <b id="detailTotalReleased">—</b> Total Items Released</small>
+            <small><span class="equipment-lines-badge"><span id="detailEquipmentTypes">—</span> Equipment Lines</span> &nbsp; • &nbsp; <b id="detailTotalReleased">—</b> Total Items Released</small>
             <svg class="collapse-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
           </span>
         </summary>
@@ -468,7 +473,7 @@
         purpose: "Barangay Meeting / Community Activity", status: "Pending Release / In Custody",
         actual: "Pending Custody Check-in", items: [
           ["White Monobloc Chairs", "Uratex 101 Heavy Duty (Stackable)", "BSI-EQ-2023-001", "Chairs & Tables", 40, "Good Condition (Inspected)"],
-          ["6ft Foldable Tables", "Heavy Duty Commercial Grade", "BSI-EQ-2023-014", "Chairs & Tables", 4, "Good Condition (Inspected)"]
+          ["Heavy-Duty Foldable Tables", "6ft White Granite Commercial Grade", "BSI-EQ-2023-014", "Chairs & Tables", 4, "Good Condition (Inspected)"]
         ]
       },
       "Roberto Diaz": {
@@ -534,14 +539,32 @@
       document.getElementById("detailAddress").textContent = activeDetailsRecord.address;
     }
 
+    function getEquipmentIcon(itemName) {
+      if (/table|desk/i.test(itemName)) return '<path d="M3 9h18M5 9v10m14-10v10M8 5h8l2 4H6l2-4Z"/>';
+      if (/chair/i.test(itemName)) return '<path d="M4 13h16v6H4zM6 13V9a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4M7 19v2m10-2v2"/>';
+      if (/tent|canopy/i.test(itemName)) return '<path d="m2 20 10-16 10 16H2Z M12 4v16"/>';
+      if (/sound|speaker/i.test(itemName)) return '<rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M9 7h6"/>';
+      if (/microphone|mic/i.test(itemName)) return '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2m7 9v3m-4 0h8"/>';
+      if (/megaphone/i.test(itemName)) return '<path d="m3 11 18-5v12l-18-5zM7 13l2 8h4l-2-6m7-8v10"/>';
+      if (/first aid|medical/i.test(itemName)) return '<rect x="3" y="6" width="18" height="15" rx="2"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m-3 4v7m-3.5-3.5h7"/>';
+      if (/grass cutter|lawn/i.test(itemName)) return '<path d="m3 20 5-1 5-10 5 2m-10 8 10-1m-8-9 4-5m0 0 2 2m-2-2 5-1"/><circle cx="6" cy="20" r="1"/>';
+      if (/extension reel|cable/i.test(itemName)) return '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 4v5m7-2-4 3m3 8-4-4m-8 4 3-4M5 7l4 3"/>';
+      return '<path d="m3 8 9-5 9 5-9 5-9-5Z"/><path d="M3 8v9l9 5 9-5V8M12 13v9"/>';
+    }
+
     function renderIssuedEquipment() {
       if (!activeDetailsRecord) return;
       const { items } = activeDetailsRecord;
       document.getElementById("detailEquipmentRows").innerHTML = items.map(item => `
         <tr>
           <td>
-            <span class="equipment-name">${item[0]}</span>
-            <span class="equipment-spec">${item[1]}</span>
+            <div class="equipment-item-cell">
+              <span class="equipment-item-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${getEquipmentIcon(item[0])}</svg></span>
+              <div class="equipment-item-copy">
+                <span class="equipment-name">${item[0]}</span>
+                <span class="equipment-spec">${item[1]}</span>
+              </div>
+            </div>
           </td>
           <td>${item[2]}</td>
           <td>${item[3]}</td>
@@ -578,6 +601,10 @@
       document.getElementById("detailReturnDate").textContent = record.expected;
       document.getElementById("detailActualReturn").textContent = record.actual;
       document.getElementById("detailPurpose").textContent = record.purpose;
+      document.getElementById("detailDueNote").textContent =
+        row.dataset.status === "Overdue" ? "Return date has passed" :
+        row.dataset.status === "Returned" ? "Custody check-in completed" :
+        row.dataset.status === "Due Today" ? "Return due today" : "Due in 2 days";
       activeDetailsRecord = record;
       activeDetailsName = name;
       borrowerProfileDetails.open = false;
@@ -592,11 +619,6 @@
           : row.dataset.status === "Overdue"
             ? "● Overdue Transaction (In Custody)"
             : "● Active Transaction (In Custody)";
-
-      document.getElementById("detailDueNote").textContent =
-        row.dataset.status === "Overdue" ? "Return date has passed" :
-        row.dataset.status === "Returned" ? "Custody check-in completed" :
-        row.dataset.status === "Due Today" ? "Return due today" : "Scheduled return";
 
       const modal = document.getElementById("detailsModal");
       modal.classList.add("show");
@@ -730,6 +752,38 @@ function addEquipment() {
 }
 
 // Validate and handle the form submission.
+function updateDateTimeDisplay(input) {
+    const display = input.parentElement.querySelector('.date-time-display');
+    if (!input.value) {
+        display.textContent = '';
+        return;
+    }
+
+    const dateTime = new Date(input.value);
+    const date = new Intl.DateTimeFormat('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    }).format(dateTime);
+    const time = new Intl.DateTimeFormat('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+    }).format(dateTime);
+    display.textContent = `${date} - ${time}`;
+}
+
+document.querySelectorAll('.date-time-control input[type="datetime-local"]').forEach(input => {
+    updateDateTimeDisplay(input);
+    input.addEventListener('input', () => updateDateTimeDisplay(input));
+    input.addEventListener('change', () => updateDateTimeDisplay(input));
+    input.addEventListener('click', event => {
+        if (typeof input.showPicker !== 'function') return;
+        event.preventDefault();
+        input.showPicker();
+    });
+});
+
 document.getElementById('borrowingForm').addEventListener('submit', function(event) {
     event.preventDefault();
     if (!this.reportValidity()) return;
