@@ -144,8 +144,8 @@
         </button>
       </div>
     </nav>
-    <div class="navbar-accent-strip"></div>
   </header>
+  <div class="navbar-accent-strip"></div>
 
   <!-- ========================================================================
        Main Content Area
@@ -343,7 +343,7 @@
           </div>
           <div>
             <h3 class="modal-title" id="addModalTitle">Add New Equipment</h3>
-            <p class="modal-subtitle">Enter complete physical asset specifications and allocation to record in the barangay registry.</p>
+            <p class="modal-subtitle">Enter the equipment details into the barangay’s equipment registry.</p>
           </div>
         </div>
         <button type="button" class="modal-close-btn" data-close-modal="addModalBackdrop" aria-label="Close modal">
@@ -359,7 +359,6 @@
           <div class="form-group">
             <div class="form-label-row">
               <label class="form-label" for="addEquipName">Equipment Name <span class="req">*</span></label>
-              <span class="form-hint">Official Property Label</span>
             </div>
             <input
               type="text"
@@ -373,7 +372,7 @@
           <div class="form-group">
             <label class="form-label" for="addEquipCategory">Category <span class="req">*</span></label>
             <select id="addEquipCategory" class="mint-select" required>
-              <option value="" disabled selected>Select inventory category</option>
+              <option value="" disabled selected>Select category</option>
             </select>
           </div>
 
@@ -393,7 +392,7 @@
               <select id="addEquipStatus" class="mint-select" required>
                 <option value="Available">Available</option>
                 <option value="Reserved">Reserved</option>
-                <option value="Unavailable">Unavailable(Under Maintenance)</option>
+                <option value="Unavailable">Unavailable (Under Maintenance)</option>
               </select>
             </div>
 
@@ -409,13 +408,13 @@
 
           <div class="form-group">
             <div class="form-label-row">
-              <label class="form-label" for="addEquipDesc">Description &amp; Storage Location</label>
-              <span class="form-hint">Optional specifications</span>
+              <label class="form-label" for="addEquipDesc">Description</label>
+              <span class="form-hint">Optional</span>
             </div>
             <textarea
               id="addEquipDesc"
               class="mint-textarea"
-              placeholder="Enter technical specifications, model/serial number details, brand, accessories included, and storage location (e.g., Stored in Logistics Bay A)..."
+              placeholder="Record the equipment’s details, brand, model and serial numbers, and included accessories..."
             ></textarea>
           </div>
         </div>
@@ -451,7 +450,7 @@
           </div>
           <div>
             <h3 class="modal-title" id="detailsModalTitle">Equipment Details</h3>
-            <p class="modal-subtitle">Official custodial record and availability specifications &bull; Barangay Bulacao</p>
+            <p class="modal-subtitle">Equipment informatioon availability &bull; Barangay Bulacao</p>
           </div>
         </div>
         <button type="button" class="modal-close-btn" data-close-modal="detailsModalBackdrop" aria-label="Close details modal">
@@ -463,7 +462,6 @@
       </div>
 
       <div class="modal-body">
-        <!-- Mint Highlight Header Box -->
         <div class="details-banner">
           <div class="details-cat-pill">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -476,28 +474,25 @@
           <div class="details-meta-row">
             <span class="details-meta-item">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-              Cataloged: <strong id="detCataloged">--</strong>
+              Equipment ID: <strong id="detCataloged">--</strong>
             </span>
             <span>&bull;</span>
             <span class="details-meta-item">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              Custodian: <strong id="detCustodian">--</strong>
+              Custodian: <strong id="detCustodian">Barangay Property Office</strong>
             </span>
           </div>
         </div>
 
-        <!-- 4-Column Metric Grid -->
-        <div class="details-metrics-grid">
+        <div class="details-metrics-grid" style="grid-template-columns: repeat(3, 1fr);">
           <div class="detail-metric-box">
             <div class="detail-metric-label">TOTAL QUANTITY</div>
             <div class="detail-metric-num"><span id="detTotalQty" style="font-size:22px;font-weight:800;color:var(--text-main);margin:0;">0</span><span>Units</span></div>
-            <div class="detail-metric-sub">Registered in ledger</div>
           </div>
 
           <div class="detail-metric-box mint-highlight">
             <div class="detail-metric-label" style="color:var(--primary-green);">AVAILABLE STOCK</div>
             <div class="detail-metric-num green"><span id="detAvailQty" style="font-size:22px;font-weight:800;color:var(--primary-green);margin:0;">0</span><span>Units</span></div>
-            <div class="detail-metric-sub green" id="detOnLoanSub">&bull; 0 Active on loan</div>
           </div>
 
           <div class="detail-metric-box">
@@ -505,58 +500,16 @@
             <div style="margin-bottom: 6px;" id="detStatusBadgeWrap">
               <span class="status-pill available">--</span>
             </div>
-            <div class="detail-metric-sub" id="detStatusSub">--</div>
-          </div>
-
-          <div class="detail-metric-box">
-            <div class="detail-metric-label">PHYSICAL CONDITION</div>
-            <div style="margin-bottom: 6px;">
-              <span class="status-pill available" id="detConditionPill">--</span>
-            </div>
-            <div class="detail-metric-sub" id="detInspectedSub">--</div>
+            <div class="detail-metric-sub" id="detStatusSub"></div>
           </div>
         </div>
 
-        <!-- Item Description & Purpose -->
         <div class="details-desc-section">
           <h4>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             Item Description &amp; Purpose
           </h4>
           <p id="detDescription">--</p>
-
-          <div class="specs-strip">
-            <div>
-              <div class="spec-col-label">DIMENSIONS</div>
-              <div class="spec-col-val" id="detDimensions">--</div>
-            </div>
-            <div>
-              <div class="spec-col-label">WEIGHT</div>
-              <div class="spec-col-val" id="detWeight">--</div>
-            </div>
-            <div>
-              <div class="spec-col-label">MATERIAL</div>
-              <div class="spec-col-val" id="detMaterial">--</div>
-            </div>
-            <div>
-              <div class="spec-col-label">WEAR RATING</div>
-              <div class="spec-col-val" id="detWear">--</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Active Loan Notice Box -->
-        <div class="loan-notice-box" id="detLoanNoticeBox">
-          <div class="loan-notice-left">
-            <div class="loan-doc-icon" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="12" y2="16"/></svg>
-            </div>
-            <div>
-              <div class="loan-notice-title" id="detLoanTitle">No active loans</div>
-              <div class="loan-notice-sub" id="detLoanSub">--</div>
-            </div>
-          </div>
-          <button type="button" class="btn-view-history-sm">View Borrow History</button>
         </div>
       </div>
 
@@ -607,50 +560,54 @@
             <input type="text" id="editEquipName" class="mint-input" required />
           </div>
 
-          <div class="form-group">
-            <label class="form-label" for="editEquipCategory">Category <span class="req">*</span></label>
-            <select id="editEquipCategory" class="mint-select double-arrow" required>
-              <option value="" disabled selected>Select inventory category</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <div class="form-label-row">
-              <label class="form-label" for="editEquipQty">Total Units in Custody <span class="req">*</span></label>
-              <span class="form-hint-bold" id="editAvailableHint">Available: 0</span>
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label class="form-label" for="editEquipCategory">Category <span class="req">*</span></label>
+              <select id="editEquipCategory" class="mint-select double-arrow" required>
+                <option value="" disabled selected>Select inventory category</option>
+              </select>
             </div>
-            <div class="stepper-box">
-              <button type="button" class="stepper-btn" id="editQtyMinus" aria-label="Decrease total units">&minus;</button>
-              <input type="number" id="editEquipQty" class="stepper-input" value="1" min="1" max="999" required />
-              <button type="button" class="stepper-btn" id="editQtyPlus" aria-label="Increase total units">+</button>
+
+            <div class="form-group">
+              <div class="form-label-row">
+                <label class="form-label" for="editEquipQty">Total Units in Custody <span class="req">*</span></label>
+                <span class="form-hint-bold" id="editAvailableHint">Available: 0</span>
+              </div>
+              <div class="stepper-box">
+                <button type="button" class="stepper-btn" id="editQtyMinus" aria-label="Decrease total units">&minus;</button>
+                <input type="number" id="editEquipQty" class="stepper-input" value="1" min="1" max="999" required />
+                <button type="button" class="stepper-btn" id="editQtyPlus" aria-label="Increase total units">+</button>
+              </div>
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="form-label" for="editEquipCondition">
-              Physical Condition <span class="req">*</span>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" title="Assessed during periodic barangay custody audit">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                <line x1="12" y1="17" x2="12.01" y2="17"/>
-              </svg>
-            </label>
-            <select id="editEquipCondition" class="mint-select" required>
-              <option value="Good Condition (Minor Surface Wear)">Good Condition (Minor Surface Wear)</option>
-              <option value="Brand New / Excellent">Brand New / Excellent</option>
-              <option value="Fair Condition">Fair Condition</option>
-              <option value="Needs Repair">Needs Repair</option>
-            </select>
-          </div>
+          <div class="form-row-condition-status">
+            <div class="form-group">
+              <label class="form-label" for="editEquipCondition">
+                Physical Condition <span class="req">*</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" title="Assessed during periodic barangay custody audit">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                  <line x1="12" y1="17" x2="12.01" y2="17"/>
+                </svg>
+              </label>
+              <select id="editEquipCondition" class="mint-select" required>
+                <option value="Good Condition (Minor Surface Wear)">Good Condition (Minor Surface Wear)</option>
+                <option value="Brand New / Excellent">Brand New / Excellent</option>
+                <option value="Fair Condition">Fair Condition</option>
+                <option value="Needs Repair">Needs Repair</option>
+              </select>
+            </div>
 
-          <div class="form-group">
-            <label class="form-label" for="editEquipStatus">Operational Status <span class="req">*</span></label>
-            <select id="editEquipStatus" class="mint-select" required>
-              <option value="Available">Available</option>
-              <option value="Reserved">Reserved</option>
-              <option value="Borrowed">Borrowed</option>
-              <option value="Unavailable">Unavailable (Under Maintenance)</option>
-            </select>
+            <div class="form-group">
+              <label class="form-label" for="editEquipStatus">Operational Status <span class="req">*</span></label>
+              <select id="editEquipStatus" class="mint-select" required>
+                <option value="Available">Available</option>
+                <option value="Reserved">Reserved</option>
+                <option value="Borrowed">Borrowed</option>
+                <option value="Unavailable">Unavailable (Under Maintenance)</option>
+              </select>
+            </div>
           </div>
 
           <div class="form-group">

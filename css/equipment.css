@@ -73,17 +73,20 @@ a {
   color: inherit;
 }
 
-/* 
-   Top Navigation Bar (Matches Dashboard Single-Row Layout) */
 /* ==========================================================================
    Top Navigation Bar (Matched to Dashboard)
    ========================================================================== */
 .navbar-wrapper {
-  background-color: var(--bg-surface);
-  border-bottom: 1px solid var(--border-subtle);
   position: sticky;
   top: 0;
-  z-index: 1101;
+  z-index: 1100;
+  background-color: #ffffff;
+}
+
+body.modal-open .navbar-accent-strip {
+  background-color: #c5d3cc;
+  border-bottom-color: #b4c4bc;
+  transition: background-color 0.18s ease;
 }
 
 .navbar {
@@ -897,31 +900,29 @@ a {
    FIXED MODAL OVERLAY & BACKDROP BLUR
    Positioned completely below the navbar
    ========================================================================== */
-
 .modal-backdrop {
+  display: none;
   position: fixed;
-  top: 50px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  background: rgba(15, 35, 25, 0.45);
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(13, 36, 24, 0.45);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-
-  z-index: 1000;
-
-  display: none;
-  align-items: center;
-  justify-content: center;
-
-  padding: 20px;
+  padding: 88px 16px 24px;
   overflow-y: auto;
 }
 
 .modal-backdrop.active {
   display: flex;
+  align-items: center;
+  justify-content: center;
   animation: backdropFadeIn 0.18s ease-out;
+}
+
+html:has(body.modal-open),
+body.modal-open {
+  overflow: hidden !important;
+  height: 100%;
 }
 
 /* Modal panel */
@@ -1104,6 +1105,12 @@ a {
 .form-row-2col {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.form-row-condition-status {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
   gap: 14px;
 }
 
@@ -1653,7 +1660,8 @@ a {
   .specs-strip {
     grid-template-columns: repeat(2, 1fr);
   }
-  .form-row-2col {
+  .form-row-2col,
+  .form-row-condition-status {
     grid-template-columns: 1fr;
   }
   .main-container {

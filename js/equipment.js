@@ -388,24 +388,19 @@
     document.getElementById('detTotalQty').textContent = item.totalQty ?? 0;
     document.getElementById('detAvailQty').textContent = item.availQty ?? 0;
 
-    const activeLoanCount = Math.max(0, (item.totalQty ?? 0) - (item.availQty ?? 0));
-    document.getElementById('detOnLoanSub').textContent = `• ${activeLoanCount} Unavailable / On loan`;
-
     const statusWrap = document.getElementById('detStatusBadgeWrap');
     statusWrap.innerHTML = getStatusBadgeHTML(item.status);
-    document.getElementById('detStatusSub').textContent =
-      (item.availQty ?? 0) > 0 ? 'Open for requests' : 'Currently unavailable';
 
-    const condPill = document.getElementById('detConditionPill');
-    condPill.innerHTML = '&#10003; Verified';
-    condPill.className = 'status-pill available';
+    const statusSub = document.getElementById('detStatusSub');
+    if (statusSub) {
+      statusSub.textContent = (item.availQty ?? 0) > 0 ? 'Open for requests' : 'Currently unavailable';
+    }
 
-    document.getElementById('detInspectedSub').textContent = 'Synced with Neon';
     document.getElementById('detDescription').textContent = item.description || '--';
 
     openModal('detailsModalBackdrop');
   }
-
+  
   // ==========================================================================
   // MODAL 3: Update Equipment (Connected to public.update_equipment)
   // ==========================================================================
