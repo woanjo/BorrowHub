@@ -418,10 +418,19 @@ a {
     background-color: #16a34a;
 }
 
-.dot.gray {
-    background-color: #9ca3af;
+/* Inactive status - Red */
+.status-pill.inactive {
+    background-color: #FEE2E2;
+    color: #DC2626;
 }
 
+.dot.red {
+    background-color: #EF4444;
+}
+
+.dot.gray {
+    background-color: #ff6060;
+}
 
 .stat-icon {
     width: 50px;
@@ -441,7 +450,7 @@ a {
 
 .stat-icon.inactive {
     background: #e2eee6;
-    color: #4e5f55;
+    color: #ff3e3e;
 }
 
 .toolbar {
@@ -626,7 +635,7 @@ tbody tr:hover {
 
 .status-pill.inactive {
     background: #e5eee8;
-    color: #58645d;
+    color: #ff3e3e;
     border-color: #c7d5cc;
 }
 

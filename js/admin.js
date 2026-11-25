@@ -67,9 +67,9 @@ function render() {
     </td>
 
     <td>
-      <span class="status-pill ${s.status === "Inactive" ? "inactive" : ""}">
-        <span class="dot green"></span>
-        ${s.status}
+      <span class="status-pill ${s.status === "Active" ? "active" : "inactive"}">
+        <span class="dot ${s.status === "Active" ? "green" : "red"}"></span>
+        ${esc(s.status)}
       </span>
     </td>
 
