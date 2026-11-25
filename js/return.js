@@ -28,7 +28,37 @@
     { id: 24, name: 'Liza Ramos', contact: 'Purok 4 • 0923-411-9081', equipment: 'Disaster Response Kit', items: 'Emergency Tent (1 pc), First Aid Kit (2 pcs)', dueDate: 'Nov 2, 2026', dueTime: '02:00 PM (Overdue)', status: 'Overdue' }
   ];
 
-  const pageSize = 6;
+  const HISTORY_STORAGE_KEY = 'borrowhub_history_records';
+  const RETURN_STORAGE_KEY = 'borrowhub_return_records';
+
+  function readStoredJson(key) {
+    try {
+      const value = window.localStorage.getItem(key);
+      return value ? JSON.parse(value) : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function saveStoredJson(key, value) {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (error) {
+      showToast('This browser could not save the return record.');
+      return false;
+    }
+  }
+
+  const storedReturns = readStoredJson(RETURN_STORAGE_KEY);
+  if (Array.isArray(storedReturns)) {
+    storedReturns.forEach(function (storedRecord) {
+      const existing = records.find(function (record) { return record.id === storedRecord.id; });
+      if (existing) Object.assign(existing, storedRecord);
+    });
+  }
+
+  const state = { page: 1, pageSize: 6, search: '', status: 'All' };
   const tbody = document.getElementById('returnsBody');
   const searchInput = document.getElementById('searchInput');
   const tabs = Array.from(document.querySelectorAll('.filter-tab'));
@@ -36,8 +66,6 @@
   const nextBtn = document.getElementById('nextPageBtn');
   const modalBackdrop = document.getElementById('returnModalBackdrop');
   const returnForm = document.getElementById('returnForm');
-  let selectedStatus = 'All';
-  let currentPage = 1;
   let activeRecord = null;
   let modalMode = 'process';
   let processItems = [];
@@ -62,9 +90,9 @@
   }
 
   function getFilteredRecords() {
-    const query = searchInput.value.trim().toLowerCase();
+    const query = state.search;
     return records.filter(function (record) {
-      const statusMatches = selectedStatus === 'All' || record.status === selectedStatus;
+      const statusMatches = state.status === 'All' || record.status === state.status;
       const searchText = [record.name, record.contact, record.equipment, record.items, record.status].join(' ').toLowerCase();
       return statusMatches && searchText.includes(query);
     });
@@ -77,10 +105,10 @@
   function renderRows() {
     renderCounts();
     const filtered = getFilteredRecords();
-    const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
-    currentPage = Math.min(currentPage, totalPages);
-    const start = (currentPage - 1) * pageSize;
-    const visible = filtered.slice(start, start + pageSize);
+    const totalPages = Math.max(1, Math.ceil(filtered.length / state.pageSize));
+    state.page = Math.min(state.page, totalPages);
+    const start = (state.page - 1) * state.pageSize;
+    const visible = filtered.slice(start, start + state.pageSize);
     tbody.innerHTML = visible.map(function (record) {
       const dueClass = record.status === 'Overdue' ? 'is-overdue' : record.status === 'Due Today' ? 'is-today' : '';
       const actionLabel = record.status === 'Returned' ? 'Returned' : record.status === 'Overdue' ? 'View Details' : 'Process Return';
@@ -100,11 +128,11 @@
 
     document.getElementById('emptyState').hidden = visible.length > 0;
     const shownStart = filtered.length ? start + 1 : 0;
-    const shownEnd = Math.min(start + pageSize, filtered.length);
+    const shownEnd = Math.min(start + state.pageSize, filtered.length);
     document.getElementById('paginationSummary').textContent = 'Showing ' + shownStart + ' to ' + shownEnd + ' of ' + filtered.length + ' records';
-    document.getElementById('pageIndicator').textContent = 'Page ' + currentPage + ' of ' + totalPages;
-    prevBtn.disabled = currentPage <= 1;
-    nextBtn.disabled = currentPage >= totalPages;
+    document.getElementById('pageIndicator').textContent = 'Page ' + state.page + ' of ' + totalPages;
+    prevBtn.disabled = state.page <= 1;
+    nextBtn.disabled = state.page >= totalPages;
   }
 
   function escapeHTML(value) {
@@ -397,8 +425,8 @@
 
   tabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
-      selectedStatus = tab.dataset.status;
-      currentPage = 1;
+      state.status = tab.dataset.status;
+      state.page = 1;
       tabs.forEach(function (item) {
         const isSelected = item === tab;
         item.classList.toggle('active', isSelected);
@@ -409,20 +437,21 @@
   });
 
   searchInput.addEventListener('input', function () {
-    currentPage = 1;
+    state.search = searchInput.value.trim().toLowerCase();
+    state.page = 1;
     renderRows();
   });
 
   prevBtn.addEventListener('click', function () {
-    if (currentPage > 1) {
-      currentPage -= 1;
+    if (state.page > 1) {
+      state.page -= 1;
       renderRows();
     }
   });
   nextBtn.addEventListener('click', function () {
-    const totalPages = Math.ceil(getFilteredRecords().length / pageSize);
-    if (currentPage < totalPages) {
-      currentPage += 1;
+    const totalPages = Math.ceil(getFilteredRecords().length / state.pageSize);
+    if (state.page < totalPages) {
+      state.page += 1;
       renderRows();
     }
   });
@@ -518,6 +547,34 @@
     activeRecord.status = 'Returned';
     activeRecord.condition = activeRecord.returnInspection.overallCondition;
     activeRecord.notes = activeRecord.returnInspection.notes;
+
+    saveStoredJson(RETURN_STORAGE_KEY, records);
+    const historyRecords = readStoredJson(HISTORY_STORAGE_KEY) || [];
+    const historyIndex = historyRecords.findIndex(function (record) {
+      return record.name === activeRecord.name && record.transactionId === getBorrowingReference(activeRecord);
+    });
+    const historyRecord = {
+      name: activeRecord.name,
+      contact: activeRecord.contact,
+      equipment: activeRecord.equipment,
+      items: activeRecord.returnItems,
+      borrowedAt: activeRecord.borrowedAt,
+      dueDate: activeRecord.dueDate,
+      dueTime: activeRecord.dueTime,
+      actualReturn: formatTurnover(turnoverValue),
+      status: 'Returned',
+      statusDetail: turnoverStatus === 'Returned Late' ? 'Returned Late' : 'Returned On-Time',
+      condition: activeRecord.returnInspection.overallCondition,
+      notes: activeRecord.returnInspection.notes,
+      staffName: activeRecord.returnInspection.staffName,
+      staffRole: activeRecord.returnInspection.staffRole,
+      transactionId: getBorrowingReference(activeRecord),
+      returnId: getReturnReference(activeRecord)
+    };
+    if (historyIndex >= 0) historyRecords[historyIndex] = historyRecord;
+    else historyRecords.unshift(historyRecord);
+    saveStoredJson(HISTORY_STORAGE_KEY, historyRecords);
+
     closeModal();
     renderRows();
     showToast('Return recorded for ' + borrowerName + '.');
@@ -621,13 +678,19 @@ document.addEventListener('click', (e) => {
 
   const mobileMenuButton = document.getElementById('mobileMenuBtn');
   const navLinks = document.getElementById('navLinks');
-  mobileMenuButton.addEventListener('click', function () {
-    const isOpen = navLinks.classList.toggle('mobile-open');
-    mobileMenuButton.setAttribute('aria-expanded', String(isOpen));
-  });
+  if (mobileMenuButton && navLinks) {
+    mobileMenuButton.addEventListener('click', function () {
+      const isOpen = navLinks.classList.toggle('mobile-open');
+      mobileMenuButton.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
 
   document.getElementById('logoutBtn').addEventListener('click', function () {
-    showToast('Session locked for Solana Rodrigo (Staff).');
+    try {
+      window.sessionStorage.removeItem('borrowhub_session');
+      window.localStorage.removeItem('borrowhub_session');
+    } catch (error) {}
+    window.location.href = 'login.html';
   });
 
   renderRows();

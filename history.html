@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BorrowHub | Borrowing History</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/history.css" />
+</head>
+<body class="history-page">
+  <header class="navbar-wrapper">
+    <nav class="navbar" aria-label="Main Navigation">
+      <a href="dashboard.html" class="brand">
+        <img src="img/brgy_logo.png" alt="Barangay Seal" class="brand-seal" />
+        <span class="brand-name">BorrowHub</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="dashboard.html" class="nav-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/></svg><span>Dashboard</span></a>
+        <a href="equipment.html" class="nav-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/></svg><span>Equipment</span></a>
+        <a href="borrower.html" class="nav-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg><span>Borrower</span></a>
+        <a href="borrowing.html" class="nav-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11v6m-3-3 3-3 3 3"/></svg><span>Borrowing</span></a>
+        <a href="return.html" class="nav-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg><span>Return</span></a>
+        <a href="history.html" class="nav-btn active" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5m4-1v5l4 2"/></svg><span>History</span></a>
+        <div class="nav-item" id="adminDropdownWrapper">
+          <button type="button" class="nav-btn" id="adminDropdownBtn" aria-expanded="false" aria-haspopup="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><span>Administration</span><svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+          <div class="dropdown-menu" role="menu">
+            <a href="admin.html" class="dropdown-item" role="menuitem">Staff Management</a>
+            <a href="activity-logs.html" class="dropdown-item" role="menuitem">Activity Logs</a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <div class="user-pill">
+          <div class="user-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <div class="user-info"><span class="user-name">Solana Rodrigo</span><span class="user-role">Staff</span></div>
+          <button type="button" class="logout-btn" id="logoutBtn" title="Sign Out" aria-label="Sign Out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+        </div>
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      </div>
+    </nav>
+    <div class="navbar-accent-strip"></div>
+  </header>
+
+  <main class="main-container history-main">
+    <header class="page-header">
+      <h1 class="page-title">Borrowing History</h1>
+      <p class="page-subtitle">View records of completed equipment returns.</p>
+    </header>
+
+    <section class="kpi-grid history-summary-grid" aria-label="History summary">
+      <article class="kpi-card history-kpi-card">
+        <div class="kpi-top">
+          <div><div class="kpi-label uppercase-label">Total Transactions</div><div class="kpi-value" id="totalTransactionCount">0</div></div>
+          <div class="kpi-icon-box green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5m4-1v5l4 2"/></svg></div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer"><span class="kpi-footer-left">All recorded borrowing transactions</span></div>
+      </article>
+      <article class="kpi-card history-kpi-card">
+        <div class="kpi-top">
+          <div><div class="kpi-label uppercase-label">Completed Returns</div><div class="kpi-value green" id="completedReturnCount">0</div></div>
+          <div class="kpi-icon-box green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16.5 9"/></svg></div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer"><span class="kpi-footer-left">Successfully returned to inventory</span></div>
+      </article>
+    </section>
+
+    <section class="panel-card history-filter-card" aria-label="Search and filter history">
+      <div class="history-toolbar">
+        <label class="history-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg><input id="historySearch" type="search" placeholder="Search by borrower name or equipment" aria-label="Search history" /></label>
+        <label class="history-month"><select id="historyMonth" aria-label="Filter month"><option value="All">All Date Ranges</option><option value="2026-10" selected>This Month (Oct 2026)</option><option value="2026-11">November 2026</option></select></label>
+        <div class="history-status-tabs" role="tablist" aria-label="Filter history status">
+          <span class="history-status-label">Status:</span>
+          <button type="button" class="history-status-tab active" data-status="All" aria-selected="true">All</button>
+          <button type="button" class="history-status-tab" data-status="Returned" aria-selected="false">Returned</button>
+          <button type="button" class="history-status-tab" data-status="Returned Late" aria-selected="false">Returned Late</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel-card history-panel" aria-label="Borrowing history records">
+      <div class="table-responsive history-table-scroll">
+        <table class="transactions-table history-table">
+          <thead><tr><th>Borrower</th><th>Equipment</th><th>Borrowed<br>Date</th><th>Expected Return<br>Date</th><th>Actual Return<br>Date</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody id="historyTableBody"></tbody>
+        </table>
+      </div>
+      <p class="history-empty" id="historyEmpty">No history records match your search or filter.</p>
+      <footer class="table-footer history-footer">
+        <p class="history-pagination-summary" id="historyPaginationSummary" aria-live="polite"></p>
+        <nav class="pagination-controls history-pagination" aria-label="History pages"><button type="button" class="page-btn history-page-btn" id="historyPrevBtn">Previous</button><span id="historyPageIndicator"></span><button type="button" class="page-btn history-page-btn" id="historyNextBtn">Next</button></nav>
+      </footer>
+    </section>
+  </main>
+
+  <div class="history-modal-backdrop" id="historyModalBackdrop">
+    <section class="history-modal" role="dialog" aria-modal="true" aria-labelledby="historyModalTitle">
+      <header class="history-modal-header">
+        <div class="history-modal-title"><span class="history-modal-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h6M9 15h4"/></svg></span><div><h2 id="historyModalTitle">Borrowing Record Details</h2><p id="historyModalReference"></p></div></div>
+        <button type="button" class="history-modal-close" id="historyModalClose" aria-label="Close details">&times;</button>
+      </header>
+      <div class="history-modal-body">
+        <section class="history-detail-section"><h3>Borrower Information</h3><div class="history-detail-grid"><div><span>Borrower Name</span><strong id="historyDetailName"></strong></div><div><span>Contact &amp; Address</span><strong id="historyDetailContact"></strong></div><div><span>Verified Status</span><strong>Verified Resident</strong></div></div></section>
+        <section class="history-detail-section"><h3>Equipment Borrowed &amp; Quantity</h3><div class="history-item-list" id="historyDetailItems"></div></section>
+        <section class="history-detail-section"><h3>Dates &amp; Timeline</h3><div class="history-detail-grid"><div><span>Borrowing Date</span><strong id="historyDetailBorrowed"></strong></div><div><span>Expected Return</span><strong id="historyDetailExpected"></strong></div><div><span>Actual Return</span><strong id="historyDetailActual"></strong></div></div></section>
+        <section class="history-detail-section"><h3>Return Condition</h3><div class="history-detail-grid"><div><span>Overall Condition</span><strong id="historyDetailCondition"></strong></div><div><span>Processed By</span><strong id="historyDetailStaff"></strong></div><div><span>Inspection Remarks</span><strong id="historyDetailNotes"></strong></div></div></section>
+      </div>
+      <footer class="history-modal-footer"><button type="button" id="historyModalCloseFooter">Close</button></footer>
+    </section>
+  </div>
+
+  <div class="overlay restricted-overlay hidden" id="restrictedOverlay">
+    <section class="restricted-card" role="alertdialog" aria-modal="true" aria-labelledby="restrictedTitle">
+      <div class="restricted-heading">
+        <span class="restricted-icon" aria-hidden="true">!</span>
+        <h2 id="restrictedTitle">Access Restricted</h2>
+      </div>
+      <p>You don't have permission to access Administration. This section is restricted to Admin accounts and is only available to authorized administrators.</p>
+      <div class="restricted-actions"><button type="button" class="primary-btn" id="closeRestricted">Close</button></div>
+    </section>
+  </div>
+
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+  <script src="js/history.js"></script>
+</body>
+</html>

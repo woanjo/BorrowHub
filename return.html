@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="css/return.css" />
 </head>
-<body>
+<body class="return-page">
   <header class="navbar-wrapper">
     <nav class="navbar" aria-label="Main Navigation">
       <a href="dashboard.html" class="brand">
@@ -74,30 +74,40 @@
     <div class="navbar-accent-strip"></div>
   </header>
 
-  <main class="main-container">
-    <header class="page-header-row">
-      <div class="page-header-left">
-        <h1 class="page-title">Returns</h1>
-        <p class="page-subtitle">Manage equipment returns and inspect returned items.</p>
-      </div>
+  <main class="main-container return-main">
+    <header class="page-header">
+      <h1 class="page-title">Returns</h1>
+      <p class="page-subtitle">Manage equipment returns and inspect returned items.</p>
     </header>
 
-    <section class="summary-grid" aria-label="Return summary">
-      <article class="summary-card">
-        <div><p class="summary-label">Pending Returns</p><strong class="summary-value" id="pendingCount">14</strong></div>
-        <span class="summary-icon green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 2h6v4H9zm3 8v5m-2-2 2 2 2-2"/></svg></span>
+    <section class="kpi-grid return-summary-grid" aria-label="Return summary">
+      <article class="kpi-card return-kpi-card">
+        <div class="kpi-top">
+          <div><div class="kpi-label uppercase-label">Pending Returns</div><div class="kpi-value" id="pendingCount">14</div></div>
+          <div class="kpi-icon-box green" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 2h6v4H9zm3 8v5m-2-2 2 2 2-2"/></svg></div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">Awaiting equipment inspection</div>
       </article>
-      <article class="summary-card">
-        <div><p class="summary-label due-label">Due Today</p><strong class="summary-value due-value" id="dueCount">5</strong></div>
-        <span class="summary-icon yellow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18m-9 3v4m-2-2 2 2 2-2"/></svg></span>
+      <article class="kpi-card return-kpi-card">
+        <div class="kpi-top">
+          <div><div class="kpi-label uppercase-label due-label">Due Today</div><div class="kpi-value due-value" id="dueCount">5</div></div>
+          <div class="kpi-icon-box yellow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18m-9 3v4m-2-2 2 2 2-2"/></svg></div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">Scheduled for return today</div>
       </article>
-      <article class="summary-card">
-        <div><p class="summary-label overdue-label">Overdue</p><strong class="summary-value overdue-value" id="overdueCount">3</strong></div>
-        <span class="summary-icon red" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4m0 4h.01"/></svg></span>
+      <article class="kpi-card return-kpi-card">
+        <div class="kpi-top">
+          <div><div class="kpi-label uppercase-label overdue-label">Overdue</div><div class="kpi-value red overdue-value" id="overdueCount">3</div></div>
+          <div class="kpi-icon-box red" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4m0 4h.01"/></svg></div>
+        </div>
+        <div class="kpi-divider"></div>
+        <div class="kpi-footer">Requires follow-up</div>
       </article>
     </section>
 
-    <section class="filter-bar-card" aria-label="Search and filter returns">
+    <section class="panel-card return-filter-card" aria-label="Search and filter returns">
       <div class="table-toolbar">
         <div class="filter-tabs" role="tablist" aria-label="Filter returns by status">
           <button type="button" class="filter-tab active" role="tab" aria-selected="true" data-status="All">All</button>
@@ -113,20 +123,20 @@
       </div>
     </section>
 
-    <section class="returns-panel inventory-card" aria-label="Equipment returns">
-      <div class="table-scroll">
-        <table class="returns-table">
+    <section class="panel-card returns-panel" aria-label="Equipment returns">
+      <div class="table-responsive table-scroll">
+        <table class="transactions-table returns-table">
           <thead><tr><th scope="col">Borrower</th><th scope="col">Equipment</th><th scope="col">Due Date</th><th scope="col">Status</th><th scope="col" class="action-heading">Action</th></tr></thead>
           <tbody id="returnsBody"></tbody>
         </table>
         <p class="empty-state" id="emptyState" hidden>No returns match your search or filter.</p>
       </div>
 
-      <footer class="table-footer">
+      <footer class="table-footer return-table-footer">
         <p class="pagination-summary" id="paginationSummary" aria-live="polite"></p>
-        <nav class="pagination" aria-label="Returns pages">
+        <nav class="pagination-controls return-pagination" aria-label="Returns pages">
           <button type="button" class="page-btn" id="prevPageBtn">Previous</button>
-          <span class="page-indicator" id="pageIndicator" aria-live="polite"></span>
+          <span class="page-indicator return-page-indicator" id="pageIndicator" aria-live="polite"></span>
           <button type="button" class="page-btn" id="nextPageBtn">Next</button>
         </nav>
       </footer>
