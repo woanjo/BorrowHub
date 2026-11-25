@@ -391,8 +391,9 @@
             <div class="form-group">
               <label class="form-label" for="addEquipStatus">Initial Equipment Status <span class="req">*</span></label>
               <select id="addEquipStatus" class="mint-select" required>
-                <option value="Available">Available (Ready for Borrowing)</option>
-                <option value="Under Maintenance">Under Maintenance</option>
+                <option value="Available">Available</option>
+                <option value="Reserved">Reserved</option>
+                <option value="Unavailable">Unavailable(Under Maintenance)</option>
               </select>
             </div>
 
@@ -645,10 +646,10 @@
           <div class="form-group">
             <label class="form-label" for="editEquipStatus">Operational Status <span class="req">*</span></label>
             <select id="editEquipStatus" class="mint-select" required>
-              <option value="Available">Available (Ready for Loan)</option>
-              <option value="Partially Borrowed">Partially Borrowed</option>
+              <option value="Available">Available</option>
+              <option value="Reserved">Reserved</option>
               <option value="Borrowed">Borrowed</option>
-              <option value="Under Maintenance">Under Maintenance</option>
+              <option value="Unavailable">Unavailable (Under Maintenance)</option>
             </select>
           </div>
 
