@@ -57,7 +57,7 @@
   // Fetch live equipment and categories from PHP backend (Option 1)
   async function loadEquipmentData() {
     try {
-      const response = await fetch('php/equipment_api.php?action=get');
+      const response = await fetch('php/equipment.php?action=get');
       const data = await response.json();
 
       if (!response.ok || !data.success) {
@@ -359,7 +359,7 @@
     formData.append('description', document.getElementById('addEquipDesc').value.trim());
 
     try {
-      const response = await fetch('php/equipment_api.php?action=add', {
+      const response = await fetch('php/equipment.php?action=add', {
         method: 'POST',
         body: formData
       });
@@ -442,7 +442,7 @@
     formData.append('description', document.getElementById('editEquipDesc').value.trim());
 
     try {
-      const response = await fetch('php/equipment_api.php?action=update', {
+      const response = await fetch('php/equipment.php?action=update', {
         method: 'POST',
         body: formData
       });
