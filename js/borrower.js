@@ -194,6 +194,39 @@
     });
   }
 
+  // LOAD CURRENTLY LOGGED-IN STAFF PROFILE
+ async function loadLoggedInStaff() {
+  const nameElement = document.getElementById("loggedInName");
+  const roleElement = document.getElementById("loggedInRole");
+
+  try {
+    const response = await fetch("php/current_user.php", {
+        method: "GET",
+        credentials: "same-origin",
+        headers: {
+            "Accept": "application/json"
+        }
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+        throw new Error(result.message || "Unable to load staff profile.");
+    }
+
+    const user = result.user;
+
+    nameElement.textContent = user.name || "Unknown Staff";
+    roleElement.textContent = user.role || "Staff";
+
+  } catch (error) {
+    console.error("Profile loading error:", error);
+
+    nameElement.textContent = "Not logged in";
+    roleElement.textContent = "Guest";
+  }
+}
+
   /* ------------------------------------------------------------------
      Rendering KPIs, Table, Pagination & Detail Panel
      ------------------------------------------------------------------ */
@@ -694,5 +727,6 @@ if (regForm) {
       });
   }
 
+  loadLoggedInStaff();
   loadBorrowers();
 })();
