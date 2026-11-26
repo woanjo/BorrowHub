@@ -445,55 +445,86 @@
     });
   }
 
-  var regForm = $('#registerForm');
-  if (regForm) {
-    regForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var nameVal = ($('#regName') && $('#regName').value || '').trim();
-      var contactVal = ($('#regContact') && $('#regContact').value || '').trim();
-      var emailVal = ($('#regEmail') && $('#regEmail').value || '').trim();
-      var streetVal = ($('#regStreet') && $('#regStreet').value || '').trim();
-      var purokVal = parseInt(($('#regPurok') && $('#regPurok').value) || '2', 10);
-      var statusVal = ($('#regStatus') && $('#regStatus').value) || 'Good Standing';
-      var proofVal = ($('#regProof') && $('#regProof').value) || 'Barangay ID';
-      var certifyEl = $('#regCertify');
 
-      if (!nameVal || !PHONE_RE.test(contactVal) || !streetVal || (certifyEl && !certifyEl.checked)) {
-        toast('Please enter a valid name, contact number (09XX-XXX-XXXX), and address.', 'error');
-        return;
-      }
+var regForm = $('#registerForm');
 
-      var b = {
-        key: 'b' + (keyCounter++),
-        id: nextId(),
-        name: nameVal,
-        contact: normalizePhone(contactVal),
+if (regForm) {
+  regForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var votersId = ($('#regVotersId') && $('#regVotersId').value || '').trim();
+    var firstName = ($('#regFirstName') && $('#regFirstName').value || '').trim();
+    var middleName = ($('#regMiddleName') && $('#regMiddleName').value || '').trim();
+    var lastName = ($('#regLastName') && $('#regLastName').value || '').trim();
+    var contactVal = ($('#regContact') && $('#regContact').value || '').trim();
+    var emailVal = ($('#regEmail') && $('#regEmail').value || '').trim();
+    var streetVal = ($('#regStreet') && $('#regStreet').value || '').trim();
+    var purokVal = parseInt(($('#regPurok') && $('#regPurok').value) || '2', 10);
+
+    if (!/^\d+$/.test(votersId) || !firstName || !lastName ||
+        !PHONE_RE.test(contactVal) || !streetVal ||
+        purokVal < 1 || purokVal > 5) {
+      toast('Please complete the required fields with valid information.', 'error');
+      return;
+    }
+
+    var submitBtn = regForm.querySelector('button[type="submit"]');
+
+    if (submitBtn) submitBtn.disabled = true;
+
+    fetch('php/add_borrower.php', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        voters_id: votersId,
+        firstname: firstName,
+        middlename: middleName,
+        lastname: lastName,
+        contactnumber: normalizePhone(contactVal),
         email: emailVal,
         purok: purokVal,
-        street: streetVal,
-        status: statusVal,
-        proof: proofVal,
-        registered: fmtFull(new Date()),
-        completed: 0,
-        items: [],
-        history: []
-      };
+        street_address: streetVal
+      })
+    })
+      .then(function (response) {
+        return response.json().then(function (data) {
+          if (!response.ok || !data.success) {
+            throw new Error(data.message || 'Unable to register borrower.');
+          }
+          return data;
+        });
+      })
+      .then(function (data) {
+        regForm.reset();
 
-      nextSeq++;
-      borrowers.unshift(b);
-      state.search = '';
-      state.purok = 'All';
-      state.status = 'All';
-      state.page = 1;
-      state.selected = b.key;
+        state.search = '';
+        state.purok = 'All';
+        state.status = 'All';
+        state.page = 1;
 
-      if ($('#searchInput')) $('#searchInput').value = '';
-      closeModal('registerModalBackdrop');
-      renderList();
-      renderDetailPanel();
-      toast(b.name + ' registered as ' + b.id);
-    });
-  }
+        if ($('#searchInput')) {
+          $('#searchInput').value = '';
+        }
+
+        closeModal('registerModalBackdrop');
+
+        toast(data.message || 'Borrower registered successfully.');
+
+        loadBorrowers();
+      })
+      .catch(function (error) {
+        console.error('Borrower registration error:', error);
+        toast(error.message || 'Unable to register borrower.', 'error');
+      })
+      .finally(function () {
+        if (submitBtn) submitBtn.disabled = false;
+      });
+  });
+}
+
 
   function openEdit(b) {
     if ($('#editBorrowerKey')) $('#editBorrowerKey').value = b.key;
@@ -612,6 +643,56 @@
     openModal('detailsModalBackdrop');
   }
 
-  renderList();
-  renderDetailPanel();
+ /* ------------------------------------------------------------------
+ Load Borrowers from PostgreSQL through PHP
+ ------------------------------------------------------------------ */
+  function loadBorrowers() {
+    fetch('php/get_borrowers.php', {
+      method: 'GET',
+      credentials: 'same-origin'
+    })
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error('Unable to load borrower records. Status: ' + response.status);
+        }
+        return response.json();
+      })
+      .then(function (data) {
+        if (!data.success) {
+          throw new Error(data.message || 'Unable to load borrowers.');
+        }
+
+        borrowers = data.borrowers.map(function (b) {
+          return {
+            key: String(b.key),
+            id: b.id,
+            votersId: b.votersId,
+            name: b.name,
+            contact: b.contact,
+            email: b.email || '',
+            purok: Number(b.purok),
+            street: b.street,
+            status: b.status,
+            proof: b.proof,
+            completed: Number(b.completed || 0),
+            registered: b.registered,
+            items: [],
+            history: []
+          };
+        });
+
+        state.selected = borrowers.length ? borrowers[0].key : null;
+
+        renderList();
+        renderDetailPanel();
+      })
+      .catch(function (error) {
+        console.error('Borrower loading error:', error);
+        toast('Unable to load borrower records.', 'error');
+        renderList();
+        renderDetailPanel();
+      });
+  }
+
+  loadBorrowers();
 })();
