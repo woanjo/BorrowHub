@@ -1,4 +1,96 @@
-const staff = [];
+const STAFF_API = "php/admin.php";
+
+let staff = [];
+
+  function formatStaff(record) {
+    const firstname = record.firstname || "";
+    const middlename = record.middlename || "";
+    const lastname = record.lastname || "";
+
+    const name = [firstname, middlename, lastname]
+      .filter(Boolean)
+      .join(" ");
+
+    return {
+      id: String(record.staff_id),
+      firstname,
+      middlename,
+      lastname,
+      name,
+      email: record.email_address || "",
+      phone: record.contact_number || "",
+      contact_number: record.contact_number || "",
+      role: record.role || "Staff",
+      status: record.is_active ? "Active" : "Inactive",
+      created: record.created_at
+        ? new Date(record.created_at).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+          })
+        : "N/A",
+      initials: [firstname, lastname]
+        .filter(Boolean)
+        .map(part => part.charAt(0))
+        .join("")
+        .toUpperCase(),
+      tone: record.role === "Admin" ? "a1" : "a2"
+    };
+  }
+
+  // Send requests to the PHP API.
+  async function staffRequest(action, method = "GET", data = null) {
+    let url = `${STAFF_API}?action=${encodeURIComponent(action)}`;
+
+    const options = {
+      method,
+      headers: {}
+    };
+
+    if (data) {
+      options.headers["Content-Type"] =
+        "application/x-www-form-urlencoded;charset=UTF-8";
+
+      options.body = new URLSearchParams(data).toString();
+    }
+
+    const response = await fetch(url, options);
+
+    let result;
+
+    try {
+      result = await response.json();
+    } catch {
+      throw new Error("The server returned an invalid response.");
+    }
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || "Request failed.");
+    }
+
+    return result;
+  }
+
+  // Load staff records from Neon through PHP.
+  async function loadStaff() {
+    try {
+      $("staffRows").innerHTML =
+        '<tr><td colspan="6" style="text-align:center;padding:30px">Loading staff accounts...</td></tr>';
+
+      const result = await staffRequest("list");
+
+      staff = (result.data || []).map(formatStaff);
+
+      render();
+    } catch (error) {
+      console.error("Staff loading error:", error);
+
+      $("staffRows").innerHTML =
+        `<tr><td colspan="6" style="text-align:center;padding:30px">${esc(error.message)}</td></tr>`;
+
+      toast(error.message);
+    }
+  }
 
 // Administration dropdown toggle
 const adminWrapper = document.getElementById('adminDropdownWrapper');
@@ -426,18 +518,21 @@ function editStaff(id) {
     </form>
   `);
 
-  $("staffForm").onsubmit = e => {
-    e.preventDefault();
+  $("staffForm").onsubmit = async e => {
+  e.preventDefault();
 
-    const d = new FormData(e.target);
+  const form = e.target;
+  const d = new FormData(form);
 
-    const firstname = String(d.get("firstname") || "").trim();
-    const lastname = String(d.get("lastname") || "").trim();
-    const middlename = String(d.get("middlename") || "").trim();
-    const email = String(d.get("email_address") || "").trim();
-    const phone = String(d.get("contact_number") || "").trim();
-    const password = String(d.get("password") || "");
-    const confirmPassword = String(d.get("confirm_password") || "");
+  const firstname = String(d.get("firstname") || "").trim();
+  const lastname = String(d.get("lastname") || "").trim();
+  const middlename = String(d.get("middlename") || "").trim();
+  const email = String(d.get("email_address") || "").trim();
+  const phone = String(d.get("contact_number") || "").trim();
+  const password = String(d.get("password") || "");
+  const confirmPassword = String(d.get("confirm_password") || "");
+  const role = String(d.get("role") || "Staff");
+  const status = String(d.get("status") || "Active");
 
     if (password || confirmPassword) {
       if (password !== confirmPassword) {
@@ -449,32 +544,45 @@ function editStaff(id) {
         toast("Password must be at least 8 characters.");
         return;
       }
-
-      toast("Password changes require database connection.");
-      return;
     }
 
-    Object.assign(s, {
-      firstname,
-      lastname,
-      middlename,
-      name: [firstname, middlename, lastname]
-        .filter(Boolean)
-        .join(" "),
-      email,
-      phone,
-      role: d.get("role"),
-      status: d.get("status") || "Active",
-      initials: [firstname, lastname]
-        .filter(Boolean)
-        .map(part => part[0])
-        .join("")
-        .toUpperCase()
-    });
+    const submitButton = form.querySelector(
+      'button[type="submit"]'
+    );
 
-    closeModal();
-    render();
-    toast("Staff account updated successfully.");
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Saving...";
+    }
+
+    try {
+      await staffRequest("update", "POST", {
+        staff_id: id,
+        firstname,
+        lastname,
+        middlename,
+        email_address: email,
+        contact_number: phone,
+        role,
+        is_active: status === "Active" ? "true" : "false",
+        password,
+        confirm_password: confirmPassword
+      });
+
+      closeModal();
+
+      await loadStaff();
+
+      toast("Staff account updated successfully.");
+    } catch (error) {
+      console.error("Update staff error:", error);
+      toast(error.message);
+
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Save Changes";
+      }
+    }
   };
 }
 
@@ -603,55 +711,65 @@ function addStaff() {
 
   const staffForm = $("staffForm");
 
-  staffForm.addEventListener("submit", e => {
-    e.preventDefault();
+  staffForm.addEventListener("submit", async e => {
+  e.preventDefault();
 
-    const d = new FormData(staffForm);
+  const d = new FormData(staffForm);
 
-    const firstname = String(d.get("firstname") || "").trim();
-    const lastname = String(d.get("lastname") || "").trim();
-    const middlename = String(d.get("middlename") || "").trim();
-    const email = String(d.get("email_address") || "").trim();
-    const phone = String(d.get("contact_number") || "").trim();
-    const password = String(d.get("password") || "");
-    const confirmPassword = String(d.get("confirm_password") || "");
-    const role = String(d.get("role") || "Staff");
+  const firstname = String(d.get("firstname") || "").trim();
+  const lastname = String(d.get("lastname") || "").trim();
+  const middlename = String(d.get("middlename") || "").trim();
+  const email = String(d.get("email_address") || "").trim();
+  const phone = String(d.get("contact_number") || "").trim();
+  const password = String(d.get("password") || "");
+  const confirmPassword = String(d.get("confirm_password") || "");
+  const role = String(d.get("role") || "Staff");
 
     if (password !== confirmPassword) {
       toast("Passwords do not match.");
       return;
     }
 
-    const name = [firstname, middlename, lastname]
-      .filter(Boolean)
-      .join(" ");
+    if (password.length < 8) {
+      toast("Password must be at least 8 characters.");
+      return;
+    }
 
-    staff.push({
-      id: `STF-${String(8 + staff.length).padStart(4, "0")}`,
-      firstname,
-      lastname,
-      middlename,
-      name,
-      email,
-      phone,
-      role,
-      status: "Active",
-      created: new Date().toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric"
-      }),
-      initials: [firstname, lastname]
-        .filter(Boolean)
-        .map(part => part[0])
-        .join("")
-        .toUpperCase(),
-      tone: "a2"
-    });
+    const submitButton = staffForm.querySelector(
+      'button[type="submit"]'
+    );
 
-    closeModal();
-    render();
-    toast("New account created!");
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Creating...";
+    }
+
+    try {
+      await staffRequest("create", "POST", {
+        firstname,
+        lastname,
+        middlename,
+        email_address: email,
+        contact_number: phone,
+        password,
+        confirm_password: confirmPassword,
+        role
+      });
+
+      closeModal();
+
+      await loadStaff();
+
+      toast("New staff account created successfully!");
+    } catch (error) {
+      console.error("Create staff error:", error);
+      toast(error.message);
+
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Create Staff Account";
+      }
+    }
   });
 }
 
@@ -682,7 +800,7 @@ document.querySelectorAll(".filter-tabs button").forEach(b =>
       x.classList.toggle("selected", x === b)
     );
 
-    render();
+    loadStaff();
   })
 );
 
@@ -709,4 +827,5 @@ if (mobileMenuBtn && navLinks) {
   });
 }
 
-render();
+  // Load live data from Neon on page start
+  loadStaff();
