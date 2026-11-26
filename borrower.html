@@ -122,8 +122,8 @@
             </svg>
           </div>
           <div class="user-info">
-            <span class="user-name" id="navUserName">--</span>
-            <span class="user-role" id="navUserRole">--</span>
+            <span class="user-name" id="loggedInName">Loading...</span>
+            <span class="user-role" id="loggedInRole">Loading...</span>
           </div>
           <button class="logout-btn" id="logoutBtn" title="Sign Out" aria-label="Sign Out">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -348,58 +348,109 @@
         </button>
       </div>
 
-      <form id="registerForm" novalidate>
-        <div class="modal-body">
-          <div class="form-row-2col">
-            <div class="form-group">
-              <label class="form-label" for="regName">Full Name <span class="req">*</span></label>
-              <input type="text" id="regName" class="mint-input" placeholder="e.g., Joan Borres" required />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="regId">Borrower ID <span class="req">*</span></label>
-              <input type="text" id="regId" class="mint-input" value="BRG-BOR-2026-0082" readonly />
-            </div>
+     
+    <form id="registerForm" novalidate>
+      <div class="modal-body">
+
+        <div class="form-row-2col">
+          <div class="form-group">
+            <label class="form-label" for="regVotersId">
+              Voters ID <span class="req">*</span>
+            </label>
+            <input type="number" id="regVotersId" class="mint-input"
+              placeholder="Enter Voters ID" required />
           </div>
 
-          <div class="form-row-2col">
-            <div class="form-group">
-              <label class="form-label" for="regContact">Contact Number <span class="req">*</span></label>
-              <input type="tel" id="regContact" class="mint-input" placeholder="0917-555-0192" required />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="regEmail">Email Address</label>
-              <input type="email" id="regEmail" class="mint-input" placeholder="e.g., jborres@gmail.com" />
-            </div>
-          </div>
-
-          <div class="form-row-2col">
-            <div class="form-group">
-              <label class="form-label" for="regStreet">Street &amp; House Number <span class="req">*</span></label>
-              <input type="text" id="regStreet" class="mint-input" placeholder="e.g., #14 Sampaguita St." required />
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="regPurok">Purok Assignment <span class="req">*</span></label>
-              <select id="regPurok" class="mint-select" required>
-                <option value="1">Purok 1 - Ilang-Ilang</option>
-                <option value="2" selected>Purok 2 - Sampaguita</option>
-                <option value="3">Purok 3 - Gumamela</option>
-                <option value="4">Purok 4 - Santan</option>
-                <option value="5">Purok 5 - Rosal</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label class="form-label" for="regId">Borrower ID</label>
+            <input type="text" id="regId" class="mint-input"
+              placeholder="Generated automatically" readonly />
           </div>
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn-modal-cancel" data-close-modal="registerModalBackdrop">Cancel</button>
-          <button type="submit" class="btn-modal-submit">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
-            <span>Register Borrower</span>
-          </button>
+        <div class="form-row-2col">
+          <div class="form-group">
+            <label class="form-label" for="regFirstName">
+              First Name <span class="req">*</span>
+            </label>
+            <input type="text" id="regFirstName" class="mint-input"
+              placeholder="Enter first name" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regMiddleName">
+              Middle Name
+            </label>
+            <input type="text" id="regMiddleName" class="mint-input"
+              placeholder="Enter middle name (optional)" />
+          </div>
         </div>
-      </form>
-    </div>
-  </div>
+
+        <div class="form-row-2col">
+          <div class="form-group">
+            <label class="form-label" for="regLastName">
+              Last Name <span class="req">*</span>
+            </label>
+            <input type="text" id="regLastName" class="mint-input"
+              placeholder="Enter last name" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regContact">
+              Contact Number <span class="req">*</span>
+            </label>
+            <input type="tel" id="regContact" class="mint-input"
+              placeholder="0917-555-0192" required />
+          </div>
+        </div>
+
+        <div class="form-row-2col">
+          <div class="form-group">
+            <label class="form-label" for="regEmail">Email Address</label>
+            <input type="email" id="regEmail" class="mint-input"
+              placeholder="e.g., jborres@gmail.com" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regPurok">
+              Purok Assignment <span class="req">*</span>
+            </label>
+            <select id="regPurok" class="mint-select" required>
+              <option value="1">Purok 1 - Ilang-Ilang</option>
+              <option value="2" selected>Purok 2 - Sampaguita</option>
+              <option value="3">Purok 3 - Gumamela</option>
+              <option value="4">Purok 4 - Santan</option>
+              <option value="5">Purok 5 - Rosal</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regStreet">
+            Street &amp; House Number <span class="req">*</span>
+          </label>
+          <input type="text" id="regStreet" class="mint-input"
+            placeholder="e.g., #14 Sampaguita St." required />
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-modal-cancel"
+          data-close-modal="registerModalBackdrop">Cancel</button>
+
+        <button type="submit" class="btn-modal-submit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <polyline points="16 11 18 13 22 9"/>
+          </svg>
+          <span>Register Borrower</span>
+        </button>
+      </div>
+    </form>
+
 
   <!-- MODAL 2: EDIT BORROWER INFORMATION -->
   <div class="modal-backdrop" id="editModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
