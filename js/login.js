@@ -15,23 +15,6 @@
     var SESSION_KEY = 'borrowhub_session';
     var REMEMBER_KEY = 'borrowhub_remembered_user';
 
-    // DEMO ONLY - Remove once a real login endpoint exists.
-    var DEMO_ACCOUNTS = [
-        {
-            username: 'solana.rodrigo',
-            email: 'solana.rodrigo@bulacao.gov.ph',
-            password: 'borrowhub123',
-            name: 'Solana Rodrigo',
-            role: 'Staff'
-        },
-        {
-            username: 'admin',
-            email: 'admin@bulacao.gov.ph',
-            password: 'admin12345',
-            name: 'Barangay Admin',
-            role: 'Administrator'
-        }
-    ];
 
     // DOM Elements
     var form = document.getElementById('loginForm');
@@ -97,13 +80,6 @@
        Redirect users who are already signed in.
        ====================================================================== */
 
-    if (
-        read(window.sessionStorage, SESSION_KEY) ||
-        read(window.localStorage, SESSION_KEY)
-    ) {
-        window.location.replace(DASHBOARD_URL);
-        return;
-    }
 
     /* ======================================================================
        Restore Remembered Username
@@ -201,36 +177,33 @@
     });
 
     /* ======================================================================
-       Authentication (DEMO)
-       Replace with a real API call when the backend is available.
+       Authentication
+       Replaced nov 26
        ====================================================================== */
 
+
     function authenticate(identifier, password) {
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                var id = identifier.toLowerCase();
+        return fetch('php/login.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+                identifier: identifier,
+                password: password
+            })
+        })
+        .then(async function (response) {
+            var result = await response.json();
 
-                var match = DEMO_ACCOUNTS.filter(function (account) {
-                    return (
-                        (account.username === id || account.email === id) &&
-                        account.password === password
-                    );
-                })[0];
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message || 'Login failed. Please try again.'
+                );
+            }
 
-                if (match) {
-                    resolve({
-                        username: match.username,
-                        name: match.name,
-                        role: match.role
-                    });
-                } else {
-                    reject(
-                        new Error(
-                            'Incorrect username/email or password. Please try again.'
-                        )
-                    );
-                }
-            }, 600);
+            return result.user;
         });
     }
 
@@ -294,19 +267,7 @@
 
         authenticate(identifier, password)
             .then(function (user) {
-                var payload = JSON.stringify({
-                    user: user,
-                    signedInAt: new Date().toISOString()
-                });
 
-                // Remember this device.
-                if (rememberInput.checked) {
-                    store(window.localStorage, SESSION_KEY, payload);
-                    store(window.localStorage, REMEMBER_KEY, identifier);
-                } else {
-                    store(window.sessionStorage, SESSION_KEY, payload);
-                    remove(window.localStorage, REMEMBER_KEY);
-                }
 
                 submitLabel.textContent =
                     'Welcome, ' + user.name.split(' ')[0] + '!';
