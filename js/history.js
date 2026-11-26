@@ -142,6 +142,22 @@
   const monthSelect = document.getElementById('historyMonth');
   const statusTabs = Array.from(document.querySelectorAll('.history-status-tab'));
   const modalBackdrop = document.getElementById('historyModalBackdrop');
+
+  function syncModalOffset() {
+    const navbar = document.querySelector('.navbar-wrapper');
+    document.documentElement.style.setProperty('--history-navbar-height', navbar.offsetHeight + 'px');
+  }
+
+  function lockPageScroll() {
+    document.body.classList.add('modal-open');
+  }
+
+  function unlockPageScroll() {
+    document.body.classList.remove('modal-open');
+  }
+
+  syncModalOffset();
+  window.addEventListener('resize', syncModalOffset);
   state.month = monthSelect.value;
 
   function escapeHTML(value) {
@@ -238,13 +254,13 @@
       </div>`).join('');
 
     modalBackdrop.classList.add('active');
-    document.body.classList.add('modal-open');
+    lockPageScroll();
     document.getElementById('historyModalCloseFooter').focus();
   }
 
   function closeDetails() {
     modalBackdrop.classList.remove('active');
-    document.body.classList.remove('modal-open');
+    unlockPageScroll();
   }
 
   tableBody.addEventListener('click', event => {

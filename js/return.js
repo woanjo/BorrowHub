@@ -71,6 +71,22 @@
   let processItems = [];
   let selectedProcessCondition = 'Good Condition';
 
+  function syncModalOffset() {
+    const navbar = document.querySelector('.navbar-wrapper');
+    document.documentElement.style.setProperty('--return-navbar-height', navbar.offsetHeight + 'px');
+  }
+
+  function lockPageScroll() {
+    document.body.classList.add('modal-open');
+  }
+
+  function unlockPageScroll() {
+    document.body.classList.remove('modal-open');
+  }
+
+  syncModalOffset();
+  window.addEventListener('resize', syncModalOffset);
+
   function getCounts() {
     return records.reduce(function (counts, record) {
       counts[record.status] += 1;
@@ -373,10 +389,10 @@
   }
 
   function openModal(record, mode) {
+    if (modalBackdrop.hidden) lockPageScroll();
     activeRecord = record;
     modalMode = mode;
     modalBackdrop.hidden = false;
-    document.body.style.overflow = 'hidden';
     document.getElementById('processView').hidden = mode !== 'process';
     document.getElementById('detailsView').hidden = mode !== 'details';
     document.getElementById('modalTitle').textContent = mode === 'process' ? 'Process Equipment' : 'Return Details';
@@ -412,7 +428,7 @@
 
   function closeModal() {
     modalBackdrop.hidden = true;
-    document.body.style.overflow = '';
+    unlockPageScroll();
     activeRecord = null;
   }
 

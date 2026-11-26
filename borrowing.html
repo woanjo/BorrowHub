@@ -43,8 +43,8 @@
         <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
       </div>
     </nav>
-    <div class="navbar-accent-strip"></div>
   </header>
+  <div class="navbar-accent-strip"></div>
 
   <main class="main-container borrowing-main">
     <section class="page-header borrowing-header">
@@ -412,9 +412,25 @@
 
   <script>
     const navbar = document.querySelector('.navbar-wrapper');
+
     function syncModalOffset() {
       document.documentElement.style.setProperty('--borrowing-navbar-height', navbar.offsetHeight + 'px');
     }
+
+    function lockPageScroll() {
+      document.body.classList.add('modal-open');
+    }
+
+    function unlockPageScroll() {
+      document.body.classList.remove('modal-open');
+    }
+
+    function unlockPageScrollIfNoModalOpen() {
+      if (!document.querySelector('.modal-backdrop.show, .details-backdrop.show')) {
+        unlockPageScroll();
+      }
+    }
+
     syncModalOffset();
     window.addEventListener('resize', syncModalOffset);
 
@@ -637,16 +653,16 @@
             : "● Active";
 
       const modal = document.getElementById("detailsModal");
+      lockPageScroll();
       modal.classList.add("show");
       modal.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
     }
 
     function closeDetailsModal() {
       const modal = document.getElementById("detailsModal");
       modal.classList.remove("show");
       modal.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
+      unlockPageScrollIfNoModalOpen();
       activeDetailsRecord = null;
       equipmentDetails.open = false;
       document.getElementById("detailBorrowerName").textContent = "";
@@ -669,16 +685,16 @@
 // NEW BORROWING MODAL
 function openBorrowingModal() {
     const modal = document.getElementById('borrowingModal');
+    lockPageScroll();
     modal.classList.add('show');
     modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
 }
 
 function closeBorrowingModal() {
     const modal = document.getElementById('borrowingModal');
     modal.classList.remove('show');
     modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
+    unlockPageScrollIfNoModalOpen();
 }
 
 document.getElementById('borrowingModal').addEventListener('click', function(event) {
