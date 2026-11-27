@@ -1017,9 +1017,9 @@ a {
   -webkit-backdrop-filter: blur(4px);
   z-index: 1000;
   display: none;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 20px;
+  padding: 88px 20px 28px; /* 88px top clears the sticky navbar cleanly */
   overflow-y: auto;
 }
 
@@ -1035,10 +1035,11 @@ a {
   box-shadow: var(--shadow-modal);
   width: 100%;
   max-width: 560px;
-  overflow: hidden;
+  max-height: calc(100vh - 116px);
+  overflow-y: auto;
   border: 1px solid rgba(19, 78, 49, 0.08);
   animation: modalScaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  margin: auto;
+  margin: 0 auto;
 }
 
 .modal-dialog.modal-details-wide {
@@ -1232,6 +1233,548 @@ a {
 .hidden {
   display: none !important;
 }
+
+/* ==========================================================================
+   BORROWER DETAILS MODAL
+   ========================================================================== */
+
+.details-modal-dialog {
+  width: min(950px, calc(100% - 32px));
+  max-width: 950px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.details-modal-dialog .modal-header {
+  flex-shrink: 0;
+}
+
+.details-modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  max-height: calc(90vh - 85px);
+  background: #ffffff;
+  color: #263b32;
+}
+
+/* Custom scrollbar */
+
+.details-modal-body::-webkit-scrollbar {
+  width: 7px;
+}
+
+.details-modal-body::-webkit-scrollbar-track {
+  background: #f1f5f2;
+}
+
+.details-modal-body::-webkit-scrollbar-thumb {
+  background: #b9d4c4;
+  border-radius: 10px;
+}
+
+.details-modal-body::-webkit-scrollbar-thumb:hover {
+  background: #83ad94;
+}
+
+/* Section headings */
+
+.det-section {
+  margin-bottom: 26px;
+}
+
+.det-section-title,
+.det-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 16px;
+  color: #145b3e;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.det-section-title svg,
+.det-heading svg {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+}
+
+/* Borrower profile */
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 18px;
+  padding: 20px;
+  background: #f5faf6;
+  border: 1px solid #e0eee4;
+  border-radius: 13px;
+}
+
+.profile-person {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  min-width: 0;
+}
+
+.profile-photo {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #dcefe2;
+  color: #145b3e;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.p-label {
+  margin-bottom: 6px;
+  color: #819087;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.p-value {
+  color: #243d30;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.p-value.normal {
+  font-weight: 500;
+}
+
+.p-standing {
+  display: inline-block;
+  margin-top: 9px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: #e0f4e7;
+  color: #17683c;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.p-standing.overdue {
+  background: #fff1d8;
+  color: #a65c00;
+}
+
+.p-standing.restricted,
+.p-standing.suspended {
+  background: #fde7e7;
+  color: #b42318;
+}
+
+.p-block {
+  margin-bottom: 15px;
+}
+
+.p-registered {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 12px;
+  color: #718078;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.p-registered strong {
+  color: #43584b;
+  font-weight: 600;
+}
+
+.p-inline {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.p-inline svg {
+  width: 15px;
+  height: 15px;
+  color: #6b9078;
+  flex-shrink: 0;
+}
+
+/* Borrowing summary */
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+  margin-bottom: 28px;
+}
+
+.summary-box {
+  min-width: 0;
+  padding: 17px 15px;
+  background: #f7faf8;
+  border: 1px solid #e4eee7;
+  border-radius: 12px;
+}
+
+.summary-box.shade {
+  background: #fff8ef;
+  border-color: #f3e7d4;
+}
+
+.s-label {
+  margin-bottom: 10px;
+  color: #718078;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.s-num {
+  color: #145b3e;
+  font-size: 27px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.s-num small {
+  margin-left: 4px;
+  color: #718078;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.s-num.red {
+  color: #c0392b;
+}
+
+.s-sub {
+  margin-top: 7px;
+  color: #8a7762;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+/* Borrowing history */
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  min-width: 680px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid #e4eee7;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.history-table thead {
+  background: #edf6ef;
+}
+
+.history-table th {
+  padding: 13px 12px;
+  color: #37634a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid #dce9df;
+}
+
+.history-table td {
+  padding: 13px 12px;
+  color: #52645a;
+  font-size: 12px;
+  line-height: 1.5;
+  border-bottom: 1px solid #edf1ee;
+  vertical-align: middle;
+}
+
+.history-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.history-table tbody tr:hover {
+  background: #f8fbf9;
+}
+
+.history-table td:first-child {
+  color: #176344;
+  font-weight: 700;
+}
+
+.history-table .empty-state {
+  padding: 30px 15px;
+  color: #89968e;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* Recorded custodian */
+
+.custodian-strip {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 22px;
+  padding: 13px 15px;
+  background: #edf6ef;
+  border: 1px solid #dcebe0;
+  border-radius: 10px;
+  color: #547260;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.custodian-strip svg {
+  width: 17px;
+  height: 17px;
+  color: #28764c;
+  flex-shrink: 0;
+}
+
+/* Responsive layout */
+
+@media (max-width: 768px) {
+  .details-modal-dialog {
+    width: calc(100% - 20px);
+    max-height: 92vh;
+  }
+
+  .details-modal-body {
+    padding: 17px;
+    max-height: calc(92vh - 75px);
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+}
+
+@media (max-width: 420px) {
+  .summary-box {
+    padding: 13px 11px;
+  }
+
+  .s-num {
+    font-size: 23px;
+  }
+
+  .details-modal-body {
+    padding: 13px;
+  }
+}
+
+/* ==========================================================================
+   COMPACT BORROWER DETAILS MODAL
+   ========================================================================== */
+
+/* Smaller modal */
+.details-modal-dialog {
+  width: 90%;
+  max-width: 780px;
+  max-height: 85vh;
+  border-radius: 14px;
+}
+
+/* Smaller modal header */
+.details-modal-dialog .modal-header {
+  padding: 13px 18px;
+  gap: 10px;
+}
+
+.details-modal-dialog .modal-icon-badge {
+  width: 36px;
+  height: 36px;
+}
+
+.details-modal-dialog .modal-icon-badge svg {
+  width: 18px;
+  height: 18px;
+}
+
+.details-modal-dialog .modal-title {
+  font-size: 16px;
+}
+
+.details-modal-dialog .modal-subtitle {
+  font-size: 11px;
+}
+
+/* Smaller close button */
+.details-modal-dialog .modal-close-btn {
+  width: 30px;
+  height: 30px;
+}
+
+/* Compact modal body */
+.details-modal-body {
+  padding: 16px 18px;
+  gap: 14px;
+}
+
+/* Smaller section panels */
+.det-section {
+  padding: 13px;
+  border-radius: 10px;
+}
+
+.det-section-title {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.det-heading {
+  font-size: 14px;
+}
+
+/* Compact borrower profile */
+.profile-grid {
+  gap: 12px;
+}
+
+.profile-person {
+  gap: 10px;
+}
+
+.profile-photo {
+  width: 48px;
+  height: 48px;
+}
+
+.p-label {
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+
+.p-value {
+  font-size: 12px;
+}
+
+.p-block {
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+.p-registered {
+  font-size: 10px;
+}
+
+.p-inline {
+  gap: 6px;
+}
+
+/* Smaller summary panels */
+.summary-grid {
+  gap: 10px;
+}
+
+.summary-box {
+  padding: 11px;
+  border-radius: 9px;
+}
+
+.s-label {
+  font-size: 10px;
+}
+
+.s-num {
+  font-size: 20px;
+}
+
+.s-sub {
+  font-size: 10px;
+}
+
+/* Smaller borrowing history table */
+.history-table {
+  font-size: 11px;
+}
+
+.history-table th {
+  padding: 9px 10px;
+  font-size: 10px;
+}
+
+.history-table td {
+  padding: 9px 10px;
+  font-size: 11px;
+}
+
+/* Smaller custodian panel */
+.custodian-strip {
+  padding: 10px 12px;
+  font-size: 11px;
+}
+
+/* Smaller status labels */
+.p-standing {
+  padding: 4px 8px;
+  font-size: 10px;
+}
+
+/* Responsive sizing */
+@media (max-width: 768px) {
+  .details-modal-dialog {
+    width: 94%;
+    max-height: 90vh;
+  }
+
+  .details-modal-body {
+    padding: 12px;
+  }
+
+  .summary-grid {
+    gap: 8px;
+  }
+
+  .summary-box {
+    padding: 9px;
+  }
+
+  .history-table th,
+  .history-table td {
+    padding: 8px;
+  }
+
+  }
+  .details-modal-dialog .det-section-title svg,
+  .details-modal-dialog .det-heading svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .details-modal-dialog .p-inline svg,
+  .details-modal-dialog .custodian-strip svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
 
 /* ==========================================================================
    Restricted Overlay

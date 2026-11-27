@@ -587,94 +587,180 @@ if (regForm) {
     openModal('editModalBackdrop');
   }
 
-  var editForm = $('#editForm');
-  if (editForm) {
-    editForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var key = $('#editBorrowerKey') ? $('#editBorrowerKey').value : '';
-      var b = findByKey(key);
-      if (!b) return;
 
-      var nameVal = ($('#editName') && $('#editName').value || '').trim();
-      var contactVal = ($('#editContact') && $('#editContact').value || '').trim();
-      var emailVal = ($('#editEmail') && $('#editEmail').value || '').trim();
-      var streetVal = ($('#editStreet') && $('#editStreet').value || '').trim();
-      var purokVal = parseInt(($('#editPurok') && $('#editPurok').value) || String(b.purok), 10);
-      var statusVal = ($('#editStatus') && $('#editStatus').value) || b.status;
+var editForm = $('#editForm');
 
-      if (!nameVal || !PHONE_RE.test(contactVal)) {
-        toast('Please enter a valid name and contact number.', 'error');
-        return;
-      }
+if (editForm) {
+  editForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-      b.name = nameVal;
-      b.contact = normalizePhone(contactVal);
-      b.email = emailVal;
-      if (streetVal) b.street = streetVal;
-      b.purok = purokVal;
-      b.status = statusVal;
+    var key = $('#editBorrowerKey')
+      ? $('#editBorrowerKey').value
+      : '';
 
-      closeModal('editModalBackdrop');
-      renderList();
-      renderDetailPanel();
-      toast('Updated record for ' + b.name);
-    });
-  }
+    var b = findByKey(key);
+    if (!b) return;
 
-  function openDetails(b) {
-    var bodyEl = $('#detailsBody');
-    if (!bodyEl) {
-      openEdit(b);
+    var nameVal = ($('#editName')?.value || '').trim();
+    var contactVal = ($('#editContact')?.value || '').trim();
+    var purokVal = parseInt(
+      ($('#editPurok')?.value || String(b.purok)),
+      10
+    );
+
+
+    if (!nameVal || !PHONE_RE.test(contactVal)) {
+      toast('Please enter a valid name and contact number.', 'error');
       return;
     }
 
-    var units = totalUnits(b);
-    var overdueCount = b.items.filter(function (it) { return it.dueInDays < 0; }).length;
-    var minDue = b.items.length ? Math.min.apply(null, b.items.map(function (it) { return it.dueInDays; })) : null;
-    var sCls = statusClass(b.status);
+    try {
+      var response = await fetch('php/update_borrower.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          borrower_id: key,
+          name: nameVal,
+          contactnumber: normalizePhone(contactVal),
+          purok: purokVal
+        })
+      });
 
-    if ($('#detHeaderId')) $('#detHeaderId').textContent = b.id;
-    if ($('#detVerifiedChip')) {
-      $('#detVerifiedChip').innerHTML = ICON.check + ' Verified Resident &bull; ' + esc(b.status);
+      var result = await response.json();
+
+      if (!response.ok || !result.success) {
+        toast(result.message || 'Unable to update borrower.', 'error');
+        return;
+      }
+
+      await loadBorrowers();
+
+      closeModal('editModalBackdrop');
+
+      toast('Updated record for ' + nameVal);
+
+    } catch (error) {
+      console.error('Update borrower error:', error);
+      toast('Unable to connect to the server.', 'error');
     }
+  });
+}
 
-    var standingText = b.status === 'Good Standing' ? 'Good Standing (Eligible to Borrow)' :
-      b.status === 'Overdue' ? 'Overdue (Unreturned Items)' :
-      b.status === 'Restricted' ? 'Restricted (Not Eligible)' : 'Suspended (Pending Review)';
 
-    var outstandingSub = minDue === null ? 'No pending returns' :
-      (minDue < 0 ? dueText(minDue) : 'Due ' + fmtShort(addDays(minDue)));
+  function openDetails(b) {
+      var bodyEl = $('#detailsBody');
 
-    bodyEl.innerHTML =
-      '<div class="det-section">' +
-        '<div class="det-section-title">' + ICON.idcard + ' Borrower Profile</div>' +
-        '<div class="profile-grid">' +
-          '<div class="profile-person">' +
-            '<div class="profile-photo">' + esc(initials(b.name)) + '</div>' +
-            '<div><div class="p-label">Full Legal Name</div><div class="p-value">' + esc(b.name) + '</div>' +
-            '<span class="p-standing ' + (sCls === 'good' ? '' : sCls) + '">' + esc(standingText) + '</span></div>' +
-          '</div>' +
-          '<div>' +
-            '<div class="p-block"><div class="p-label">Residential Address</div><div class="p-value normal">' + esc(streetShort(b.street)) + ', Purok ' + b.purok + '</div></div>' +
-            '<div class="p-registered">' + ICON.cal + ' <span>Registered: <strong>' + esc(b.registered) + '</strong></span></div>' +
-          '</div>' +
-          '<div>' +
-            '<div class="p-block"><div class="p-label">Contact Number</div><div class="p-value p-inline">' + ICON.phone + esc(b.contact) + '</div></div>' +
-            '<div class="p-block"><div class="p-label">Email Address</div><div class="p-value normal p-inline">' + ICON.mail + (b.email ? esc(b.email) : 'Not provided') + '</div></div>' +
+      if (!bodyEl) {
+        openEdit(b);
+        return;
+      }
+
+      var units = totalUnits(b);
+      var overdueCount = b.items.filter(function (it) {
+        return it.dueInDays < 0;
+      }).length;
+
+      var minDue = b.items.length
+        ? Math.min.apply(null, b.items.map(function (it) {
+            return it.dueInDays;
+          }))
+        : null;
+
+      var sCls = statusClass(b.status);
+
+      if ($('#detHeaderId')) {
+        $('#detHeaderId').textContent = b.id;
+      }
+
+      if ($('#detVerifiedChip')) {
+        $('#detVerifiedChip').innerHTML =
+          ICON.check + ' Verified Resident &bull; ' + esc(b.status);
+      }
+
+      var standingText = b.status === 'Good Standing'
+        ? 'Good Standing (Eligible to Borrow)'
+        : b.status === 'Overdue'
+          ? 'Overdue (Previous Late Returns)'
+          : b.status === 'Restricted'
+            ? 'Restricted (Not Eligible)'
+            : 'Suspended (Pending Review)';
+
+      var outstandingSub = minDue === null
+        ? 'No pending returns'
+        : (minDue < 0
+            ? dueText(minDue)
+            : 'Due ' + fmtShort(addDays(minDue)));
+
+      // Borrowing history
+      var history = Array.isArray(b.history) ? b.history : [];
+
+      var historyHtml = history.length
+        ? history.map(function (item) {
+            return '<tr>' +
+              '<td>' + esc(item.borrowingId) + '</td>' +
+              '<td>' + esc(item.equipmentNames || 'No equipment recorded') + '</td>' +
+              '<td>' + esc(item.borrowDate || '—') + '</td>' +
+              '<td>' + esc(item.dueDate || '—') + '</td>' +
+              '<td>' + esc(item.returnDate || 'Not returned') + '</td>' +
+              '<td>' + esc(item.status || '—') + '</td>' +
+            '</tr>';
+          }).join('')
+        : '<tr><td colspan="6" class="empty-state">' +
+            'No borrowing history available yet.' +
+          '</td></tr>';
+
+      bodyEl.innerHTML =
+        '<div class="det-section">' +
+          '<div class="det-section-title">' + ICON.idcard + ' Borrower Profile</div>' +
+          '<div class="profile-grid">' +
+            '<div class="profile-person">' +
+              '<div class="profile-photo">' + esc(initials(b.name)) + '</div>' +
+              '<div><div class="p-label">Full Legal Name</div><div class="p-value">' + esc(b.name) + '</div>' +
+              '<span class="p-standing ' + (sCls === 'good' ? '' : sCls) + '">' + esc(standingText) + '</span></div>' +
+            '</div>' +
+            '<div>' +
+              '<div class="p-block"><div class="p-label">Residential Address</div><div class="p-value normal">' + esc(streetShort(b.street)) + ', Purok ' + b.purok + '</div></div>' +
+              '<div class="p-registered">' + ICON.cal + ' <span>Registered: <strong>' + esc(b.registered) + '</strong></span></div>' +
+            '</div>' +
+            '<div>' +
+              '<div class="p-block"><div class="p-label">Contact Number</div><div class="p-value p-inline">' + ICON.phone + esc(b.contact) + '</div></div>' +
+              '<div class="p-block"><div class="p-label">Email Address</div><div class="p-value normal p-inline">' + ICON.mail + (b.email ? esc(b.email) : 'Not provided') + '</div></div>' +
+            '</div>' +
           '</div>' +
         '</div>' +
-      '</div>' +
-      '<div class="det-heading">' + ICON.chart + ' Borrowing Summary</div>' +
-      '<div class="summary-grid">' +
-        '<div class="summary-box"><div class="s-label">Total Borrowings</div><div class="s-num">' + (b.items.length + b.completed) + '</div></div>' +
-        '<div class="summary-box"><div class="s-label">Currently Borrowed</div><div class="s-num">' + units + '<small>items</small></div></div>' +
-        '<div class="summary-box"><div class="s-label">Completed</div><div class="s-num">' + b.completed + '</div></div>' +
-        '<div class="summary-box shade"><div class="s-label">Outstanding</div><div class="s-num' + (overdueCount ? ' red' : '') + '">' + overdueCount + '<small>overdue</small></div><div class="s-sub">' + esc(outstandingSub) + '</div></div>' +
-      '</div>' +
-      '<div class="custodian-strip">' + ICON.shield + ' Recorded Custodian: Solana Rodrigo (Barangay Property Officer)</div>';
 
-    openModal('detailsModalBackdrop');
+        '<div class="det-heading">' + ICON.chart + ' Borrowing Summary</div>' +
+        '<div class="summary-grid">' +
+          '<div class="summary-box"><div class="s-label">Total Borrowings</div><div class="s-num">' + (history.length || (b.items.length + b.completed)) + '</div></div>' +
+          '<div class="summary-box"><div class="s-label">Currently Borrowed</div><div class="s-num">' + units + '<small>items</small></div></div>' +
+          '<div class="summary-box"><div class="s-label">Completed</div><div class="s-num">' + b.completed + '</div></div>' +
+          '<div class="summary-box shade"><div class="s-label">Outstanding</div><div class="s-num' + (overdueCount ? ' red' : '') + '">' + overdueCount + '<small>overdue</small></div><div class="s-sub">' + esc(outstandingSub) + '</div></div>' +
+        '</div>' +
+
+        '<div class="det-section">' +
+          '<div class="det-heading">' + ICON.chart + ' Borrowing History</div>' +
+          '<div class="table-responsive">' +
+            '<table class="history-table">' +
+              '<thead><tr>' +
+                '<th>Borrowing ID</th>' +
+                '<th>Equipment</th>' +
+                '<th>Borrow Date</th>' +
+                '<th>Due Date</th>' +
+                '<th>Return Date</th>' +
+                '<th>Status</th>' +
+              '</tr></thead>' +
+              '<tbody>' + historyHtml + '</tbody>' +
+            '</table>' +
+          '</div>' +
+        '</div>' +
+
+        '<div class="custodian-strip">' + ICON.shield + ' Recorded Custodian: Solana Rodrigo (Barangay Property Officer)</div>';
+
+      openModal('detailsModalBackdrop');
   }
+
 
  /* ------------------------------------------------------------------
  Load Borrowers from PostgreSQL through PHP
@@ -710,7 +796,7 @@ if (regForm) {
             completed: Number(b.completed || 0),
             registered: b.registered,
             items: [],
-            history: []
+            history: Array.isArray(b.history) ? b.history : []
           };
         });
 
