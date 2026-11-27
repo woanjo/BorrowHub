@@ -6,7 +6,7 @@ $port       = '5432';
 $dbname     = 'borrowhub';
 $endpointId = 'ep-shy-pine-bioo9xut';
 
-// Connecting as the restricted Staff role (demonstrates RBAC in your prototype)
+// Connecting as the restricted Staff role 
 $username   = 'borrowhub_staff';
 $password   = 'BorrowHub_Staff#2026!';
 
