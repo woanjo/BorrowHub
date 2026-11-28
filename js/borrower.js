@@ -693,7 +693,6 @@ if (editForm) {
             ? dueText(minDue)
             : 'Due ' + fmtShort(addDays(minDue)));
 
-      // Borrowing history
       var history = Array.isArray(b.history) ? b.history : [];
 
       var historyHtml = history.length
@@ -722,11 +721,11 @@ if (editForm) {
             '</div>' +
             '<div>' +
               '<div class="p-block"><div class="p-label">Residential Address</div><div class="p-value normal">' + esc(streetShort(b.street)) + ', Purok ' + b.purok + '</div></div>' +
-              '<div class="p-registered">' + ICON.cal + ' <span>Registered: <strong>' + esc(b.registered) + '</strong></span></div>' +
+              '<div class="p-block"><div class="p-label">Email Address</div><div class="p-value normal p-inline">' + ICON.mail + (b.email ? esc(b.email) : 'Not provided') + '</div></div>' +
             '</div>' +
             '<div>' +
               '<div class="p-block"><div class="p-label">Contact Number</div><div class="p-value p-inline">' + ICON.phone + esc(b.contact) + '</div></div>' +
-              '<div class="p-block"><div class="p-label">Email Address</div><div class="p-value normal p-inline">' + ICON.mail + (b.email ? esc(b.email) : 'Not provided') + '</div></div>' +
+              '<div class="p-block"><div class="p-label">Registered</div><div class="p-value normal p-inline p-reg-date">' + ICON.cal + '<span>' + esc(b.registered) + '</span></div></div>' +
             '</div>' +
           '</div>' +
         '</div>' +
@@ -754,12 +753,10 @@ if (editForm) {
               '<tbody>' + historyHtml + '</tbody>' +
             '</table>' +
           '</div>' +
-        '</div>' +
-
-        '<div class="custodian-strip">' + ICON.shield + ' Recorded Custodian: Solana Rodrigo (Barangay Property Officer)</div>';
+        '</div>';
 
       openModal('detailsModalBackdrop');
-  }
+    }
 
 
  /* ------------------------------------------------------------------

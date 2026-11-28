@@ -1530,29 +1530,6 @@ a {
   font-size: 12px;
 }
 
-/* Recorded custodian */
-
-.custodian-strip {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-top: 22px;
-  padding: 13px 15px;
-  background: #edf6ef;
-  border: 1px solid #dcebe0;
-  border-radius: 10px;
-  color: #547260;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.custodian-strip svg {
-  width: 17px;
-  height: 17px;
-  color: #28764c;
-  flex-shrink: 0;
-}
-
 /* Responsive layout */
 
 @media (max-width: 768px) {
@@ -1727,12 +1704,6 @@ a {
   font-size: 11px;
 }
 
-/* Smaller custodian panel */
-.custodian-strip {
-  padding: 10px 12px;
-  font-size: 11px;
-}
-
 /* Smaller status labels */
 .p-standing {
   padding: 4px 8px;
@@ -1770,12 +1741,26 @@ a {
     height: 14px !important;
   }
 
-  .details-modal-dialog .p-inline svg,
-  .details-modal-dialog .custodian-strip svg {
-    width: 13px !important;
-    height: 13px !important;
-  }
+.details-modal-dialog .p-inline svg {
+  width: 13px !important;
+  height: 13px !important;
+}
 
+.details-modal-dialog .p-reg-date svg {
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  max-width: 13px !important;
+  flex-shrink: 0 !important;
+}
+
+.details-modal-dialog .p-registered svg {
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  max-width: 13px !important;
+  flex-shrink: 0 !important;
+}
 /* ==========================================================================
    Restricted Overlay
    ========================================================================== */
