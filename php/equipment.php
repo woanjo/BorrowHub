@@ -1,6 +1,25 @@
 <?php
-header('Content-Type: application/json');
-require_once 'db.php';
+
+header('Content-Type: application/json; charset=utf-8');
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once __DIR__ . '/db.php';
+
+function setAuditActor(PDO $pdo): void
+{
+    $staffId = $_SESSION['staff']['staff_id'] ?? '';
+
+    $stmt = $pdo->prepare(
+        "SELECT set_config('app.changed_by', :staff_id, true)"
+    );
+
+    $stmt->execute([
+        ':staff_id' => (string)$staffId
+    ]);
+}
 
 $action = $_GET['action'] ?? $_POST['action'] ?? '';
 
@@ -49,6 +68,10 @@ try {
             $quantity      = isset($_POST['quantity']) ? (int) $_POST['quantity'] : null;
             $status        = trim($_POST['status'] ?? 'Available');
 
+            $pdo->beginTransaction();
+
+            setAuditActor($pdo);
+
             $stmt = $pdo->prepare("
                 CALL public.add_equipment(
                     :category_id,
@@ -59,6 +82,7 @@ try {
                     NULL
                 )
             ");
+
             $stmt->execute([
                 ':category_id'   => $categoryId,
                 ':equipmentname' => $equipmentName,
@@ -74,6 +98,8 @@ try {
                 'message'          => 'Equipment added successfully.'
             ]);
             break;
+
+            $pdo->commit();
 
         // 3. UPDATE — calls public.update_equipment()
         case 'update':

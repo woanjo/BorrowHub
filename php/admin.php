@@ -2,7 +2,24 @@
 
 header('Content-Type: application/json; charset=utf-8');
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/db.php';
+
+function setAuditActor(PDO $pdo): void
+{
+    $staffId = $_SESSION['staff']['staff_id'] ?? '';
+
+    $stmt = $pdo->prepare(
+        "SELECT set_config('app.changed_by', :staff_id, true)"
+    );
+
+    $stmt->execute([
+        ':staff_id' => (string)$staffId
+    ]);
+}
 
 function response($success, $message, $data = null, $statusCode = 200)
 {
@@ -154,6 +171,12 @@ try {
         }
 
         // Call PostgreSQL stored function.
+        // Start transaction and identify the logged-in staff.
+        $pdo->beginTransaction();
+
+        setAuditActor($pdo);
+
+        // Call PostgreSQL stored function.
         $stmt = $pdo->prepare(
             'SELECT public.admin_add_staff(
                 :firstname,
@@ -177,6 +200,8 @@ try {
         ]);
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $pdo->commit();
 
         response(
             true,
@@ -296,6 +321,10 @@ try {
         }
 
         // Call PostgreSQL stored function.
+        $pdo->beginTransaction();
+
+        setAuditActor($pdo);
+
         $stmt = $pdo->prepare(
             'SELECT public.admin_update_staff(
                 :staff_id,
@@ -323,6 +352,8 @@ try {
         ]);
 
         $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $pdo->commit();
 
         response(
             true,
