@@ -44,9 +44,9 @@ function requiredField($data, $field, $label)
     return $value;
 }
 
-function validateEmail($email)
+function validateEmail($email_address)
 {
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($email_address, FILTER_VALIDATE_EMAIL)) {
         response(false, 'Please enter a valid email address.', null, 422);
     }
 }
@@ -104,11 +104,15 @@ try {
             $data, 'lastname', 'Last name'
         );
 
-        $email = requiredField(
+        $username = requiredField(
+            $data, 'username', 'Username'
+        );
+
+        $email_address = requiredField(
             $data, 'email_address', 'Email address'
         );
 
-        $contact = requiredField(
+        $contact_number = requiredField(
             $data, 'contact_number', 'Contact number'
         );
 
@@ -124,9 +128,7 @@ try {
             requiredField($data, 'role', 'Role')
         );
 
-        $middlename = trim((string)($data['middlename'] ?? ''));
-
-        validateEmail($email);
+        validateEmail($email_address);
 
         if ($password !== $confirmPassword) {
             response(false, 'Passwords do not match.', null, 422);
@@ -155,22 +157,22 @@ try {
         $stmt = $pdo->prepare(
             'SELECT public.admin_add_staff(
                 :firstname,
-                :middlename,
+                :username,
                 :lastname,
-                :email,
+                :email_address,
                 :password_hash,
-                :contact,
+                :contact_number,
                 :role
             ) AS new_staff_id'
         );
 
         $stmt->execute([
             ':firstname' => $firstname,
-            ':middlename' => $middlename !== '' ? $middlename : null,
+            ':username' => $username,
             ':lastname' => $lastname,
-            ':email' => $email,
+            ':email_address' => $email_address,
             ':password_hash' => $passwordHash,
-            ':contact' => $contact,
+            ':contact_number' => $contact_number,
             ':role' => $role
         ]);
 
@@ -205,11 +207,11 @@ try {
             $data, 'lastname', 'Last name'
         );
 
-        $email = requiredField(
+        $email_address = requiredField(
             $data, 'email_address', 'Email address'
         );
 
-        $contact = requiredField(
+        $contact_number = requiredField(
             $data, 'contact_number', 'Contact number'
         );
 
@@ -217,9 +219,11 @@ try {
             requiredField($data, 'role', 'Role')
         );
 
-        $middlename = trim((string)($data['middlename'] ?? ''));
+        $username = requiredField(
+            $data, 'username', 'Username'
+        );
 
-        validateEmail($email);
+        validateEmail($email_address);
 
         // Read password fields.
         $password = trim((string)($data['password'] ?? ''));
@@ -296,10 +300,10 @@ try {
             'SELECT public.admin_update_staff(
                 :staff_id,
                 :firstname,
-                :middlename,
+                :username,
                 :lastname,
-                :email,
-                :contact,
+                :email_address,
+                :contact_number,
                 :role,
                 :is_active,
                 :password_hash
@@ -309,10 +313,10 @@ try {
         $stmt->execute([
             ':staff_id' => $staffId,
             ':firstname' => $firstname,
-            ':middlename' => $middlename !== '' ? $middlename : null,
+            ':username' => $username,
             ':lastname' => $lastname,
-            ':email' => $email,
-            ':contact' => $contact,
+            ':email_address' => $email_address,
+            ':contact_number' => $contact_number,
             ':role' => $role,
             ':is_active' => $isActive ? 'true' : 'false',
             ':password_hash' => $passwordHash

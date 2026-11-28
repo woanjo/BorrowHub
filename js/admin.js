@@ -2,122 +2,149 @@ const STAFF_API = "php/admin.php";
 
 let staff = [];
 
-  function formatStaff(record) {
-    const firstname = record.firstname || "";
-    const middlename = record.middlename || "";
-    const lastname = record.lastname || "";
+function formatStaff(record) {
+  const firstname = record.firstname || "";
+  const middlename = record.middlename || "";
+  const lastname = record.lastname || "";
 
-    const name = [firstname, middlename, lastname]
+  const name = [firstname, middlename, lastname]
+    .filter(Boolean)
+    .join(" ");
+
+  return {
+    id: String(record.staff_id),
+    firstname,
+    middlename,
+    lastname,
+    name,
+    username: record.username || "",
+    email: record.email_address || "",
+    phone: record.contact_number || "",
+    contact_number: record.contact_number || "",
+    role: record.role || "Staff",
+    status: record.is_active ? "Active" : "Inactive",
+    created: record.created_at
+      ? new Date(record.created_at).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        })
+      : "N/A",
+    initials: [firstname, lastname]
       .filter(Boolean)
-      .join(" ");
+      .map(part => part.charAt(0))
+      .join("")
+      .toUpperCase(),
+    tone: (record.role && record.role.toLowerCase() === "admin") ? "a1" : "a2"
+  };
+}
 
-    return {
-      id: String(record.staff_id),
-      firstname,
-      middlename,
-      lastname,
-      name,
-      email: record.email_address || "",
-      phone: record.contact_number || "",
-      contact_number: record.contact_number || "",
-      role: record.role || "Staff",
-      status: record.is_active ? "Active" : "Inactive",
-      created: record.created_at
-        ? new Date(record.created_at).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric"
-          })
-        : "N/A",
-      initials: [firstname, lastname]
-        .filter(Boolean)
-        .map(part => part.charAt(0))
-        .join("")
-        .toUpperCase(),
-      tone: record.role === "Admin" ? "a1" : "a2"
-    };
+// Send requests to the PHP API.
+async function staffRequest(action, method = "GET", data = null) {
+  let url = `${STAFF_API}?action=${encodeURIComponent(action)}`;
+
+  const options = {
+    method,
+    headers: {}
+  };
+
+  if (data) {
+    options.headers["Content-Type"] =
+      "application/x-www-form-urlencoded;charset=UTF-8";
+
+    options.body = new URLSearchParams(data).toString();
   }
 
-  // Send requests to the PHP API.
-  async function staffRequest(action, method = "GET", data = null) {
-    let url = `${STAFF_API}?action=${encodeURIComponent(action)}`;
+  const response = await fetch(url, options);
 
-    const options = {
-      method,
-      headers: {}
-    };
+  let result;
 
-    if (data) {
-      options.headers["Content-Type"] =
-        "application/x-www-form-urlencoded;charset=UTF-8";
-
-      options.body = new URLSearchParams(data).toString();
-    }
-
-    const response = await fetch(url, options);
-
-    let result;
-
-    try {
-      result = await response.json();
-    } catch {
-      throw new Error("The server returned an invalid response.");
-    }
-
-    if (!response.ok || !result.success) {
-      throw new Error(result.message || "Request failed.");
-    }
-
-    return result;
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("The server returned an invalid response.");
   }
 
-  // Load staff records from Neon through PHP.
-  async function loadStaff() {
-    try {
-      $("staffRows").innerHTML =
-        '<tr><td colspan="6" style="text-align:center;padding:30px">Loading staff accounts...</td></tr>';
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || "Request failed.");
+  }
 
-      const result = await staffRequest("list");
+  return result;
+}
 
-      staff = (result.data || []).map(formatStaff);
+// Load staff records from Neon through PHP.
+async function loadStaff() {
+  const staffRowsEl = $("staffRows");
+  if (!staffRowsEl) return;
 
-      render();
-    } catch (error) {
-      console.error("Staff loading error:", error);
+  try {
+    staffRowsEl.innerHTML =
+      '<tr><td colspan="6" style="text-align:center;padding:30px">Loading staff accounts...</td></tr>';
 
-      $("staffRows").innerHTML =
-        `<tr><td colspan="6" style="text-align:center;padding:30px">${esc(error.message)}</td></tr>`;
+    const result = await staffRequest("list");
 
+    staff = (result.data || []).map(formatStaff);
+
+    render();
+  } catch (error) {
+    console.error("Staff loading error:", error);
+
+    staffRowsEl.innerHTML =
+      `<tr><td colspan="6" style="text-align:center;padding:30px">${esc(error.message)}</td></tr>`;
+
+    if (typeof toast === 'function') {
       toast(error.message);
     }
   }
+}
 
 // Administration dropdown toggle
 const adminWrapper = document.getElementById('adminDropdownWrapper');
 const adminBtn = document.getElementById('adminDropdownBtn');
 
-adminBtn.addEventListener('click', (e) => {
-  e.stopPropagation();
+if (adminBtn && adminWrapper) {
+  adminBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
 
-  const isOpen = adminWrapper.classList.toggle('open');
-  adminBtn.setAttribute('aria-expanded', String(isOpen));
-});
+    const isOpen = adminWrapper.classList.toggle('open');
+    adminBtn.setAttribute('aria-expanded', String(isOpen));
+  });
 
-document.addEventListener('click', (e) => {
-  if (!adminWrapper.contains(e.target)) {
-    adminWrapper.classList.remove('open');
-    adminBtn.setAttribute('aria-expanded', 'false');
-  }
-});
+  document.addEventListener('click', (e) => {
+    if (!adminWrapper.contains(e.target)) {
+      adminWrapper.classList.remove('open');
+      adminBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
 
 let filter = "All", currentRole = "Admin", editingId = null;
 
 const $ = id => document.getElementById(id);
+const esc = str => {
+  if (str === null || str === undefined) return '';
+  const div = document.createElement('div');
+  div.textContent = String(str);
+  return div.innerHTML;
+};
+
+// Toast notification helper
+function showToast(message) {
+  const toastEl = $("toast");
+  if (!toastEl) return;
+  toastEl.textContent = message;
+  toastEl.classList.remove("hidden");
+  setTimeout(() => {
+    toastEl.classList.add("hidden");
+  }, 3500);
+}
 
 // LOAD CURRENTLY LOGGED-IN STAFF PROFILE
- async function loadLoggedInStaff() {
+async function loadLoggedInStaff() {
   const nameElement = document.getElementById("loggedInName");
   const roleElement = document.getElementById("loggedInRole");
+
+  if (!nameElement || !roleElement) return;
 
   try {
     const response = await fetch("php/current_user.php", {
@@ -148,83 +175,90 @@ const $ = id => document.getElementById(id);
 }
 
 function render() {
-  const q = $("searchInput").value.toLowerCase();
+  const searchInput = $("searchInput");
+  const q = searchInput ? searchInput.value.toLowerCase() : "";
 
   const rows = staff.filter(s =>
-    (filter === "All" || s.role === filter) &&
-    (`${s.name} ${s.email} ${s.phone || s.contact_number || ""}`.toLowerCase().includes(q))
+    (filter === "All" || s.role.toLowerCase() === filter.toLowerCase()) &&
+    (`${s.name} ${s.username} ${s.email} ${s.phone || s.contact_number || ""}`.toLowerCase().includes(q))
   );
 
-  $("staffRows").innerHTML = rows.map(s => `<tr>
-    <td>
-      <div class="person-cell">
-        <span class="initials ${s.tone}">${esc(s.initials)}</span>
-        <span>${esc(s.name)} ${s.you ? '<span class="you-tag">YOU</span>' : ''}</span>
-      </div>
-    </td>
+  const staffRowsEl = $("staffRows");
+  if (staffRowsEl) {
+    staffRowsEl.innerHTML = rows.map(s => `<tr>
+      <td>
+        <div class="person-cell">
+          <span class="initials ${s.tone}">${esc(s.initials)}</span>
+          <div>
+            <div>${esc(s.name)} ${s.you ? '<span class="you-tag">YOU</span>' : ''}</div>
+            <div style="font-size:12px; color:#666;">@${esc(s.username)}</div>
+          </div>
+        </div>
+      </td>
 
-    <td>${esc(s.phone || s.contact_number || "N/A")}</td>
-    <td>${esc(s.email)}</td>
+      <td>${esc(s.phone || s.contact_number || "N/A")}</td>
+      <td>${esc(s.email)}</td>
 
-    <td>
-      <span class="role-pill ${s.role === "Admin" ? "admin" : "staff"}">
-        ${s.role === "Admin" ? `
-          <!-- Admin Icon: Shield -->
-          <svg xmlns="http://www.w3.org/2000/svg" width="10" height="12" viewBox="0 0 10 12" fill="none">
-            <path d="M4.66667 6.41667C4.09306 6.41667 3.60938 6.21979 3.21563 5.82604C2.82188 5.43229 2.625 4.94861 2.625 4.375C2.625 3.80139 2.82188 3.31771 3.21563 2.92396C3.60938 2.53021 4.09306 2.33333 4.66667 2.33333C5.24028 2.33333 5.72396 2.53021 6.11771 2.92396C6.51146 3.31771 6.70833 3.80139 6.70833 4.375C6.70833 4.94861 6.51146 5.43229 6.11771 5.82604C5.72396 6.21979 5.24028 6.41667 4.66667 6.41667V6.41667M4.66667 5.25C4.91944 5.25 5.12847 5.16736 5.29375 5.00208C5.45903 4.83681 5.54167 4.62778 5.54167 4.375C5.54167 4.12222 5.45903 3.91319 5.29375 3.74792C5.12847 3.58264 4.91944 3.5 4.66667 3.5C4.41389 3.5 4.20486 3.58264 4.03958 3.74792C3.87431 3.91319 3.79167 4.12222 3.79167 4.375C3.79167 4.62778 3.87431 4.83681 4.03958 5.00208C4.20486 5.16736 4.41389 5.25 4.66667 5.25V5.25M4.66667 11.6667C3.31528 11.3264 2.19965 10.551 1.31979 9.34062C0.439931 8.13021 0 6.78611 0 5.30833V1.75L4.66667 0L9.33333 1.75V5.30833C9.33333 6.78611 8.8934 8.13021 8.01354 9.34062C7.13368 10.551 6.01806 11.3264 4.66667 11.6667V11.6667M4.66667 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333M4.66667 1.23958L1.16667 2.55208V5.30833C1.16667 5.83333 1.23958 6.34375 1.38542 6.83958C1.53125 7.33542 1.73056 7.80208 1.98333 8.23958C2.39167 8.03542 2.81944 7.875 3.26667 7.75833C3.71389 7.64167 4.18056 7.58333 4.66667 7.58333C5.15278 7.58333 5.61944 7.64167 6.06667 7.75833C6.51389 7.875 6.94167 8.03542 7.35 8.23958C7.60278 7.80208 7.80208 7.33542 7.94792 6.83958C8.09375 6.34375 8.16667 5.83333 8.16667 5.30833V2.55208L4.66667 1.23958V1.23958M4.66667 8.75C4.31667 8.75 3.97639 8.78889 3.64583 8.86667C3.31528 8.94444 2.99931 9.05139 2.69792 9.1875C2.97986 9.47917 3.28611 9.73194 3.61667 9.94583C3.94722 10.1597 4.29722 10.325 4.66667 10.4417C5.03611 10.325 5.38611 10.1597 5.71667 9.94583C6.04722 9.73194 6.35347 9.47917 6.63542 9.1875C6.33403 9.05139 6.01806 8.94444 5.6875 8.86667C5.35694 8.78889 5.01667 8.75 4.66667 8.75V8.75" fill="#4E6B55"/>
-          </svg>
-        ` : `
-          <!-- Staff Icon: User -->
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="11" viewBox="0 0 13 11" fill="none">
-            <path d="M0 10.5V8.86667C0 8.54583 0.0826389 8.24444 0.247917 7.9625C0.413194 7.68056 0.641667 7.46667 0.933333 7.32083C1.42917 7.06806 1.98819 6.85417 2.61042 6.67917C3.23264 6.50417 3.91806 6.41667 4.66667 6.41667C5.41528 6.41667 6.10069 6.50417 6.72292 6.67917C7.34514 6.85417 7.90417 7.06806 8.4 7.32083C8.69167 7.46667 8.92014 7.68056 9.08542 7.9625C9.25069 8.24444 9.33333 8.54583 9.33333 8.86667V10.5H0V10.5M1.16667 9.33333H8.16667V8.86667C8.16667 8.75972 8.13993 8.6625 8.08646 8.575C8.03299 8.4875 7.9625 8.41944 7.875 8.37083C7.525 8.19583 7.07535 8.02083 6.52604 7.84583C5.97674 7.67083 5.35694 7.58333 4.66667 7.58333C3.97639 7.58333 3.3566 7.67083 2.80729 7.84583C2.25799 8.02083 1.80833 8.19583 1.45833 8.37083C1.37083 8.41944 1.30035 8.4875 1.24688 8.575C1.1934 8.6625 1.16667 8.75972 1.16667 8.86667V9.33333V9.33333M4.66667 5.83333C4.025 5.83333 3.47569 5.60486 3.01875 5.14792C2.56181 4.69097 2.33333 4.14167 2.33333 3.5H2.1875C2.1 3.5 2.02951 3.47326 1.97604 3.41979C1.92257 3.36632 1.89583 3.29583 1.89583 3.20833C1.89583 3.12083 1.92257 3.05035 1.97604 2.99688C2.02951 2.9434 2.1 2.91667 2.1875 2.91667H2.33333C2.33333 2.47917 2.44028 2.08542 2.65417 1.73542C2.86806 1.38542 3.15 1.10833 3.5 0.904167V1.45833C3.5 1.54583 3.52674 1.61632 3.58021 1.66979C3.63368 1.72326 3.70417 1.75 3.79167 1.75C3.87917 1.75 3.94965 1.72326 4.00313 1.66979C4.0566 1.61632 4.08333 1.54583 4.08333 1.45833V0.670833C4.17083 0.641667 4.26319 0.619792 4.36042 0.605208C4.45764 0.590625 4.55972 0.583333 4.66667 0.583333C4.77361 0.583333 4.87569 0.590625 4.97292 0.605208C5.07014 0.619792 5.1625 0.641667 5.25 0.670833V1.45833C5.25 1.54583 5.27674 1.61632 5.33021 1.66979C5.38368 1.72326 5.45417 1.75 5.54167 1.75C5.62917 1.75 5.69965 1.72326 5.75313 1.66979C5.8066 1.61632 5.83333 1.54583 5.83333 1.45833V0.904167C6.18333 1.10833 6.46528 1.38542 6.67917 1.73542C6.89306 2.08542 7 2.47917 7 2.91667H7.14583C7.23333 2.91667 7.30382 2.9434 7.35729 2.99688C7.41076 3.05035 7.4375 3.12083 7.4375 3.20833C7.4375 3.29583 7.41076 3.36632 7.35729 3.41979C7.30382 3.47326 7.23333 3.5 7.14583 3.5H7C7 4.14167 6.77153 4.69097 6.31458 5.14792C5.85764 5.60486 5.30833 5.83333 4.66667 5.83333V5.83333M4.66667 4.66667C4.9875 4.66667 5.26215 4.55243 5.49062 4.32396C5.7191 4.09549 5.83333 3.82083 5.83333 3.5H3.5C3.5 3.82083 3.61424 4.09549 3.84271 4.32396C4.07118 4.55243 4.34583 4.66667 4.66667 4.66667V4.66667M9.04167 7L8.95417 6.5625C8.89583 6.54306 8.83993 6.52118 8.78646 6.49687C8.73299 6.47257 8.68194 6.43611 8.63333 6.3875L8.225 6.53333L7.93333 6.00833L8.25417 5.71667C8.25417 5.6875 8.25417 5.65833 8.25417 5.62917C8.25417 5.6 8.25417 5.57083 8.25417 5.54167C8.25417 5.5125 8.25417 5.48333 8.25417 5.45417C8.25417 5.425 8.25417 5.39583 8.25417 5.36667L7.93333 5.075L8.225 4.55L8.63333 4.69583C8.67222 4.65694 8.72083 4.62292 8.77917 4.59375C8.8375 4.56458 8.89583 4.54028 8.95417 4.52083L9.04167 4.08333H9.625L9.7125 4.52083C9.77083 4.54028 9.82917 4.56458 9.8875 4.59375C9.94583 4.62292 9.99444 4.65694 10.0333 4.69583L10.4417 4.55L10.7333 5.075L10.4125 5.36667C10.4125 5.39583 10.4125 5.425 10.4125 5.45417C10.4125 5.48333 10.4125 5.5125 10.4125 5.54167C10.4125 5.57083 10.4125 5.6 10.4125 5.62917C10.4125 5.65833 10.4125 5.6875 10.4125 5.71667L10.7333 6.00833L10.4417 6.53333L10.0333 6.3875C9.98472 6.43611 9.93368 6.47257 9.88021 6.49687C9.82674 6.52118 9.77083 6.54306 9.7125 6.5625L9.625 7H9.04167V7M9.33333 5.97917C9.45 5.97917 9.55208 5.93542 9.63958 5.84792C9.72708 5.76042 9.77083 5.65833 9.77083 5.54167C9.77083 5.425 9.72708 5.32292 9.63958 5.23542C9.55208 5.14792 9.45 5.10417 9.33333 5.10417C9.21667 5.10417 9.11458 5.14792 9.02708 5.23542C8.93958 5.32292 8.89583 5.425 8.89583 5.54167C8.89583 5.65833 8.93958 5.76042 9.02708 5.84792C9.11458 5.93542 9.21667 5.97917 9.33333 5.97917V5.97917M10.3833 4.08333L10.2667 3.47083C10.1792 3.44167 10.099 3.40521 10.026 3.36146C9.95312 3.31771 9.8875 3.26667 9.82917 3.20833L9.21667 3.4125L8.80833 2.7125L9.30417 2.275C9.28472 2.22639 9.275 2.1875 9.275 2.15833C9.275 2.12917 9.275 2.09028 9.275 2.04167C9.275 1.99306 9.275 1.95417 9.275 1.925C9.275 1.89583 9.28472 1.85694 9.30417 1.80833L8.80833 1.37083L9.21667 0.670833L9.82917 0.875C9.8875 0.816667 9.95312 0.765625 10.026 0.721875C10.099 0.678125 10.1792 0.641667 10.2667 0.6125L10.3833 0H11.2L11.3167 0.6125C11.4042 0.641667 11.4844 0.678125 11.5573 0.721875C11.6302 0.765625 11.6958 0.816667 11.7542 0.875L12.3667 0.670833L12.775 1.37083L12.2792 1.80833C12.2986 1.85694 12.3083 1.89583 12.3083 1.925C12.3083 1.95417 12.3083 1.99306 12.3083 2.04167C12.3083 2.09028 12.3083 2.12917 12.3083 2.15833C12.3083 2.1875 12.2986 2.22639 12.2792 2.275L12.775 2.7125L12.3667 3.4125L11.7542 3.20833C11.6958 3.26667 11.6302 3.31771 11.5573 3.36146C11.4844 3.40521 11.4042 3.44167 11.3167 3.47083L11.2 4.08333H10.3833V4.08333M10.7917 2.77083C10.9958 2.77083 11.1684 2.70035 11.3094 2.55938C11.4503 2.4184 11.5208 2.24583 11.5208 2.04167C11.5208 1.8375 11.4503 1.66493 11.3094 1.52396C11.1684 1.38299 10.9958 1.3125 10.7917 1.3125C10.5875 1.3125 10.4149 1.38299 10.274 1.52396C10.133 1.66493 10.0625 1.8375 10.0625 2.04167C10.0625 2.24583 10.133 2.4184 10.274 2.55938C10.4149 2.70035 10.5875 2.77083 10.7917 2.77083V2.77083M4.66667 9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333" fill="#486550"/>
-          </svg>
-        `}
-        ${s.role}
-      </span>
-    </td>
+      <td>
+        <span class="role-pill ${s.role.toLowerCase() === "admin" ? "admin" : "staff"}">
+          ${s.role.toLowerCase() === "admin" ? `
+            <!-- Admin Icon: Shield -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="12" viewBox="0 0 10 12" fill="none">
+              <path d="M4.66667 6.41667C4.09306 6.41667 3.60938 6.21979 3.21563 5.82604C2.82188 5.43229 2.625 4.94861 2.625 4.375C2.625 3.80139 2.82188 3.31771 3.21563 2.92396C3.60938 2.53021 4.09306 2.33333 4.66667 2.33333C5.24028 2.33333 5.72396 2.53021 6.11771 2.92396C6.51146 3.31771 6.70833 3.80139 6.70833 4.375C6.70833 4.94861 6.51146 5.43229 6.11771 5.82604C5.72396 6.21979 5.24028 6.41667 4.66667 6.41667V6.41667M4.66667 5.25C4.91944 5.25 5.12847 5.16736 5.29375 5.00208C5.45903 4.83681 5.54167 4.62778 5.54167 4.375C5.54167 4.12222 5.45903 3.91319 5.29375 3.74792C5.12847 3.58264 4.91944 3.5 4.66667 3.5C4.41389 3.5 4.20486 3.58264 4.03958 3.74792C3.87431 3.91319 3.79167 4.12222 3.79167 4.375C3.79167 4.62778 3.87431 4.83681 4.03958 5.00208C4.20486 5.16736 4.41389 5.25 4.66667 5.25V5.25M4.66667 11.6667C3.31528 11.3264 2.19965 10.551 1.31979 9.34062C0.439931 8.13021 0 6.78611 0 5.30833V1.75L4.66667 0L9.33333 1.75V5.30833C9.33333 6.78611 8.8934 8.13021 8.01354 9.34062C7.13368 10.551 6.01806 11.3264 4.66667 11.6667V11.6667M4.66667 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333M4.66667 1.23958L1.16667 2.55208V5.30833C1.16667 5.83333 1.23958 6.34375 1.38542 6.83958C1.53125 7.33542 1.73056 7.80208 1.98333 8.23958C2.39167 8.03542 2.81944 7.875 3.26667 7.75833C3.71389 7.64167 4.18056 7.58333 4.66667 7.58333C5.15278 7.58333 5.61944 7.64167 6.06667 7.75833C6.51389 7.875 6.94167 8.03542 7.35 8.23958C7.60278 7.80208 7.80208 7.33542 7.94792 6.83958C8.09375 6.34375 8.16667 5.83333 8.16667 5.30833V2.55208L4.66667 1.23958V1.23958M4.66667 8.75C4.31667 8.75 3.97639 8.78889 3.64583 8.86667C3.31528 8.94444 2.99931 9.05139 2.69792 9.1875C2.97986 9.47917 3.28611 9.73194 3.61667 9.94583C3.94722 10.1597 4.29722 10.325 4.66667 10.4417C5.03611 10.325 5.38611 10.1597 5.71667 9.94583C6.04722 9.73194 6.35347 9.47917 6.63542 9.1875C6.33403 9.05139 6.01806 8.94444 5.6875 8.86667C5.35694 8.78889 5.01667 8.75 4.66667 8.75V8.75" fill="#4E6B55"/>
+            </svg>
+          ` : `
+            <!-- Staff Icon: User -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="11" viewBox="0 0 13 11" fill="none">
+              <path d="M0 10.5V8.86667C0 8.54583 0.0826389 8.24444 0.247917 7.9625C0.413194 7.68056 0.641667 7.46667 0.933333 7.32083C1.42917 7.06806 1.98819 6.85417 2.61042 6.67917C3.23264 6.50417 3.91806 6.41667 4.66667 6.41667C5.41528 6.41667 6.10069 6.50417 6.72292 6.67917C7.34514 6.85417 7.90417 7.06806 8.4 7.32083C8.69167 7.46667 8.92014 7.68056 9.08542 7.9625C9.25069 8.24444 9.33333 8.54583 9.33333 8.86667V10.5H0V10.5M1.16667 9.33333H8.16667V8.86667C8.16667 8.75972 8.13993 8.6625 8.08646 8.575C8.03299 8.4875 7.9625 8.41944 7.875 8.37083C7.525 8.19583 7.07535 8.02083 6.52604 7.84583C5.97674 7.67083 5.35694 7.58333 4.66667 7.58333C3.97639 7.58333 3.3566 7.67083 2.80729 7.84583C2.25799 8.02083 1.80833 8.19583 1.45833 8.37083C1.37083 8.41944 1.30035 8.4875 1.24688 8.575C1.1934 8.6625 1.16667 8.75972 1.16667 8.86667V9.33333V9.33333M4.66667 5.83333C4.025 5.83333 3.47569 5.60486 3.01875 5.14792C2.56181 4.69097 2.33333 4.14167 2.33333 3.5H2.1875C2.1 3.5 2.02951 3.47326 1.97604 3.41979C1.92257 3.36632 1.89583 3.29583 1.89583 3.20833C1.89583 3.12083 1.92257 3.05035 1.97604 2.99688C2.02951 2.9434 2.1 2.91667 2.1875 2.91667H2.33333C2.33333 2.47917 2.44028 2.08542 2.65417 1.73542C2.86806 1.38542 3.15 1.10833 3.5 0.904167V1.45833C3.5 1.54583 3.52674 1.61632 3.58021 1.66979C3.63368 1.72326 3.70417 1.75 3.79167 1.75C3.87917 1.75 3.94965 1.72326 4.00313 1.66979C4.0566 1.61632 4.08333 1.54583 4.08333 1.45833V0.670833C4.17083 0.641667 4.26319 0.619792 4.36042 0.605208C4.45764 0.590625 4.55972 0.583333 4.66667 0.583333C4.77361 0.583333 4.87569 0.590625 4.97292 0.605208C5.07014 0.619792 5.1625 0.641667 5.25 0.670833V1.45833C5.25 1.54583 5.27674 1.61632 5.33021 1.66979C5.38368 1.72326 5.45417 1.75 5.54167 1.75C5.62917 1.75 5.69965 1.72326 5.75313 1.66979C5.8066 1.61632 5.83333 1.54583 5.83333 1.45833V0.904167C6.18333 1.10833 6.46528 1.38542 6.67917 1.73542C6.89306 2.08542 7 2.47917 7 2.91667H7.14583C7.23333 2.91667 7.30382 2.9434 7.35729 2.99688C7.41076 3.05035 7.4375 3.12083 7.4375 3.20833C7.4375 3.29583 7.41076 3.36632 7.35729 3.41979C7.30382 3.47326 7.23333 3.5 7.14583 3.5H7C7 4.14167 6.77153 4.69097 6.31458 5.14792C5.85764 5.60486 5.30833 5.83333 4.66667 5.83333V5.83333M4.66667 4.66667C4.9875 4.66667 5.26215 4.55243 5.49062 4.32396C5.7191 4.09549 5.83333 3.82083 5.83333 3.5H3.5C3.5 3.82083 3.61424 4.09549 3.84271 4.32396C4.07118 4.55243 4.34583 4.66667 4.66667 4.66667V4.66667M9.04167 7L8.95417 6.5625C8.89583 6.54306 8.83993 6.52118 8.78646 6.49687C8.73299 6.47257 8.68194 6.43611 8.63333 6.3875L8.225 6.53333L7.93333 6.00833L8.25417 5.71667C8.25417 5.6875 8.25417 5.65833 8.25417 5.62917C8.25417 5.6 8.25417 5.57083 8.25417 5.54167C8.25417 5.5125 8.25417 5.48333 8.25417 5.45417C8.25417 5.425 8.25417 5.39583 8.25417 5.36667L7.93333 5.075L8.225 4.55L8.63333 4.69583C8.67222 4.65694 8.72083 4.62292 8.77917 4.59375C8.8375 4.56458 8.89583 4.54028 8.95417 4.52083L9.04167 4.08333H9.625L9.7125 4.52083C9.77083 4.54028 9.82917 4.56458 9.8875 4.59375C9.94583 4.62292 9.99444 4.65694 10.0333 4.69583L10.4417 4.55L10.7333 5.075L10.4125 5.36667C10.4125 5.39583 10.4125 5.425 10.4125 5.45417C10.4125 5.48333 10.4125 5.5125 10.4125 5.54167C10.4125 5.57083 10.4125 5.6 10.4125 5.62917C10.4125 5.65833 10.4125 5.6875 10.4125 5.71667L10.7333 6.00833L10.4417 6.53333L10.0333 6.3875C9.98472 6.43611 9.93368 6.47257 9.88021 6.49687C9.82674 6.52118 9.77083 6.54306 9.7125 6.5625L9.625 7H9.04167V7M9.33333 5.97917C9.45 5.97917 9.55208 5.93542 9.63958 5.84792C9.72708 5.76042 9.77083 5.65833 9.77083 5.54167C9.77083 5.425 9.72708 5.32292 9.63958 5.23542C9.55208 5.14792 9.45 5.10417 9.33333 5.10417C9.21667 5.10417 9.11458 5.14792 9.02708 5.23542C8.93958 5.32292 8.89583 5.425 8.89583 5.54167C8.89583 5.65833 8.93958 5.76042 9.02708 5.84792C9.11458 5.93542 9.21667 5.97917 9.33333 5.97917V5.97917M10.3833 4.08333L10.2667 3.47083C10.1792 3.44167 10.099 3.40521 10.026 3.36146C9.95312 3.31771 9.8875 3.26667 9.82917 3.20833L9.21667 3.4125L8.80833 2.7125L9.30417 2.275C9.28472 2.22639 9.275 2.1875 9.275 2.15833C9.275 2.12917 9.275 2.09028 9.275 2.04167C9.275 1.99306 9.275 1.95417 9.275 1.925C9.275 1.89583 9.28472 1.85694 9.30417 1.80833L8.80833 1.37083L9.21667 0.670833L9.82917 0.875C9.8875 0.816667 9.95312 0.765625 10.026 0.721875C10.099 0.678125 10.1792 0.641667 10.2667 0.6125L10.3833 0H11.2L11.3167 0.6125C11.4042 0.641667 11.4844 0.678125 11.5573 0.721875C11.6302 0.765625 11.6958 0.816667 11.7542 0.875L12.3667 0.670833L12.775 1.37083L12.2792 1.80833C12.2986 1.85694 12.3083 1.89583 12.3083 1.925C12.3083 1.95417 12.3083 1.99306 12.3083 2.04167C12.3083 2.09028 12.3083 2.12917 12.3083 2.15833C12.3083 2.1875 12.2986 2.22639 12.2792 2.275L12.775 2.7125L12.3667 3.4125L11.7542 3.20833C11.6958 3.26667 11.6302 3.31771 11.5573 3.36146C11.4844 3.40521 11.4042 3.44167 11.3167 3.47083L11.2 4.08333H10.3833V4.08333M10.7917 2.77083C10.9958 2.77083 11.1684 2.70035 11.3094 2.55938C11.4503 2.4184 11.5208 2.24583 11.5208 2.04167C11.5208 1.8375 11.4503 1.66493 11.3094 1.52396C11.1684 1.38299 10.9958 1.3125 10.7917 1.3125C10.5875 1.3125 10.4149 1.38299 10.274 1.52396C10.133 1.66493 10.0625 1.8375 10.0625 2.04167C10.0625 2.24583 10.133 2.4184 10.274 2.55938C10.4149 2.70035 10.5875 2.77083 10.7917 2.77083V2.77083M4.66667 9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333V9.33333" fill="#486550"/>
+            </svg>
+          `}
+          ${esc(s.role)}
+        </span>
+      </td>
 
-    <td>
-      <span class="status-pill ${s.status === "Active" ? "active" : "inactive"}">
-        <span class="dot ${s.status === "Active" ? "green" : "red"}"></span>
-        ${esc(s.status)}
-      </span>
-    </td>
+      <td>
+        <span class="status-pill ${s.status === "Active" ? "active" : "inactive"}">
+          <span class="dot ${s.status === "Active" ? "green" : "red"}"></span>
+          ${esc(s.status)}
+        </span>
+      </td>
 
-    <td>
-      <div class="actions">
-        <button data-action="view" data-id="${s.id}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="11" viewBox="0 0 16 11" fill="none">
-            <path d="M7.79167 8.5C8.67708 8.5 9.42969 8.1901 10.0495 7.57031C10.6693 6.95052 10.9792 6.19792 10.9792 5.3125C10.9792 4.42708 10.6693 3.67448 10.0495 3.05469C9.42969 2.4349 8.67708 2.125 7.79167 2.125C6.90625 2.125 6.15365 2.4349 5.53385 3.05469C4.91406 3.67448 4.60417 4.42708 4.60417 5.3125C4.60417 6.19792 4.91406 6.95052 5.53385 7.57031C6.15365 8.1901 6.90625 8.5 7.79167 8.5V8.5M7.79167 7.225C7.26042 7.225 6.80885 7.03906 6.43698 6.66719C6.0651 6.29531 5.87917 5.84375 5.87917 5.3125C5.87917 4.78125 6.0651 4.32969 6.43698 3.95781C6.80885 3.58594 7.26042 3.4 7.79167 3.4C8.32292 3.4 8.77448 3.58594 9.14635 3.95781C9.51823 4.32969 9.70417 4.78125 9.70417 5.3125C9.70417 5.84375 9.51823 6.29531 9.14635 6.66719C8.77448 7.03906 8.32292 7.225 7.79167 7.225V7.225M7.79167 10.625C6.06806 10.625 4.49792 10.1439 3.08125 9.18177C1.66458 8.21962 0.6375 6.92986 0 5.3125C0.6375 3.69514 1.66458 2.40538 3.08125 1.44323C4.49792 0.481076 6.06806 0 7.79167 0C9.51528 0 11.0854 0.481076 12.5021 1.44323C13.9188 2.40538 14.9458 3.69514 15.5833 5.3125C14.9458 6.92986 13.9188 8.21962 12.5021 9.18177C11.0854 10.1439 9.51528 10.625 7.79167 10.625V10.625M7.79167 5.3125V5.3125V5.3125V5.3125V5.3125V5.3125V5.3125V5.3125V5.3125V5.3125M7.79167 9.20833C9.12569 9.20833 10.3505 8.85712 11.4661 8.15469C12.5818 7.45226 13.4347 6.50486 14.025 5.3125C13.4347 4.12014 12.5818 3.17274 11.4661 2.47031C10.3505 1.76788 9.12569 1.41667 7.79167 1.41667C6.45764 1.41667 5.23281 1.76788 4.11719 2.47031C3.00156 3.17274 2.14861 4.12014 1.55833 5.3125C2.14861 6.50486 3.00156 7.45226 4.11719 8.15469C5.23281 8.85712 6.45764 9.20833 7.79167 9.20833V9.20833" fill="#404944"/>
-          </svg>
-          &nbsp; View Details
-        </button>
+      <td>
+        <div class="actions">
+          <button type="button" onclick="viewStaff('${s.id}')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="11" viewBox="0 0 16 11" fill="none">
+              <path d="M7.79167 8.5C8.67708 8.5 9.42969 8.1901 10.0495 7.57031C10.6693 6.95052 10.9792 6.19792 10.9792 5.3125C10.9792 4.42708 10.6693 3.67448 10.0495 3.05469C9.42969 2.4349 8.67708 2.125 7.79167 2.125C6.90625 2.125 6.15365 2.4349 5.53385 3.05469C4.91406 3.67448 4.60417 4.42708 4.60417 5.3125C4.60417 6.19792 4.91406 6.95052 5.53385 7.57031C6.15365 8.1901 6.90625 8.5 7.79167 8.5V8.5M7.79167 7.225C7.26042 7.225 6.80885 7.03906 6.43698 6.66719C6.0651 6.29531 5.87917 5.84375 5.87917 5.3125C5.87917 4.78125 6.0651 4.32969 6.43698 3.95781C6.80885 3.58594 7.26042 3.4 7.79167 3.4C8.32292 3.4 8.77448 3.58594 9.14635 3.95781C9.51823 4.32969 9.70417 4.78125 9.70417 5.3125C9.70417 5.84375 9.51823 6.29531 9.14635 6.66719C8.77448 7.03906 8.32292 7.225 7.79167 7.225V7.225M7.79167 10.625C6.06806 10.625 4.49792 10.1439 3.08125 9.18177C1.66458 8.21962 0.6375 6.92986 0 5.3125C0.6375 3.69514 1.66458 2.40538 3.08125 1.44323C4.49792 0.481076 6.06806 0 7.79167 0C9.51528 0 11.0854 0.481076 12.5021 1.44323C13.9188 2.40538 14.9458 3.69514 15.5833 5.3125C14.9458 6.92986 13.9188 8.21962 12.5021 9.18177C11.0854 10.1439 9.51528 10.625 7.79167 10.625V10.625M7.79167 5.3125V5.3125V5.3125V5.3125V5.3125V5.3125V5.3125V5.3125V5.3125V5.3125M7.79167 9.20833C9.12569 9.20833 10.3505 8.85712 11.4661 8.15469C12.5818 7.45226 13.4347 6.50486 14.025 5.3125C13.4347 4.12014 12.5818 3.17274 11.4661 2.47031C10.3505 1.76788 9.12569 1.41667 7.79167 1.41667C6.45764 1.41667 5.23281 1.76788 4.11719 2.47031C3.00156 3.17274 2.14861 4.12014 1.55833 5.3125C2.14861 6.50486 3.00156 7.45226 4.11719 8.15469C5.23281 8.85712 6.45764 9.20833 7.79167 9.20833V9.20833" fill="#404944"/>
+            </svg>
+          </button>
 
-        <button data-action="edit" data-id="${s.id}">
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <path d="M1.41667 11.3333H2.42604L9.35 4.40938L8.34062 3.4L1.41667 10.324V11.3333V11.3333M0 12.75V9.73958L9.35 0.407292C9.49167 0.277431 9.64809 0.177083 9.81927 0.10625C9.99045 0.0354167 10.1705 0 10.3594 0C10.5483 0 10.7313 0.0354167 10.9083 0.10625C11.0854 0.177083 11.2389 0.283333 11.3687 0.425L12.3427 1.41667C12.4844 1.54653 12.5877 1.7 12.6526 1.87708C12.7175 2.05417 12.75 2.23125 12.75 2.40833C12.75 2.59722 12.7175 2.77726 12.6526 2.94844C12.5877 3.11962 12.4844 3.27604 12.3427 3.41771L3.01042 12.75H0V12.75M11.3333 2.40833V2.40833L10.3417 1.41667V1.41667L11.3333 2.40833V2.40833M8.83646 3.91354L8.34062 3.4V3.4L9.35 4.40938V4.40938L8.83646 3.91354V3.91354" fill="#404944"/>
-          </svg>
-          &nbsp; Edit
-        </button>
-      </div>
-    </td>
-  </tr>`).join("") || '<tr><td colspan="6" style="text-align:center;padding:30px">No staff accounts found.</td></tr>';
+          <button type="button" onclick="editStaff('${s.id}')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M1.41667 11.3333H2.42604L9.35 4.40938L8.34062 3.4L1.41667 10.324V11.3333V11.3333M0 12.75V9.73958L9.35 0.407292C9.49167 0.277431 9.64809 0.177083 9.81927 0.10625C9.99045 0.0354167 10.1705 0 10.3594 0C10.5483 0 10.7313 0.0354167 10.9083 0.10625C11.0854 0.177083 11.2389 0.283333 11.3687 0.425L12.3427 1.41667C12.4844 1.54653 12.5877 1.7 12.6526 1.87708C12.7175 2.05417 12.75 2.23125 12.75 2.40833C12.75 2.59722 12.7175 2.77726 12.6526 2.94844C12.5877 3.11962 12.4844 3.27604 12.3427 3.41771L3.01042 12.75H0V12.75M11.3333 2.40833V2.40833L10.3417 1.41667V1.41667L11.3333 2.40833V2.40833M8.83646 3.91354L8.34062 3.4V3.4L9.35 4.40938V4.40938L8.83646 3.91354V3.91354" fill="#404944"/>
+            </svg>
+          </button>
+        </div>
+      </td>
+    </tr>`).join("") || '<tr><td colspan="6" style="text-align:center;padding:30px">No staff accounts found.</td></tr>';
+  }
 
   const active = staff.filter(s => s.status === "Active").length;
 
-  $("totalCount").textContent = staff.length;
-  $("activeCount").textContent = active;
-  $("inactiveCount").textContent = staff.length - active;
+  if ($("totalCount")) $("totalCount").textContent = staff.length;
+  if ($("activeCount")) $("activeCount").textContent = active;
+  if ($("inactiveCount")) $("inactiveCount").textContent = staff.length - active;
 
-  $("showingText").innerHTML = `Showing <b>${rows.length}</b> of <b>${staff.length}</b> staff accounts`;
+  if ($("showingText")) {
+    $("showingText").innerHTML = `Showing <b>${rows.length}</b> of <b>${staff.length}</b> staff accounts`;
+  }
 }
 
 function openModal(content) {
-  $("modalContent").innerHTML = content;
-  $("modalOverlay").classList.remove("hidden");
+  if ($("modalContent")) $("modalContent").innerHTML = content;
+  if ($("modalOverlay")) $("modalOverlay").classList.remove("hidden");
 }
 
 function closeModal() {
-  $("modalOverlay").classList.add("hidden");
+  if ($("modalOverlay")) $("modalOverlay").classList.add("hidden");
   editingId = null;
 }
 
@@ -235,7 +269,6 @@ function viewStaff(id) {
   if (!s) return;
   const fullName = [
     s.firstname,
-    s.middlename,
     s.lastname
   ].filter(Boolean).join(" ") || s.name || "N/A";
 
@@ -268,13 +301,12 @@ function viewStaff(id) {
           </span>
         </h3>
 
-        <p>${esc(s.role || "Staff")}</p>
-        <span class="identity-id"># ${esc(s.id)}</span>
+        <span class="identity-id">ID: ${esc(s.id)}</span>
       </div>
     </div>
 
     <div class="section-card">
-      <h3>ACCOUNT INFORMATION &amp; CONTACT INFO</h3>
+      <h3>ACCOUNT INFORMATION & CONTACT INFO</h3>
 
       <div class="info-grid">
         <div class="info-item">
@@ -294,8 +326,8 @@ function viewStaff(id) {
             <path d="M5.66667 5.66667C4.8875 5.66667 4.22049 5.38924 3.66563 4.83437C3.11076 4.27951 2.83333 3.6125 2.83333 2.83333C2.83333 2.05417 3.11076 1.38715 3.66563 0.832292C4.22049 0.277431 4.8875 0 5.66667 0C6.44583 0 7.11285 0.277431 7.66771 0.832292C8.22257 1.38715 8.5 2.05417 8.5 2.83333C8.5 3.6125 8.22257 4.27951 7.66771 4.83437C7.11285 5.38924 6.44583 5.66667 5.66667 5.66667V5.66667M0 11.3333V9.35C0 8.94861 0.103299 8.57969 0.309896 8.24323C0.516493 7.90677 0.790972 7.65 1.13333 7.47292C1.86528 7.10694 2.60903 6.83247 3.36458 6.64948C4.12014 6.46649 4.8875 6.375 5.66667 6.375C6.44583 6.375 7.21319 6.46649 7.96875 6.64948C8.72431 6.83247 9.46806 7.10694 10.2 7.47292C10.5424 7.65 10.8168 7.90677 11.0234 8.24323C11.23 8.57969 11.3333 8.94861 11.3333 9.35V11.3333H0V11.3333M1.41667 9.91667H9.91667V9.35C9.91667 9.22014 9.8842 9.10208 9.81927 8.99583C9.75434 8.88958 9.66875 8.80694 9.5625 8.74792C8.925 8.42917 8.2816 8.1901 7.63229 8.03073C6.98299 7.87135 6.32778 7.79167 5.66667 7.79167C5.00556 7.79167 4.35035 7.87135 3.70104 8.03073C3.05174 8.1901 2.40833 8.42917 1.77083 8.74792C1.66458 8.80694 1.57899 8.88958 1.51406 8.99583C1.44913 9.10208 1.41667 9.22014 1.41667 9.35V9.91667V9.91667M5.66667 4.25C6.05625 4.25 6.38976 4.11128 6.66719 3.83385C6.94462 3.55642 7.08333 3.22292 7.08333 2.83333C7.08333 2.44375 6.94462 2.11024 6.66719 1.83281C6.38976 1.55538 6.05625 1.41667 5.66667 1.41667C5.27708 1.41667 4.94358 1.55538 4.66615 1.83281C4.38872 2.11024 4.25 2.44375 4.25 2.83333C4.25 3.22292 4.38872 3.55642 4.66615 3.83385C4.94358 4.11128 5.27708 4.25 5.66667 4.25V4.25M5.66667 2.83333V2.83333V2.83333V2.83333V2.83333V2.83333V2.83333V2.83333V2.83333V2.83333M5.66667 9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667" fill="#486550"/>
           </svg></i>
           <div>
-            <small>Middle Name</small>
-            <b>${esc(s.middlename || "N/A")}</b>
+            <small>Username</small>
+            <b>${esc(s.username || "N/A")}</b>
           </div>
         </div>
 
@@ -376,7 +408,7 @@ function viewStaff(id) {
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
           <path d="M1.25 10H2.14062L8.25 3.89062L7.35938 3L1.25 9.10938V10V10M0 11.25V8.59375L8.25 0.359375C8.375 0.244792 8.51302 0.15625 8.66406 0.09375C8.8151 0.03125 8.97396 0 9.14062 0C9.30729 0 9.46875 0.03125 9.625 0.09375C9.78125 0.15625 9.91667 0.25 10.0312 0.375L10.8906 1.25C11.0156 1.36458 11.1068 1.5 11.1641 1.65625C11.2214 1.8125 11.25 1.96875 11.25 2.125C11.25 2.29167 11.2214 2.45052 11.1641 2.60156C11.1068 2.7526 11.0156 2.89062 10.8906 3.01562L2.65625 11.25H0V11.25M10 2.125V2.125L9.125 1.25V1.25L10 2.125V2.125M7.79688 3.45312L7.35938 3V3L8.25 3.89062V3.89062L7.79688 3.45312V3.45312" fill="white"/>
         </svg>
-        &nbsp;Edit Account
+         Edit Account
       </button>
     </div>
   `);
@@ -386,12 +418,11 @@ function viewStaff(id) {
 
 // Modal: Edit Staff
 function editStaff(id) {
-  const s = staff.find(x => x.id === id);
-
+  const s = staff.find(x => x.id === String(id));
   if (!s) return;
 
-  editingId = id;
-
+  editingId = s.id;
+  
   openModal(`
     <div class="modal-header">
       <span class="modal-icon">
@@ -432,12 +463,12 @@ function editStaff(id) {
         </div>
 
         <div class="field">
-          <label>Middle Name</label>
+          <label>Username</label>
           <input
             type="text"
-            name="middlename"
-            value="${esc(s.middlename || "")}"
-            placeholder="Enter middle name"
+            name="username"
+            value="${esc(s.username || "")}"
+            placeholder="e.g. woanjo"
           >
         </div>
 
@@ -544,77 +575,96 @@ function editStaff(id) {
   `);
 
   $("staffForm").onsubmit = async e => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const form = e.target;
-  const d = new FormData(form);
+    const form = e.target;
+    const d = new FormData(form);
 
-  const firstname = String(d.get("firstname") || "").trim();
-  const lastname = String(d.get("lastname") || "").trim();
-  const middlename = String(d.get("middlename") || "").trim();
-  const email = String(d.get("email_address") || "").trim();
-  const phone = String(d.get("contact_number") || "").trim();
-  const password = String(d.get("password") || "");
-  const confirmPassword = String(d.get("confirm_password") || "");
-  const role = String(d.get("role") || "Staff");
-  const status = String(d.get("status") || "Active");
+    const firstname = String(d.get("firstname") || "").trim();
+    const lastname = String(d.get("lastname") || "").trim();
+    const username = String(d.get("username") || "").trim();
+    const email = String(d.get("email_address") || "").trim();
+    const phone = String(d.get("contact_number") || "").trim();
+    const password = String(d.get("password") || "");
+    const confirmPassword = String(d.get("confirm_password") || "");
+    const role = String(d.get("role") || "Staff");
+    const status = String(d.get("status") || "Active");
 
-    if (password || confirmPassword) {
-      if (password !== confirmPassword) {
-        toast("Passwords do not match.");
-        return;
+      if (password || confirmPassword) {
+        if (password !== confirmPassword) {
+          toast("Passwords do not match.");
+          return;
+        }
+
+        if (password.length < 8) {
+          toast("Password must be at least 8 characters.");
+          return;
+        }
       }
 
-      if (password.length < 8) {
-        toast("Password must be at least 8 characters.");
-        return;
-      }
-    }
-
-    const submitButton = form.querySelector(
-      'button[type="submit"]'
-    );
-
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.textContent = "Saving...";
-    }
-
-    try {
-      await staffRequest("update", "POST", {
-        staff_id: id,
-        firstname,
-        lastname,
-        middlename,
-        email_address: email,
-        contact_number: phone,
-        role,
-        is_active: status === "Active" ? "true" : "false",
-        password,
-        confirm_password: confirmPassword
-      });
-
-      closeModal();
-
-      await loadStaff();
-
-      toast("Staff account updated successfully.");
-    } catch (error) {
-      console.error("Update staff error:", error);
-      toast(error.message);
+      const submitButton = form.querySelector(
+        'button[type="submit"]'
+      );
 
       if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.textContent = "Save Changes";
+        submitButton.disabled = true;
+        submitButton.textContent = "Saving...";
       }
-    }
+
+      try {
+        await staffRequest("update", "POST", {
+          staff_id: id,
+          firstname,
+          lastname,
+          username,
+          email_address: email,
+          contact_number: phone,
+          role,
+          is_active: status === "Active" ? "true" : "false",
+          password,
+          confirm_password: confirmPassword
+        });
+
+        closeModal();
+
+        await loadStaff();
+
+        toast("Staff account updated successfully.");
+      } catch (error) {
+        console.error("Update staff error:", error);
+        toast(error.message);
+
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Save Changes";
+        }
+      }
+    };
+  }
+
+  async function handleEditSubmit(e, id) {
+  e.preventDefault();
+  const data = {
+    staff_id: id,
+    firstname: $("editFirstname").value,
+    lastname: $("editLastname").value,
+    email_address: $("editEmail").value,
+    contact_number: $("editPhone").value
   };
+
+  try {
+    const result = await staffRequest("edit", "POST", data);
+    if (result.success) {
+      closeModal();
+      loadStaff();
+    }
+  } catch (err) {
+    alert("Error updating staff: " + err.message);
+  }
 }
 
 // Modal: Add New Staff
-function addStaff() {
-  editingId = null;
-
+function openAddStaffModal() {
   openModal(`
     <div class="modal-header">
       <span class="modal-icon">
@@ -628,11 +678,12 @@ function addStaff() {
       </div>
     </div>
 
-    <form id="staffForm">
+    <form id="staffForm" onsubmit="handleCreateStaffSubmit(event)">
       <div class="form-grid">
         <div class="field">
           <label>First Name<span class="required">*</span></label>
           <input
+            id="createFirstname"
             name="firstname"
             type="text"
             required
@@ -644,6 +695,7 @@ function addStaff() {
         <div class="field">
           <label>Last Name<span class="required">*</span></label>
           <input
+            id="createLastname"
             name="lastname"
             type="text"
             required
@@ -653,18 +705,21 @@ function addStaff() {
         </div>
 
         <div class="field">
-          <label>Middle Name</label>
+          <label>Username<span class="required">*</span></label>
           <input
-            name="middlename"
+            id="createUsername"
+            name="username"
             type="text"
-            placeholder="Enter middle name"
-            autocomplete="additional-name"
+            required
+            placeholder="e.g. woanjo"
+            autocomplete="username"
           >
         </div>
 
         <div class="field">
           <label>Email Address<span class="required">*</span></label>
           <input
+            id="createEmail"
             name="email_address"
             type="email"
             required
@@ -676,6 +731,7 @@ function addStaff() {
         <div class="field">
           <label>Contact Number<span class="required">*</span></label>
           <input
+            id="createPhone"
             name="contact_number"
             type="tel"
             required
@@ -686,7 +742,7 @@ function addStaff() {
 
         <div class="field">
           <label>Role<span class="required">*</span></label>
-          <select name="role" required>
+          <select id="createRole" name="role" required>
             <option value="Staff">Staff</option>
             <option value="Admin">Admin</option>
           </select>
@@ -695,6 +751,7 @@ function addStaff() {
         <div class="field">
           <label>Password<span class="required">*</span></label>
           <input
+            id="createPassword"
             name="password"
             type="password"
             required
@@ -708,6 +765,7 @@ function addStaff() {
         <div class="field">
           <label>Confirm Password<span class="required">*</span></label>
           <input
+            id="createConfirmPassword"
             name="confirm_password"
             type="password"
             required
@@ -728,130 +786,71 @@ function addStaff() {
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="12" viewBox="0 0 15 12" fill="none">
             <path d="M0 11.3333V9.35C0 8.96042 0.100347 8.59445 0.301042 8.25208C0.501736 7.90972 0.779167 7.65 1.13333 7.47292C1.73542 7.16597 2.41424 6.90625 3.16979 6.69375C3.92535 6.48125 4.75764 6.375 5.66667 6.375C6.02083 6.375 6.36615 6.39271 6.7026 6.42812C7.03906 6.46354 7.36667 6.51667 7.68542 6.5875L6.44583 7.82708C6.31597 7.80347 6.18906 7.79167 6.0651 7.79167C5.94115 7.79167 5.80833 7.79167 5.66667 7.79167C4.82847 7.79167 4.07587 7.89201 3.40885 8.09271C2.74184 8.2934 2.19583 8.51181 1.77083 8.74792C1.66458 8.80694 1.57899 8.88958 1.51406 8.99583C1.44913 9.10208 1.41667 9.22014 1.41667 9.35V9.91667H5.84375L7.26042 11.3333H0V11.3333M9.59792 11.6167L7.15417 9.17292L8.14583 8.18125L9.59792 9.63333L13.175 6.05625L14.1667 7.04792L9.59792 11.6167V11.6167M5.66667 5.66667C4.8875 5.66667 4.22049 5.38924 3.66563 4.83437C3.11076 4.27951 2.83333 3.6125 2.83333 2.83333C2.83333 2.05417 3.11076 1.38715 3.66563 0.832292C4.22049 0.277431 4.8875 0 5.66667 0C6.44583 0 7.11285 0.277431 7.66771 0.832292C8.22257 1.38715 8.5 2.05417 8.5 2.83333C8.5 3.6125 8.22257 4.27951 7.66771 4.83437C7.11285 5.38924 6.44583 5.66667 5.66667 5.66667V5.66667M5.84375 9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667V9.91667M5.66667 4.25C6.05625 4.25 6.38976 4.11128 6.66719 3.83385C6.94462 3.55642 7.08333 3.22292 7.08333 2.83333C7.08333 2.44375 6.94462 2.11024 6.66719 1.83281C6.38976 1.55538 6.05625 1.41667 5.66667 1.41667C5.27708 1.41667 4.94358 1.55538 4.66615 1.83281C4.38872 2.11024 4.25 2.44375 4.25 2.83333C4.25 3.22292 4.38872 3.55642 4.66615 3.83385C4.94358 4.11128 5.27708 4.25 5.66667 4.25V4.25M5.66667 2.83333V2.83333V2.83333V2.83333V2.83333V2.83333V2.83333V2.83333V2.83333V2.83333" fill="white"/>
           </svg>
-          &nbsp;&nbsp;Create Staff Account
+            Create Staff Account
         </button>
       </div>
     </form>
   `);
+}
 
-  const staffForm = $("staffForm");
-
-  staffForm.addEventListener("submit", async e => {
+async function handleCreateStaffSubmit(e) {
   e.preventDefault();
+  
+  const data = {
+    firstname: $("createFirstname").value.trim(),
+    lastname: $("createLastname").value.trim(),
+    username: $("createUsername").value.trim(),
+    email_address: $("createEmail").value.trim(),
+    contact_number: $("createPhone").value.trim(),
+    role: $("createRole").value,
+    password: $("createPassword").value,
+    confirm_password: $("createConfirmPassword").value
+  };
 
-  const d = new FormData(staffForm);
-
-  const firstname = String(d.get("firstname") || "").trim();
-  const lastname = String(d.get("lastname") || "").trim();
-  const middlename = String(d.get("middlename") || "").trim();
-  const email = String(d.get("email_address") || "").trim();
-  const phone = String(d.get("contact_number") || "").trim();
-  const password = String(d.get("password") || "");
-  const confirmPassword = String(d.get("confirm_password") || "");
-  const role = String(d.get("role") || "Staff");
-
-    if (password !== confirmPassword) {
-      toast("Passwords do not match.");
-      return;
-    }
-
-    if (password.length < 8) {
-      toast("Password must be at least 8 characters.");
-      return;
-    }
-
-    const submitButton = staffForm.querySelector(
-      'button[type="submit"]'
-    );
-
-    if (submitButton) {
-      submitButton.disabled = true;
-      submitButton.textContent = "Creating...";
-    }
-
-    try {
-      await staffRequest("create", "POST", {
-        firstname,
-        lastname,
-        middlename,
-        email_address: email,
-        contact_number: phone,
-        password,
-        confirm_password: confirmPassword,
-        role
-      });
-
+  try {
+    const result = await staffRequest("create", "POST", data);
+    if (result.success) {
       closeModal();
-
-      await loadStaff();
-
-      toast("New staff account created successfully!");
-    } catch (error) {
-      console.error("Create staff error:", error);
-      toast(error.message);
-
-      if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.textContent = "Create Staff Account";
-      }
+      loadStaff();
+      showToast("Staff account created successfully.");
     }
-  });
+  } catch (err) {
+    alert("Error creating staff: " + err.message);
+  }
 }
 
-function toast(msg) {
-  $("toast").textContent = msg;
-  $("toast").classList.remove("hidden");
+// Hook up Add Staff button trigger
+document.addEventListener("click", (e) => {
+  const addBtn = e.target.closest("#addStaffBtn");
+  if (addBtn) {
+    e.preventDefault();
+    openAddStaffModal();
+  }
 
-  setTimeout(() => $("toast").classList.add("hidden"), 2600);
-}
-
-$("staffRows").addEventListener("click", e => {
-  const b = e.target.closest("button[data-action]");
-
-  if (!b) return;
-
-  b.dataset.action === "view"
-    ? viewStaff(b.dataset.id)
-    : editStaff(b.dataset.id);
-});
-
-$("searchInput").addEventListener("input", render);
-
-document.querySelectorAll(".filter-tabs button").forEach(b =>
-  b.addEventListener("click", () => {
-    filter = b.dataset.filter;
-
-    document.querySelectorAll(".filter-tabs button").forEach(x =>
-      x.classList.toggle("selected", x === b)
-    );
-
-    loadStaff();
-  })
-);
-
-$("addStaffBtn").onclick = addStaff;
-
-$("modalOverlay").addEventListener("click", e => {
-  if (e.target === $("modalOverlay") || e.target.closest("[data-close]")) {
+  // Global modal close handler (handles close button and background overlay click)
+  const overlay = $("modalOverlay");
+  if (e.target.closest("[data-close]") || e.target === overlay) {
     closeModal();
   }
 });
 
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") {
-    closeModal();
-  }
-});
-
-const mobileMenuBtn = $("mobileMenuBtn");
-const navLinks = $("navLinks");
-
-if (mobileMenuBtn && navLinks) {
-  mobileMenuBtn.addEventListener("click", () => {
-    navLinks.classList.toggle("open");
-  });
-}
-
-  // Load live data from Neon on page start
-  loadLoggedInStaff();
+// Search input and filter tab event listeners
+document.addEventListener("DOMContentLoaded", () => {
   loadStaff();
+  loadLoggedInStaff();
+
+  const searchInput = $("searchInput");
+  if (searchInput) {
+    searchInput.addEventListener("input", render);
+  }
+
+  const filterTabs = document.querySelectorAll(".filter-tabs button");
+  filterTabs.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      filterTabs.forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      filter = btn.getAttribute("data-filter") || "All";
+      render();
+    });
+  });
+});

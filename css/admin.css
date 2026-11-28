@@ -698,7 +698,7 @@ tbody tr:hover {
 }
 
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
 .modal {
@@ -792,15 +792,15 @@ tbody tr:hover {
 }
 
 .big-initials {
-    width: 75px;
-    height: 75px;
+    width: 65px;
+    height: 65px;
     border-radius: 17px;
     background: #205f49;
     border: 4px solid #d9eee0;
     color: white;
     display: grid;
     place-items: center;
-    font-size: 26px;
+    font-size: 20px;
     font-weight: 600;
 }
 
